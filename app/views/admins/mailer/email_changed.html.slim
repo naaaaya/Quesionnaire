@@ -1,14 +1,13 @@
 p
-  | Hello 
   = @email
-  | !
+  | さん
 - if @resource.try(:unconfirmed_email?)
   p
-    | We're contacting you to notify you that your email is being changed to 
+    | あなたのメールアドレスが
     = @resource.unconfirmed_email
-    | .
+    | に変更されました。
 - else
   p
-    | We're contacting you to notify you that your email has been changed to 
+    | あなたのメールアドレスが
     = @resource.email
-    | .
+    | に変更されました。

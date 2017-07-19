@@ -1,5 +1,5 @@
 h2
-  | Sign up
+  | 新規登録
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = devise_error_messages!
   .field
@@ -13,11 +13,11 @@ h2
     - if @minimum_password_length
         | (
         = @minimum_password_length
-        |  characters minimum)
+        |  文字以上)
     = f.password_field :password, autocomplete: "off"
   .field
     = f.label :password_confirmation
     = f.password_field :password_confirmation, autocomplete: "off"
   .actions
-    = f.submit "Sign up"
+    = f.submit "新規登録"
 = render "admins/shared/links"

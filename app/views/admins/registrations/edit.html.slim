@@ -1,6 +1,5 @@
 h2
-  | Edit
-  = resource_name.to_s.humanize
+  | ユーザー編集
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = devise_error_messages!
   .field
@@ -16,24 +15,21 @@ h2
   .field
     = f.label :password
     i
-      | (leave blank if you don't want to change it)
+      | (変更したくない場合は何も記入しないでください)
     = f.password_field :password, autocomplete: "off"
     - if @minimum_password_length
         = @minimum_password_length
-        |  characters minimum
+        |  文字以上
   .field
     = f.label :password_confirmation
     = f.password_field :password_confirmation, autocomplete: "off"
   .field
     = f.label :current_password
     i
-      | (we need your current password to confirm your changes)
+      | (確認のため現在のパスワードを入力してください)
     = f.password_field :current_password, autocomplete: "off"
   .actions
-    = f.submit "Update"
-h3
-  | Cancel my account
+    = f.submit "更新"
 p
-  | Unhappy?
-  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
-= link_to "Back", :back
+  = button_to "ログアウト", destroy_admin_session_path(resource_name), method: :delete
+= link_to "戻る", :back

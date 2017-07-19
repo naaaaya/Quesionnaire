@@ -8,6 +8,8 @@ ja:
         email: メールアドレス
         password: パスワード
         password_confirmation: パスワード確認
+        remember_me: このユーザーを記憶
+        current_password: 現在のパスワード
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
