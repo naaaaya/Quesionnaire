@@ -1,4 +1,4 @@
-class Admins::UnlocksController < Devise::UnlocksController
+class Users::UnlocksController < Devise::UnlocksController
   include Accessible
   # GET /resource/unlock/new
   # def new

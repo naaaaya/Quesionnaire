@@ -4,11 +4,16 @@ Rails.application.routes.draw do
     password:     'admins/password',
     registration: 'admins/registration'
   }
+    devise_for :users, controllers: {
+    sessions:     'users/sessions',
+    password:     'users/password',
+    registration: 'users/registration'
+  }
 
-  namespace :admins do
+  scope :admins do
   resources :companies
 end
-  root 'admins/companies#index'
+  root 'companies#index'
 
 
 

@@ -1,4 +1,4 @@
-class Admins::SessionsController < Devise::SessionsController
+class Users::SessionsController < Devise::SessionsController
   include Accessible
   # before_action :configure_sign_in_params, only: [:create]
 

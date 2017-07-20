@@ -1,4 +1,4 @@
-class Admins::ConfirmationsController < Devise::ConfirmationsController
+class Users::ConfirmationsController < Devise::ConfirmationsController
   include Accessible
   # GET /resource/confirmation/new
   # def new
