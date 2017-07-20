@@ -10,9 +10,15 @@ class CompaniesController < ApplicationController
   end
 
   def create
-    @company = Company.create(company_params)
-    @company.users.create(user_params)
-    redirect_to action: 'index'
+    begin
+      ActiveRecord::Base.transaction do
+        @company = Company.create!(company_params)
+        @company.users.create!  (user_params)
+      end
+      redirect_to :action => 'index'
+    rescue => e
+      redirect_to :action => 'new'
+    end
   end
 
   def show
@@ -28,5 +34,5 @@ class CompaniesController < ApplicationController
 
   def user_params
     params.require(:company).permit(user:[:name, :email,:password, :password_confirmation]).require(:user).merge(chief_flag: true)
- end
+  end
 end
