@@ -19,7 +19,6 @@ class CompaniesController < ApplicationController
       end
       redirect_to :action => 'index'
     rescue => e
-      binding.pry
       render :action => 'new'
     end
   end
