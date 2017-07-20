@@ -11,13 +11,16 @@ class CompaniesController < ApplicationController
 
   def create
     begin
+      @company = Company.new(company_params)
+      @user = @company.users.new(user_params)
       ActiveRecord::Base.transaction do
-        @company = Company.create!(company_params)
-        @company.users.create!  (user_params)
+        @company.save!
+        @user.save!
       end
       redirect_to :action => 'index'
     rescue => e
-      redirect_to :action => 'new'
+      binding.pry
+      render :action => 'new'
     end
   end
 
