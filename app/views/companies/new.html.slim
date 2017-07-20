@@ -1,0 +1,21 @@
+h3 法人追加
+- if @company.errors.any?
+  .alert.alert-danger#error_explanation
+    ul
+      - @company.errors.full_messages.each do |message|
+        li = message
+
+= form_for @company do |f|
+  =f.label '法人名'
+  =f.text_field :name
+
+  = f.fields_for (@user) do |a|
+    = a.label '代表ユーザー氏名'
+    = a.text_field :name
+    = a.label :email
+    = a.email_field :email
+    = a.label :password
+    = a.text_field :password
+    = a.label :password_confirmation
+    = a.text_field :password_confirmation
+  = f.submit "法人作成"

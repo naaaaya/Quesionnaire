@@ -38,6 +38,20 @@ class Admins::CompaniesController < ApplicationController
     @company = Company.find(params[:id])
   end
 
+  def edit
+  end
+
+  def update
+    @company.update(company_params)
+    redirect_to :action => 'index'
+  end
+
+  def destroy
+    @company.destroy
+    redirect_to :action => 'index'
+  end
+
+
   private
 
   def company_params
@@ -47,4 +61,9 @@ class Admins::CompaniesController < ApplicationController
   def user_params
     params.require(:company).permit(user:[:name, :email,:password, :password_confirmation]).require(:user).merge(chief_flag: true)
   end
+
+  def set_company
+    @company = Company.find(params[:id])
+  end
 end
+
