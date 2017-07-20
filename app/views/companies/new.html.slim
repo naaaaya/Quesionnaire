@@ -1,10 +1,4 @@
 h3 法人追加
-- if @company.errors.any?
-  .alert.alert-danger#error_explanation
-    ul
-      - @company.errors.full_messages.each do |message|
-        li = message
-
 = form_for @company do |f|
   =f.label '法人名'
   =f.text_field :name
