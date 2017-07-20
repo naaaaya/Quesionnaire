@@ -10,6 +10,7 @@ class CompaniesController < ApplicationController
   end
 
   def create
+    binding.pry
     Company.create(company_params)
     redirect_to action: 'index'
   end
