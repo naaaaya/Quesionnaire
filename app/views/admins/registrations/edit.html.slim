@@ -1,0 +1,35 @@
+h2
+  | ユーザー編集
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = devise_error_messages!
+  .field
+    = f.label :name
+    = f.text_field :name, autofocus: true
+  .field
+    = f.label :email
+    = f.email_field :email
+  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+    div
+      | Currently waiting confirmation for:
+      = resource.unconfirmed_email
+  .field
+    = f.label :password
+    i
+      | (変更したくない場合は何も記入しないでください)
+    = f.password_field :password, autocomplete: "off"
+    - if @minimum_password_length
+        = @minimum_password_length
+        |  文字以上
+  .field
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation, autocomplete: "off"
+  .field
+    = f.label :current_password
+    i
+      | (確認のため現在のパスワードを入力してください)
+    = f.password_field :current_password, autocomplete: "off"
+  .actions
+    = f.submit "更新"
+p
+  = button_to "ログアウト", destroy_admin_session_path(resource_name), method: :delete
+= link_to "戻る", :back
