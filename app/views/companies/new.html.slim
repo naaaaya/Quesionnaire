@@ -1,0 +1,7 @@
+h3 法人追加
+= form_for @company do |f|
+  = f.text_field :name, placeholder: "法人名"
+
+  = f.fields_for @chief do |a|
+    = a.text_field :name
+  = f.submit "法人作成"
