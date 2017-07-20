@@ -4,5 +4,12 @@ Rails.application.routes.draw do
     password:     'admins/password',
     registration: 'admins/registration'
   }
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  namespace :admins do
+  resources :companies
+end
+  root 'admins/companies#index'
+
+
+
 end
