@@ -1,27 +1,16 @@
 h3 法人追加
 
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  .field
-    = f.fields_for :companies do |a|
-      = a.label "法人名"
-      = a.text_field :name
+= form_for @company do |f|
+  =f.label '法人名'
+  =f.text_field :name
 
-  .field
-    = f.label "代表ユーザー名"
-    = f.text_field :name, autofocus: true
-  .field
-    = f.label  "代表メールアドレス"
-    = f.email_field :email
-  .field
-    = f.label "パスワード"
-    - if @minimum_password_length
-        | (
-        = @minimum_password_length
-        |  文字以上)
-    = f.password_field :password, autocomplete: "off"
-  .field
-    = f.label "パスワード確認"
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "法人作成"
+  = f.fields_for (@user) do |a|
+    = a.label :name
+    = a.text_field :name
+    = a.label :email
+    = a.email_field :email
+    = a.label :password
+    = a.text_field :password
+    = a.label :password_confirmation
+    = a.text_field :password_confirmation
+  = f.submit "法人作成"

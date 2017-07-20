@@ -6,12 +6,12 @@ class CompaniesController < ApplicationController
 
   def new
     @company = Company.new
-    @chief = @company.users.build
+    @user = @company.users.build
   end
 
   def create
-    binding.pry
-    Company.create(company_params)
+    @company = Company.create(company_params)
+    @company.users.create(user_params)
     redirect_to action: 'index'
   end
 
@@ -25,4 +25,8 @@ class CompaniesController < ApplicationController
   def company_params
     params.require(:company).permit(:name)
   end
+
+  def user_params
+    params.require(:company).permit(user:[:name, :email,:password, :password_confirmation]).require(:user).merge(chief_flag: true)
+ end
 end
