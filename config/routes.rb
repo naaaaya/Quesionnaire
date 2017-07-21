@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'companies#index'
   devise_for :admins, controllers: {
     sessions:     'admins/sessions',
     password:     'admins/password',
@@ -13,7 +14,6 @@ Rails.application.routes.draw do
   scope :admins do
   resources :companies
 end
-  root 'companies#index'
 
 
 
