@@ -1,4 +1,4 @@
-module CompaniesHelper
+module Admins::CompaniesHelper
 
  def resource_name
   :user

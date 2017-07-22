@@ -3,7 +3,7 @@ h3 法人追加
   ul
     - @company.errors.full_messages.each do |message|
       li = message
-= form_for @company do |f|
+= form_for [:admins, @company] do |f|
   =f.label '法人名'
   =f.text_field :name
 

@@ -1,4 +1,4 @@
-class CompaniesController < ApplicationController
+class Admins::CompaniesController < ApplicationController
 
   def index
     @companies = Company.all

@@ -1,19 +1,39 @@
 Rails.application.routes.draw do
-  root 'companies#index'
+
+
+
   devise_for :admins, controllers: {
     sessions:     'admins/sessions',
     password:     'admins/password',
     registration: 'admins/registration'
   }
-    devise_for :users, controllers: {
+  devise_for :users, controllers: {
     sessions:     'users/sessions',
     password:     'users/password',
     registration: 'users/registration'
   }
 
-  scope :admins do
-  resources :companies
-end
+  devise_scope :admin do
+    root 'admins/sessions#new'
+  end
+
+  devise_scope :admin do
+    authenticated :admin do
+      root :to => 'admins/companies#index', as: :authenticated_admin_root
+    end
+  end
+
+
+  devise_scope :user do
+    authenticated :user do
+      root :to => 'users/sessions#new', as: :authenticated_user_root
+    end
+  end
+
+
+  namespace :admins do
+    resources :companies
+  end
 
 
 
