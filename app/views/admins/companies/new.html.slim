@@ -1,8 +1,5 @@
 h3 法人追加
-- if @company.errors.any?
-  ul
-    - @company.errors.full_messages.each do |message|
-      li = message
+= render partial: "partial/errors", locals: {messages: @error_messages}
 = form_for [:admins, @company] do |f|
   =f.label '法人名'
   =f.text_field :name
@@ -13,7 +10,8 @@ h3 法人追加
     = user.label :email
     = user.email_field :email
     = user.label :password
-    = user.text_field :password
+    = user.text_field :password, autocomplete: "off"
     = user.label :password_confirmation
-    = user.text_field :password_confirmation
+    = user.text_field :password_confirmation, autocomplete: "off"
+
   = f.submit "法人作成"

@@ -20,6 +20,16 @@ class Admins::CompaniesController < ApplicationController
       end
       redirect_to :action => 'index'
     rescue => e
+
+      @error_messages = []
+
+      @company.errors.full_messages.each do |message|
+        @error_messages << message
+      end
+      @user.errors.full_messages.each do |message|
+        @error_messages << message
+      end
+
       render :action => 'new'
     end
   end
