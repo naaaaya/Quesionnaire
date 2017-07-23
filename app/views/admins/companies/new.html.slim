@@ -5,7 +5,7 @@ h3
   =f.label '法人名'
   =f.text_field :name
 
-  = f.fields_for (@company.users.new) do |user|
+  = f.fields_for :user do |user|
     = user.label :name
     = user.text_field :name
     = user.label :email
