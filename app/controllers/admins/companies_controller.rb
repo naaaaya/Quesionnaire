@@ -18,7 +18,7 @@ class Admins::CompaniesController < ApplicationController
         @company.save!
         @user.save!
       end
-      redirect_to :action => 'index'
+      redirect_to admins_companies_path
     rescue => e
 
       @error_messages = []
@@ -30,7 +30,7 @@ class Admins::CompaniesController < ApplicationController
         @error_messages << message
       end
 
-      render :action => 'new'
+      render new_admins_company_path
     end
   end
 
