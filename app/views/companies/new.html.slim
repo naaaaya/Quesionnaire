@@ -3,7 +3,7 @@ h3 法人追加
   =f.label '法人名'
   =f.text_field :name
 
-  = f.fields_for (@user) do |a|
+  = f.fields_for :user do |a|
     = a.label '代表ユーザー氏名'
     = a.text_field :name
     = a.label :email

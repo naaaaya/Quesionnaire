@@ -42,13 +42,17 @@ class Admins::CompaniesController < ApplicationController
   end
 
   def update
-    @company.update(company_params)
-    redirect_to :action => 'index'
+    if @company.update(company_params)
+      redirect_to companies_path
+    else
+      @error_messages = @company.errors.full_messages
+      render edit_company_path
+    end
   end
 
   def destroy
     @company.destroy
-    redirect_to :action => 'index'
+    redirect_to companies_path
   end
 
 
