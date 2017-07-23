@@ -13,9 +13,6 @@ Rails.application.routes.draw do
     registration: 'users/registration'
   }
 
-  devise_scope :admin do
-    root 'admins/sessions#new'
-  end
 
   devise_scope :admin do
     authenticated :admin do

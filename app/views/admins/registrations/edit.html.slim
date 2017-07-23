@@ -31,5 +31,5 @@ h2
   .actions
     = f.submit "更新"
 p
-  = button_to "ログアウト", destroy_admin_session_path(resource_name), method: :delete
+  = button_to "ログアウト", destroy_admin_session_path, method: :delete
 = link_to "戻る", :back
