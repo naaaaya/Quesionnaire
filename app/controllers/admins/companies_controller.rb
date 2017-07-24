@@ -1,6 +1,6 @@
 class Admins::CompaniesController < ApplicationController
   before_action :authenticate_admin!
-  before_action :set_company, only: [:show,:edit,:update, :destroy]
+  before_action :set_company, only: [:show, :edit, :update, :destroy]
 
   def index
     @companies = Company.all
@@ -52,7 +52,6 @@ class Admins::CompaniesController < ApplicationController
   end
 
   def destroy
-    @company.destroy
     redirect_to companies_path
   end
 
@@ -64,7 +63,7 @@ class Admins::CompaniesController < ApplicationController
   end
 
   def user_params
-    params.require(:company).permit(user:[:name, :email,:password, :password_confirmation]).require(:user).merge(chief_flag: true)
+    params.require(:company).permit(user: [:name, :email, :password, :password_confirmation]).require(:user).merge(chief_flag: true)
   end
 
   def set_company
