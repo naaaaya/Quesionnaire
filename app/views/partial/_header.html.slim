@@ -13,7 +13,7 @@ header.header
       li.list-index
           = link_to 'ユーザー設定', edit_admin_registration_path
   - elsif current_user
-    - if current_user.cheif_flag == 1
+    - if current_user.chief_flag
       ul.header_menu
         li.list-index
             = link_to '社員一覧', '#'
