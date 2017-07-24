@@ -1,0 +1,39 @@
+header.header
+  h3.title Questionnaire
+  - if current_admin
+    ul.header_menu
+      li.list-index
+        = link_to '法人一覧', admins_companies_path
+      li.list-index
+        = link_to '新規法人登録', new_admins_company_path
+      li.list-index
+        = link_to 'アンケート一覧', authenticated_admin_root_path
+      li.list-index
+        = link_to 'アンケート作成', authenticated_admin_root_path
+      li.list-index
+          = link_to 'ユーザー設定', edit_admin_registration_path
+  - elsif current_user
+    - if current_user.cheif_flag == 1
+      ul.header_menu
+        li.list-index
+            = link_to '社員一覧', '#'
+        li.list-index
+            = link_to '新規社員登録', '#'
+        li.list-index
+            = link_to 'アンケート一覧', '#'
+        li.list-index
+            = link_to 'アンケート回答', '#'
+        li.list-index
+            = link_to 'ユーザー設定', edit_user_registration_path
+        li.list-index
+            = link_to 'チャット', '#'
+    - else
+      ul.header_menu
+      li.list-index
+        = link_to 'アンケート一覧', '#'
+      li.list-index
+        = link_to 'アンケート回答', '#'
+      li.list-index
+            = link_to 'ユーザー設定', edit_user_registration_path
+      li.list-index
+        = link_to 'チャット', '#'
