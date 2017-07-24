@@ -1,5 +1,6 @@
 class Admins::CompaniesController < ApplicationController
   before_action :authenticate_admin!
+  before_action :set_company, only: [:show,:edit,:update, :destroy]
 
   def index
     @companies = Company.all
@@ -43,10 +44,10 @@ class Admins::CompaniesController < ApplicationController
 
   def update
     if @company.update(company_params)
-      redirect_to companies_path
+      redirect_to admins_companies_path
     else
       @error_messages = @company.errors.full_messages
-      render edit_company_path
+      render 'admins/companies/edit'
     end
   end
 

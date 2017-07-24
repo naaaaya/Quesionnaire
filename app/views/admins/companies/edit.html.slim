@@ -1,0 +1,7 @@
+h3
+  | 法人名編集
+= render partial: "partial/errors", locals: {messages: @error_messages}
+= form_for [:admins, @company] do |f|
+  =f.label '新規法人名'
+  =f.text_field :name
+  =f.submit "編集"
