@@ -3,6 +3,7 @@ ja:
     models:
       admin: 管理者
       user: ユーザー
+      company: 法人
     attributes:
       admin:
         name: 名前
@@ -18,6 +19,8 @@ ja:
         password_confirmation: パスワード確認
         remember_me: このユーザーを記憶
         current_password: 現在のパスワード
+      company:
+        name: 法人名
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
