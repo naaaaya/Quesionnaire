@@ -1,8 +1,0 @@
-h3
-| 法人一覧
-
-- @companies.each do |company|
-  .company-name
-  = link_to company.name, company_path(company)
-  = link_to '編集', edit_company_path(company)
-  = link_to '削除', company_path(company), method: :delete
