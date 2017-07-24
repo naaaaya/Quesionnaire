@@ -1,17 +1,18 @@
 @import "mixin";
 
-.nav-bar {
-  @include clearfix();
-  .title {
-    float: left;
+.header{
+
+  .nav-bar {
+    @include clearfix();
+    .title {
+      float: left;
+    }
+  }
+  .menu {
+    list-style-type: none;
+    .list-index {
+      float: right;
+    }
   }
 }
-
-.menu {
-  list-style-type: none;
-  .list-index {
-    float: right;
-  }
-}
-
 
