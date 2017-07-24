@@ -1,12 +1,17 @@
-.header {
-  @include clearfix;
+@import "_mixin";
+
+.nav-bar {
+  @include clearfix();
   .title {
     float: left;
   }
-  &_menu {
-    list-style-type: none;
-    .list-index {
-      float: right;
-    }
+}
+
+.menu {
+  list-style-type: none;
+  .list-index {
+    float: right;
   }
 }
+
+
