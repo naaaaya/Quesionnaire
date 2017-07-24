@@ -1,0 +1,12 @@
+.header {
+  @include clearfix;
+  .title {
+    float: left;
+  }
+  &_menu {
+    list-style-type: none;
+    .list-index {
+      float: right;
+    }
+  }
+}
