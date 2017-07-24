@@ -1,0 +1,6 @@
+h3
+  | 法人一覧
+
+- @companies.each do |company|
+  .company-name
+    = link_to company.name, admins_company_path(company)

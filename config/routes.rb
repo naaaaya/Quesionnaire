@@ -4,5 +4,22 @@ Rails.application.routes.draw do
     password:     'admins/password',
     registration: 'admins/registration'
   }
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  devise_for :users, controllers: {
+    sessions:     'users/sessions',
+    password:     'users/password',
+    registration: 'users/registration'
+  }
+  devise_scope :admin do
+    authenticated :admin do
+      root :to => 'admins/companies#index', as: :authenticated_admin_root
+    end
+  end
+  devise_scope :user do
+    authenticated :user do
+      root :to => 'users/sessions#new', as: :authenticated_user_root
+    end
+  end
+  namespace :admins do
+    resources :companies
+  end
 end
