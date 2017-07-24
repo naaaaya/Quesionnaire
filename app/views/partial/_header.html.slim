@@ -2,16 +2,6 @@
   p.title Questionnaire
   - if current_admin
     ul.menu
-      /li.list-index
-      /  = link_to '法人一覧', admins_companies_path
-      /li.list-index
-      /  = link_to '新規法人登録', new_admins_company_path
-      /li.list-index
-      /  = link_to 'アンケート一覧', authenticated_admin_root_path
-      /li.list-index
-      /  = link_to 'アンケート作成', authenticated_admin_root_path
-      /li.list-index
-      /  = link_to 'ユーザー設定', edit_admin_registration_path
       - [{name: "法人一覧", path: admins_companies_path}, {name: "新規法人登録", path: new_admins_company_path}, {name: "アンケート一覧", path: authenticated_admin_root_path}, {name: "アンケート作成", path: authenticated_admin_root_path}, {name: "ユーザー設定", path:edit_admin_registration_path}].each do |link|
         = render partial: 'partial/list_item', locals: {name: link[:name], path: link[:path]}
   - elsif current_user
