@@ -1,4 +1,4 @@
-- if messages
+- if instance.errors.any?
   ul
-    - messages.each do |message|
+    - instance.errors.full_messages.each do |message|
       li = message
