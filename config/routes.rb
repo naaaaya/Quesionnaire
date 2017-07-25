@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
   devise_scope :user do
     authenticated :user do
-      root :to => 'users/sessions#new', as: :authenticated_user_root
+      root :to => 'devise/registrations#edit', as: :authenticated_user_root
     end
   end
   namespace :admins do
