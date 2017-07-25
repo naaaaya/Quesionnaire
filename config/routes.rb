@@ -22,4 +22,7 @@ Rails.application.routes.draw do
   namespace :admins do
     resources :companies
   end
+
+  resources :surveys
+
 end
