@@ -1,12 +1,11 @@
-@import "mixin";
+@import 'mixin';
 
 .header {
-  .nav-bar {
-    @include clearfix();
-  }
+  @include clearfix();
   .title {
     float: left;
   }
+
   .menu {
     list-style-type: none;
   }
