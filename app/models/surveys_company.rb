@@ -1,0 +1,2 @@
+class SurveysCompany < ApplicationRecord
+end
