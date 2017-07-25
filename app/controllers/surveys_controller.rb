@@ -4,6 +4,8 @@ class SurveysController < ApplicationController
   end
 
   def new
+    @survey = Survey.new
+    @survey.questions.build
   end
 
   def create
