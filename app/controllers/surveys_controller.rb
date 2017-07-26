@@ -11,6 +11,8 @@ class SurveysController < ApplicationController
   def create
     @survey = Survey.create(survey_params)
     @question = @survey.questions.create(question_params)
+    @question.questions_choises.create(choises_params)
+
   end
 
   private
@@ -21,5 +23,9 @@ class SurveysController < ApplicationController
 
   def question_params
     params.require(:question).permit(:description, :question_type)
+  end
+
+  def choises_params
+    params.require(:choises).map { |u| u.permit(:description) }
   end
 end
