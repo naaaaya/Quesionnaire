@@ -1,15 +1,16 @@
 h3
   | アンケート作成
-.survey_description
+.survey_form
   = form_for @survey do |f|
     = f.text_field :title, value: '無題のアンケート'
     = f.text_area :description, placeholder: 'アンケートの説明'
-    p 問題１
-    .question_description
-      = fields_for :question do |question|
-        = question.text_field :description, value: '無題の質問'
-        = question.select :question_type, Question.question_types.keys.to_a, {}, class: 'form-control'
-      .question_field
-        = text_field :answer, :description, placeholder: '自由記述（短文回答）'
-
+    .questions
+      p 問題1
+      .question_form
+        = fields_for :question do |question|
+          = question.text_field :description, value: '無題の質問'
+          = question.select :question_type, Question.question_types.keys.to_a, {}, class: 'form-control'
+        .question_field
+          = text_field :answer, :description, placeholder: '自由記述（短文回答）'
+    .add_question 質問追加
     = f.submit '作成'
