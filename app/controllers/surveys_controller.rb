@@ -13,16 +13,28 @@ class SurveysController < ApplicationController
   def create
     begin
       @survey = Survey.new(survey_params)
-      @questions = @survey.questions.new(question_params)
-      @choises = QuestionsChoise.new(choises_params) if params[:choises].present?
+      @questions = []
+      @choises = []
+      questions_params.each do |question_params|
+        @questions << @survey.questions.new(question_params)
+      end
+      if params[:choises].present?
+        choises_params.each do |choise_params|
+          @choises << QuestionsChoise.new(choise_params)
+        end
+      end
       ActiveRecord::Base.transaction do
         @survey.save!
-        @questions.save!
-        @choises.save!
+        @questions.each do |question|
+          question.save!
+        end
+        @choises.each do |choise|
+          choise.save!
+        end
       end
       redirect_to surveys_path
-      rescue => e
-        render new_survey_path
+    rescue => e
+      render new_survey_path
     end
   end
 
@@ -32,7 +44,7 @@ class SurveysController < ApplicationController
     params.require(:survey).permit(:title, :description)
   end
 
-  def question_params
+  def questions_params
     params.require(:questions).map { |u| u.permit(:description, :question_type) }
   end
 
