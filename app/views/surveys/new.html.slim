@@ -5,12 +5,11 @@ h3
     = f.text_field :title, value: '無題のアンケート'
     = f.text_area :description, placeholder: 'アンケートの説明'
     .questions
-      p 問題1
+      p 問題
       .question_form
-        = fields_for :question do |question|
-          = question.text_field :description, value: '無題の質問'
-          = question.select :question_type, Question.question_types.keys.to_a, {}, class: 'form-control', data: {"question-id" => 1}
-        .question_field#question1
+        = text_field :question, :description, value: '無題の質問', name:'questions[][description]'
+        = select :question, :question_type, Question.question_types.keys.to_a, {} ,class: 'form-control', data: {"question-id" =>@question_id}, id:"question#{@question_id}_question_type", name:'questions[][question_type]'
+        .question_field id="question#{@question_id}"
           = text_field :answer, :description, placeholder: '自由記述（短文回答）'
     .add_question 質問追加
     = f.submit '作成'
