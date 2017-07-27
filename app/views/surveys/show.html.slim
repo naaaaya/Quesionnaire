@@ -1,3 +1,8 @@
 h3 = @survey.title
 
 .publication_setting 公開範囲
+= form_for [@survey, @surveys_company] do |f|
+  -@companies.each do |company|
+    = f.check_box :company_id, checked_value: company.id
+    = f.label :company, company.name
+  = f.submit

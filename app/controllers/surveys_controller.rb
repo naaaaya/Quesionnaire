@@ -41,6 +41,8 @@ class SurveysController < ApplicationController
 
   def show
     @survey = Survey.find(params[:id])
+    @companies = Company.all
+    @surveys_company = @survey.surveys_companies.new
   end
 
   private
