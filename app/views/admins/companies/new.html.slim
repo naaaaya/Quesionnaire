@@ -1,6 +1,7 @@
 h3
   | 法人追加
-= render partial: "partial/errors", locals: {messages: @error_messages}
+= render partial: "partial/errors", locals: {instance: @company}
+= render partial: "partial/errors", locals: {instance: @user}
 = form_for [:admins, @company] do |f|
   = f.label '法人名'
   = f.text_field :name

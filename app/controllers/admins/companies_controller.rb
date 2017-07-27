@@ -8,7 +8,7 @@ class Admins::CompaniesController < ApplicationController
 
   def new
     @company = Company.new
-    @company.users.build
+    @user = @company.users.build
   end
 
   def create
@@ -21,16 +21,6 @@ class Admins::CompaniesController < ApplicationController
       end
       redirect_to admins_companies_path
     rescue => e
-
-      @error_messages = []
-
-      @company.errors.full_messages.each do |message|
-        @error_messages << message
-      end
-      @user.errors.full_messages.each do |message|
-        @error_messages << message
-      end
-
       render new_admins_company_path
     end
   end
