@@ -9,8 +9,8 @@ h3
       .question_form
         = fields_for :question do |question|
           = question.text_field :description, value: '無題の質問'
-          = question.select :question_type, Question.question_types.keys.to_a, {}, class: 'form-control'
-        .question_field
+          = question.select :question_type, Question.question_types.keys.to_a, {}, class: 'form-control', data: {"question-id" => 1}
+        .question_field#question1
           = text_field :answer, :description, placeholder: '自由記述（短文回答）'
     .add_question 質問追加
     = f.submit '作成'
