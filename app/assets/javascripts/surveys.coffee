@@ -75,29 +75,3 @@ $ ->
             <input placeholder='自由記述（短文回答）' type='text'></div>"
     $('.questions').append(html)
 
-
-
-
-
-
-  # $('.question_form').on 'change', ->
-  #   setTimeout ->
-  #     survey_form = $('.new_survey')
-  #     formdata = new FormData(survey_form.get(0))
-  #     url = survey_form.attr('action')
-  #     $.ajax
-  #       type: 'POST',
-  #       url: url,
-  #       dataType: 'json',
-  #       data: formdata,
-  #       processData: false,
-  #       contentType: false
-  #       success: (data, textStatus, jqXHR) ->
-  #         console.log(data)
-  #       error: (jqXHR, textStatus, errorThrown) ->
-  #         console.log(errorThrown)
-  #   , 1000
-
-
-
-

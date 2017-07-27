@@ -4,6 +4,9 @@ ja:
       admin: 管理者
       user: ユーザー
       company: 法人
+      survey: アンケート
+      question: 質問
+      questions_choise: 選択肢
     attributes:
       admin:
         name: 名前
@@ -21,6 +24,14 @@ ja:
         current_password: 現在のパスワード
       company:
         name: 法人名
+      survey:
+        title: アンケート名
+        description: アンケート詳細
+      question:
+        description: 質問文
+        question_type: 質問形式
+      choise:
+        description: 選択肢
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
@@ -140,7 +151,7 @@ ja:
       greater_than: は%{count}より大きい値にしてください
       greater_than_or_equal_to: は%{count}以上の値にしてください
       inclusion: は一覧にありません
-      invalid: は不正な値です
+      invalid: を保存できませんでした
       less_than: は%{count}より小さい値にしてください
       less_than_or_equal_to: は%{count}以下の値にしてください
       model_invalid: "バリデーションに失敗しました: %{errors}"

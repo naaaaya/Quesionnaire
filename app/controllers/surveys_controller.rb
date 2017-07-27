@@ -11,10 +11,19 @@ class SurveysController < ApplicationController
   end
 
   def create
-    @survey = Survey.create(survey_params)
-    @question = @survey.questions.create(question_params)
-    QuestionsChoise.create(choises_params) if params[:choises].present?
-    redirect_to surveys_path
+    begin
+      @survey = Survey.new(survey_params)
+      @questions = @survey.questions.new(question_params)
+      @choises = QuestionsChoise.new(choises_params) if params[:choises].present?
+      ActiveRecord::Base.transaction do
+        @survey.save!
+        @questions.save!
+        @choises.save!
+      end
+      redirect_to surveys_path
+      rescue => e
+        render new_survey_path
+    end
   end
 
   private
