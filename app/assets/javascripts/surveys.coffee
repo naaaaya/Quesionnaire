@@ -4,7 +4,6 @@ $ ->
   type = 'text_field'
   choise_index = 1
   question_id = $('select').data('question-id')
-  console.log(question_id)
 
   appendQuestionType = (type, question_id) ->
     question_field = $("#question#{question_id}")
