@@ -1,9 +1,7 @@
 $ ->
-
-  question_field = $('.question_field')
   type = 'text_field'
   choise_index = 1
-  question_id = $('select').data('question-id')
+  question_id = $('select').data('questionId')
 
   appendQuestionType = (type, question_id) ->
     question_field = $("#question#{question_id}")
@@ -32,14 +30,14 @@ $ ->
 
   $('.questions').on 'change', '.form-control', ->
     question_type = $(@).val()
-    question_id = $(@).data('question-id')
+    question_id = $(@).data('questionId')
     $("#question#{question_id}").empty()
     $('.choise_number').remove()
     appendQuestionType(question_type, question_id)
 
   $('.questions').on 'click', '.append_checkbox', ->
     choise_index = choise_index + 1
-    question_id = $(@).data('question-id')
+    question_id = $(@).data('questionId')
     $("#question#{question_id}-choises").append("<li id='choise#{choise_index}' class='question#{question_id}-choise'>
                                                 <input type= 'text' name= 'choises[][description]' value= '選択肢#{choise_index}'>
                                                 <input type='hidden' name='choises[][question_id]' value=#{question_id}>
@@ -48,7 +46,7 @@ $ ->
 
   $('.questions').on 'click', '#append_radio', ->
     choise_index = choise_index + 1
-    question_id = $(@).data('question-id')
+    question_id = $(@).data('questionId')
     $("#question#{question_id}-choises").append("<li id='choise#{choise_index}' class='question#{question_id}-choise'>
                                                 <input type= 'text' name= 'choises[][description]' value= '選択肢#{choise_index}'>
                                                 <input type='hidden' name='choises[][question_id]' value=#{question_id}>
@@ -56,7 +54,7 @@ $ ->
                                                 </li>")
 
   $('.questions').on 'click', '#delete_choise', ->
-    question_id = $(@).data('question-id')
+    question_id = $(@).data('questionId')
     choise_id = $(@).data('index')
     $("#choise#{choise_id}").remove(".question#{question_id}-choise")
 
