@@ -19,5 +19,5 @@ h3
         = select :question, :question_type, Question.question_types.keys.to_a, {} ,class: 'form-control', data: {"question-id" =>@question_id}, id:"question#{@question_id}_question_type", name:'questions[][question_type]'
         .question_field id="question#{@question_id}"
           = text_field :answer, :description, placeholder: '自由記述（短文回答）'
-    .add_question 質問追加
+    .add_question onclick='addQuestion' 質問追加
     = f.submit '作成'

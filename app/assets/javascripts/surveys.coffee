@@ -62,6 +62,7 @@ $ ->
     $("#choise#{choise_id}").remove(".question#{question_id}-choise")
 
   addQuestion = ->
+    console.log('success')
     question_id = question_id + 1
     html = "<p>問題</p>
             <input value='無題の質問' type='text' name='questions[][description]' id='question#{question_id}_description'>
@@ -74,10 +75,4 @@ $ ->
             <input placeholder='自由記述（短文回答）' type='text'></div>"
     $('.questions').append(html)
 
-
-
-
-
-  $('.add_question').bind 'click', ->
-    addQuestion()
 
