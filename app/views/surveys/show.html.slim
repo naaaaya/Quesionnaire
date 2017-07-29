@@ -1,6 +1,11 @@
 h3 = @survey.title
 
-.publication_setting 公開範囲
+.added_companies
+  p 公開済み法人
+  - @added_companies.each do |company|
+    li
+      = company.name
+.publication_setting 公開する
 = form_for [@survey, @surveys_company] do |f|
   -@companies.each do |company|
     = f.check_box :company_ids ,{ multiple: true, checked: company[:checked], include_hidden: false}, company.id

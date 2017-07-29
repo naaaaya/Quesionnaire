@@ -1,5 +1,8 @@
 class SurveysCompaniesController < ApplicationController
 
+  def index
+    @companies = Company.where('name like(?)', "%#{params[:keyword]}%")
+  end
   def create
     @survey = Survey.find(params[:survey_id])
     create_params[:company_ids].each do |company_id|

@@ -1,8 +1,5 @@
 class SurveysController < ApplicationController
   before_action :authenticate_admin!, only:[:new, :create]
-  def index
-    @surveys = Survey.all
-  end
 
   def new
     @survey = Survey.new
@@ -41,6 +38,7 @@ class SurveysController < ApplicationController
 
   def show
     @survey = Survey.find(params[:id])
+    @added_companies = @survey.surveys_companies.map{|surveys_company| surveys_company.company}
     @companies = Company.all
     @surveys_company = @survey.surveys_companies.new
   end
