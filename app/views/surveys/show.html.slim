@@ -5,7 +5,9 @@ h3 = @survey.title
   - @added_companies.each do |company|
     li
       = company.name
+      | 非公開
 .publication_setting 公開する
+input#search_company type='text'
 = form_for [@survey, @surveys_company] do |f|
   -@companies.each do |company|
     = f.check_box :company_ids ,{ multiple: true, checked: company[:checked], include_hidden: false}, company.id

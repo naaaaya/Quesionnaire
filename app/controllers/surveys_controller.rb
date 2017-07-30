@@ -1,5 +1,8 @@
 class SurveysController < ApplicationController
   before_action :authenticate_admin!, only:[:new, :create]
+  def index
+    @surveys = Survey.all
+  end
 
   def new
     @survey = Survey.new
