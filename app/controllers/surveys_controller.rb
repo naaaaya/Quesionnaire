@@ -41,9 +41,8 @@ class SurveysController < ApplicationController
 
   def show
     @survey = Survey.find(params[:id])
-    @added_companies = @survey.surveys_companies.map{|surveys_company| surveys_company.company}
-    @companies = Company.all
-    @surveys_company = @survey.surveys_companies.new
+    @added_companies = @survey.companies
+    @surveys_company = @survey.surveys_company.new
   end
 
   private

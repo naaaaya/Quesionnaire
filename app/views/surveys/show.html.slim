@@ -1,15 +1,17 @@
 h3 = @survey.title
 
-.added_companies
-  p 公開済み法人
-  - @added_companies.each do |company|
-    li
-      = company.name
-      | 非公開
-.publication_setting 公開する
-input#search_company type='text'
-= form_for [@survey, @surveys_company] do |f|
-  -@companies.each do |company|
-    = f.check_box :company_ids ,{ multiple: true, checked: company[:checked], include_hidden: false}, company.id
-    = company.name
-  = f.submit
+- if current_admin
+  .added_companies
+    p 公開済み法人
+    - @added_companies.each do |company|
+      li
+        = company.name
+        input.delete_company_button type='button' value='非公開' data-company-id=company.id
+  .publication_setting
+  input#search_company type='text'
+  ul.search_result
+  = form_for [@survey, @surveys_company] do |f|
+    .hidden_company_field
+    - @added_companies.each do |company|
+      = f.hidden_field :company_id, name:'company_ids[]', value: company.id, id:"hidden_company#{company.id}"
+    = f.submit '公開する'

@@ -1,5 +1,4 @@
 $ ->
-
   question_field = $('.question_field')
   type = 'text_field'
   choise_index = 1

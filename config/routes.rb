@@ -25,6 +25,6 @@ Rails.application.routes.draw do
   end
 
   resources :surveys do
-    resources :surveys_companies, only:[:create, :update]
+    resources :surveys_companies, only:[:index, :create, :update]
   end
 end
