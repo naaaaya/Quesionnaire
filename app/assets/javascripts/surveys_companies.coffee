@@ -9,23 +9,22 @@ $ ->
       $('.added_companies').append(html)
 
   appendHiddenField = (companyId) ->
-    html = "<input type='hidden' name='companyIds[]' value=#{companyId} id='hidden_company#{companyId}'>"
+    html = "<input type='hidden' name='company_ids[]' value=#{companyId} id='hidden_company#{companyId}'>"
     $('.hidden_company_field').append(html)
 
   @searchCompany = ->
     InputedCompanyName = $('#search_company').val()
-    url = window.location.href
     if preInputedCompanyName != InputedCompanyName
       $.ajax
         type: "GET"
-        url: "#{url}/surveys_companies.json"
+        url: "#{window.location.href}/surveys_companies.json"
         dataType: "json"
         data: {keyword: InputedCompanyName}
         success: (data, status, xhr)   ->
           $('.search_result').empty()
           for company in data
-              appendResultList(company)
-              preInputedCompanyName = InputedCompanyName
+            appendResultList(company)
+            preInputedCompanyName = InputedCompanyName
         error: (xhr,  status, error) ->
           alert(status)
           preInputedCompanyName = InputedCompanyName
