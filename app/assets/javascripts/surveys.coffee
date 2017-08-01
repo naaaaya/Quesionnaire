@@ -16,57 +16,53 @@ $ ->
                               <li id='choise#{choise_index}' class='question#{question_id}-choise'>
                               <input type= 'text' name= 'choises[][description]' value= '選択肢#{choise_index}'>
                               <input type='hidden' name='choises[][question_id]' value=#{question_id}>
-                              <input type= 'button' id='delete_checkbox' value= '削除' data-index=#{choise_index} data-question-id=#{question_id}>
+                              <input type= 'button' id='delete_choise' value= '削除' data-index=#{choise_index} data-question-id=#{question_id} onclick=deleteChoise(this)>
                               </li></ul>
-                              <input type= 'button' class='append_checkbox' data-question-id=#{question_id} value= '選択肢追加'>")
+                              <input type= 'button' class='append_checkbox' data-question-id=#{question_id} value= '選択肢追加' onclick=appendCheckbox(this)>")
       when 'radio_button'
         choise_index = 1
         question_field.append("<ul class= 'radio_choises' id='question#{question_id}-choises'>
                               <li id='choise#{choise_index}' class='question#{question_id}-choise'>
                               <input type= 'text' name= 'choises[][description]' value= '選択肢#{choise_index}'>
                               <input type='hidden' name='choises[][question_id]' value=#{question_id}>
-                              <input type= 'button' id='delete_choise' value= '削除' data-index=#{choise_index} data-question-id=#{question_id}>
+                              <input type= 'button' id='delete_choise' value= '削除' data-index=#{choise_index} data-question-id=#{question_id} onclick=deleteChoise(this)>
                               </li></ul>
-                              <input type= 'button' id='append_radio' data-question-id=#{question_id}  value= '選択肢追加'>")
+                              <input type= 'button' id='append_radio' data-question-id=#{question_id}  value= '選択肢追加' onclick='appendRadioButton(this)'>")
 
-  $('.questions').on 'change', '.form-control', ->
-  # appendAnswerForm = ->
-    question_type = $(this).val()
-    question_id = $(this).data('questionId')
+  # $('.questions').on 'change', '.form-control', ->
+  @appendAnswerForm = (select_field) ->
+    question_type = $(select_field).val()
+    question_id = $(select_field).data('questionId')
     $("#question#{question_id}").empty()
     $('.choise_number').remove()
     appendQuestionType(question_type, question_id)
 
-  $('.questions').on 'click', '.append_checkbox', ->
-  # appendCheckbox = ->
+  @appendCheckbox = (button) ->
     choise_index = choise_index + 1
-    question_id = $(this).data('questionId')
+    question_id = $(button).data('questionId')
     $("#question#{question_id}-choises").append("<li id='choise#{choise_index}' class='question#{question_id}-choise'>
                                                 <input type= 'text' name= 'choises[][description]' value= '選択肢#{choise_index}'>
                                                 <input type='hidden' name='choises[][question_id]' value=#{question_id}>
-                                                <input type= 'button' id='delete_choise' value= '削除' data-index= #{choise_index} data-question-id=#{question_id}>
+                                                <input type= 'button' id='delete_choise' value= '削除' data-index= #{choise_index} data-question-id=#{question_id} onclick=deleteChoise(this)>
                                                 </li>")
-  $('.questions').on 'click', '#append_radio', ->
-  # appendRadioButton = ->
+  @appendRadioButton = (button) ->
     choise_index = choise_index + 1
-    question_id = $(this).data('questionId')
+    question_id = $(button).data('questionId')
     $("#question#{question_id}-choises").append("<li id='choise#{choise_index}' class='question#{question_id}-choise'>
                                                 <input type= 'text' name= 'choises[][description]' value= '選択肢#{choise_index}'>
                                                 <input type='hidden' name='choises[][question_id]' value=#{question_id}>
-                                                <input type= 'button' id='delete_choise' value= '削除' data-index= #{choise_index} data-question-id=#{question_id}>
+                                                <input type= 'button' id='delete_choise' value= '削除' data-index= #{choise_index} data-question-id=#{question_id} onclick=deleteChoise(this)>
                                                 </li>")
-  $('.questions').on 'click', '#delete_choise', ->
-  # deleteChoise = ->
-    question_id = $(this).data('questionId')
-    choise_id = $(this).data('index')
+  @deleteChoise = (button) ->
+    question_id = $(button).data('questionId')
+    choise_id = $(button).data('index')
     $("#choise#{choise_id}").remove(".question#{question_id}-choise")
 
-  addQuestion = ->
-    console.log('success')
+  @addQuestion = ->
     question_id = question_id + 1
     html = "<p>問題</p>
             <input value='無題の質問' type='text' name='questions[][description]' id='question#{question_id}_description'>
-            <select class='form-control' name='questions[][question_type]' id='question#{question_id}_question_type' data-question-id=#{question_id}>
+            <select class='form-control' name='questions[][question_type]' id='question#{question_id}_question_type' data-question-id=#{question_id} onchange='appendAnswerForm(this)'>
             <option value='text_field'>text_field</option>
             <option value='textarea'>textarea</option>
             <option value='checkbox'>checkbox</option>
