@@ -42,7 +42,7 @@ class SurveysController < ApplicationController
   def show
     @survey = Survey.find(params[:id])
     @added_companies = @survey.companies
-    @surveys_company = @survey.surveys_company.new
+    @surveys_company = @survey.surveys_company.build
   end
 
   private
