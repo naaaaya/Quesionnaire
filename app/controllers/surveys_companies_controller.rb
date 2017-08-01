@@ -5,11 +5,12 @@ class SurveysCompaniesController < ApplicationController
   end
 
   def create
-    @survey = Survey.find(params[:survey_id])
+    survey_id = params[:survey_id]
+    @survey = Survey.find(survey_id)
     create_params[:company_ids].each do |company_id|
       @survey.surveys_company.create(company_id: company_id)
     end
-    redirect_to survey_path(params[:survey_id])
+    redirect_to survey_path(survey_id)
   end
 
 
