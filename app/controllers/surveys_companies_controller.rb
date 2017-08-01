@@ -9,7 +9,7 @@ class SurveysCompaniesController < ApplicationController
     create_params[:company_ids].each do |company_id|
       @survey.surveys_company.create(company_id: company_id)
     end
-    render '/surveys/(params[:survey_id])'
+    redirect_to survey_path(params[:survey_id])
   end
 
 
