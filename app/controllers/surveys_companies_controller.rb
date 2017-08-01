@@ -1,7 +1,7 @@
 class SurveysCompaniesController < ApplicationController
 
   def index
-    @companies = Company.where("name LIKE(?)","%#{params[:keyword]}%")
+    @searched_companies = Company.where("name LIKE(?)","%#{params[:keyword]}%")
   end
 
   def create
