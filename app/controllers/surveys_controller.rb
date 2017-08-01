@@ -1,6 +1,7 @@
 class SurveysController < ApplicationController
   before_action :authenticate_admin!, only:[:new, :create]
   def index
+    @surveys = Survey.all
   end
 
   def new
@@ -34,6 +35,12 @@ class SurveysController < ApplicationController
     rescue => e
       render new_survey_path
     end
+  end
+
+  def show
+    @survey = Survey.find(params[:id])
+    @added_companies = @survey.companies
+    @surveys_company = @survey.surveys_company.build
   end
 
   private

@@ -1,0 +1,14 @@
+h3 = @survey.title
+
+- if current_admin
+  .added_companies
+    p 公開範囲
+    - @added_companies.each do |company|
+      li
+        = company.name
+  .publication_setting
+    input#search_company type='text' placeholder='法人名を入力してください' onkeyup='searchCompany()'
+    ul.search_result
+    = form_for [@survey, @surveys_company] do |f|
+      .hidden_company_field
+      = f.submit '公開する'

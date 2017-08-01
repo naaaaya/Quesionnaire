@@ -1,0 +1,1 @@
+json.array! @searched_companies, :id, :name

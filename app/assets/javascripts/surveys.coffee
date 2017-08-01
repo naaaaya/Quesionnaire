@@ -1,7 +1,9 @@
 $ ->
+
   type = 'text_field'
   choise_number = 1
   question_number = 1
+
 
   appendQuestionType = (type, question_number) ->
     question_field = $("#question#{question_number}")
