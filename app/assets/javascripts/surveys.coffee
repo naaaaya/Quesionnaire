@@ -1,10 +1,13 @@
 $ ->
+
+
   type = 'text_field'
   choiseNumber = 1
   questionNumber = 1
 
   appendQuestionType = (type, questionNumber) ->
     questionField = $("#question#{questionNumber}")
+
     switch type
       when  'text_field'
         questionField.append("<input type = 'text' placeholder = '自由記述（短文回答）'>")
