@@ -7,8 +7,6 @@ class SurveysController < ApplicationController
   def new
     @survey = Survey.new
     @survey.questions.build
-    last_question = Question.last
-    @question_id = last_question.id + 1
   end
 
   def create
@@ -17,11 +15,11 @@ class SurveysController < ApplicationController
       @questions = []
       @choises = []
       questions_params.each do |question_params|
-        @questions << @survey.questions.new(question_params)
-      end
-      if params[:choises].present?
+        question = @survey.questions.new(description:question_params[:description], question_type:question_params[:question_type])
+        @questions << question
+        choises_params = question_params[:choises]
         choises_params.each do |choise_params|
-          @choises << QuestionsChoise.new(choise_params)
+          @choises << question.questions_choises.new(choise_params)
         end
       end
       ActiveRecord::Base.transaction do
@@ -52,10 +50,10 @@ class SurveysController < ApplicationController
   end
 
   def questions_params
-    params.require(:questions).map { |u| u.permit(:description, :question_type) }
+    params.require(:questions).map { |u| u.permit(:description, :question_type, choises: [%w(description)]) }
   end
 
   def choises_params
-    params.require(:choises).map { |u| u.permit(:description, :question_id) }
+    question_params.require(:questions).permit(choises: [%w(description)])
   end
 end
