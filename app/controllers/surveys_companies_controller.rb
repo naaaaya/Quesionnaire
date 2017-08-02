@@ -7,8 +7,14 @@ class SurveysCompaniesController < ApplicationController
   def create
     survey_id = params[:survey_id]
     @survey = Survey.find(survey_id)
-    create_params[:company_ids].each do |company_id|
-      @survey.surveys_company.create(company_id: company_id)
+    begin
+      ActiveRecord::Base.transaction do
+        create_params[:company_ids].each do |company_id|
+          @survey.surveys_company.create(company_id: company_id)
+        end
+      end
+    rescue => e
+      redirect_to survey_path(survey_id)
     end
     redirect_to survey_path(survey_id)
   end
