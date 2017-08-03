@@ -1,0 +1,24 @@
+h3
+  | アンケート編集
+= render partial: "partial/errors", locals: {instance: @survey}
+-if @questions
+  - @questions.each do |question|
+    = render partial: "partial/errors", locals: {instance: question}
+.survey_form
+  = form_for @survey do |f|
+    = f.text_field :title, value: @survey.title
+    = f.text_area :description, placeholder: @survey.description
+    .questions
+      p 問題
+      .question_form
+        - @questions.each do |question|
+          = text_field :question, :id, value: question.id, name: 'questions[][id]', type:'hidden'
+          = text_field :question, :description, value: question.description, name:'questions[][description]'
+          -if question.questions_choises
+            - question.questions_choises.each do |choise|
+             li
+                = text_field :questions_choise, :id, value: choise.id, name:'questions[][choises[][id]]', type: 'hidden'
+                = text_field :questions_choise, :description, value: choise.description, name:'questions[][choises[][description]]'
+
+    .add_question onclick='addQuestion()' 質問追加
+    = f.submit '作成'
