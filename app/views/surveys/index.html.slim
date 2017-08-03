@@ -1,12 +1,4 @@
 h3
   | アンケート一覧
 
-- @surveys.each do |survey|
-  .survey-title
-  = link_to survey.title, survey_path(survey)
-  p
-    | ステータス：
-    = survey.status
-  - if survey.status == '下書き' && current_admin
-    = link_to '編集', edit_survey_path(survey)
-    = link_to '削除', survey_path(survey), method: :delete
+= render partial: 'partial/draft_surveys', locals: {surveys: @draft_surveys}

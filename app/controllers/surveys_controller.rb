@@ -2,7 +2,9 @@ class SurveysController < ApplicationController
   before_action :authenticate_admin!, only:[:new, :create]
   before_action :set_survey, only:[:show, :edit, :update]
   def index
-    @surveys = Survey.all
+    @draft_surveys = Survey.where(status: 0)
+    @published_surveys = Survey.where(status: 1)
+    @unlisted_surveys = Survey.where(status: 2)
   end
 
   def new

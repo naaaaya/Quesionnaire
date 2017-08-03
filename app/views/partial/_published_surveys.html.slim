@@ -1,0 +1,10 @@
+h4
+  | 公開中
+
+
+- surveys.each do |survey|
+  .survey-title
+  if current_admin
+    = link_to survey.title, survey_path(survey)
+  if current_user
+    = link_to '回答する', '#'
