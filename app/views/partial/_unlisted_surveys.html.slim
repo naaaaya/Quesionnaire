@@ -3,5 +3,5 @@ h4
 
 - surveys.each do |survey|
   .survey-title
-  = link_to survey.title, survey_path(survey)
-  = link_to '削除', survey_path(survey), method: :delete
+  = link_to survey.title, admins_survey_path(survey)
+  = link_to '削除', admins_survey_path(survey), method: :delete
