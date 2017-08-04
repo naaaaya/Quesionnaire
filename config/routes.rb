@@ -22,9 +22,11 @@ Rails.application.routes.draw do
 
   namespace :admins do
     resources :companies
+    resources :surveys do
+      resources :surveys_companies, only:[:index, :create, :update]
+    end
   end
 
-  resources :surveys do
-    resources :surveys_companies, only:[:index, :create, :update]
-  end
+  resources :surveys
+
 end

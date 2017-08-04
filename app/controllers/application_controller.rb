@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
     if current_admin
       @list_item = [{name: "法人一覧", path: admins_companies_path},
         {name: "新規法人登録", path: new_admins_company_path},
-        {name: "アンケート一覧", path: surveys_path},
-        {name: "アンケート作成", path: new_survey_path},
+        {name: "アンケート一覧", path: admins_surveys_path},
+        {name: "アンケート作成", path: new_admins_survey_path},
         {name: "ユーザー設定", path:edit_admin_registration_path}]
     elsif current_user
         @list_item = [{name: "アンケート一覧", path: "#"},

@@ -1,4 +1,4 @@
-class SurveysCompaniesController < ApplicationController
+class Admins::SurveysCompaniesController < ApplicationController
 
   def index
     @searched_companies = Company.where("name LIKE(?)","%#{params[:keyword]}%")
@@ -19,9 +19,9 @@ class SurveysCompaniesController < ApplicationController
           surveys_company.save!
         end
       end
-      redirect_to survey_path(survey_id)
+      redirect_to admins_survey_path(survey_id)
     rescue Exception => e
-      redirect_to survey_path(survey_id)
+      redirect_to admins_survey_path(survey_id)
     end
   end
 
