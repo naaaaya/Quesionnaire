@@ -1,0 +1,25 @@
+h3
+  | アンケート作成
+= render partial: "partial/errors", locals: {instance: @survey}
+-if @questions
+  - @questions.each do |question|
+    = render partial: "partial/errors", locals: {instance: question}
+-if @choises
+  - @choises.each do |choise|
+    = render partial: "partial/errors", locals: {instance: choise}
+
+.survey_form
+  = form_for @survey do |f|
+    = f.text_field :title, value: '無題のアンケート'
+    = f.text_area :description, placeholder: 'アンケートの説明'
+    .questions
+      p 問題
+      .question_form
+        = text_field :question, :description, value: '無題の質問', name:'questions[][description]'
+        = select :question, :question_type, Question.question_types.keys.to_a, {} ,
+        class: 'form-control', data: {"question-number" =>1}, id:"question1_question_type",
+         name:'questions[][question_type]'
+        .question_field id="question1"
+          = text_field :answer, :description, placeholder: '自由記述（短文回答）'
+    .add_question 質問追加
+    = f.submit '作成'

@@ -19,7 +19,12 @@ Rails.application.routes.draw do
       root :to => 'devise/registrations#edit', as: :authenticated_user_root
     end
   end
+
   namespace :admins do
     resources :companies
+  end
+
+  resources :surveys do
+    resources :surveys_companies, only:[:index, :create, :update]
   end
 end

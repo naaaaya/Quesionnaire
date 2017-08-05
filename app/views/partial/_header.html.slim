@@ -1,5 +1,6 @@
 .nav-bar
   p.title Questionnaire
-  ul.menu
-    - @list_item.each do |link|
-      = render partial: 'partial/list_item', locals: {name: link[:name], path: link[:path]}
+  - if @list_item
+    ul.menu
+      - @list_item.each do |link|
+        = render partial: 'partial/list_item', locals: {name: link[:name], path: link[:path]}

@@ -13,12 +13,12 @@ class ApplicationController < ActionController::Base
     if current_admin
       @list_item = [{name: "法人一覧", path: admins_companies_path},
         {name: "新規法人登録", path: new_admins_company_path},
-        {name: "アンケート一覧", path: authenticated_admin_root_path},
-        {name: "アンケート作成", path: authenticated_admin_root_path},
+        {name: "アンケート一覧", path: surveys_path},
+        {name: "アンケート作成", path: new_survey_path},
         {name: "ユーザー設定", path:edit_admin_registration_path}]
     elsif current_user
         @list_item = [{name: "アンケート一覧", path: "#"},
-         {name: "アンケート作成", path: "#"},
+         {name: "アンケート回答", path: "#"},
          {name: "ユーザー設定", path: edit_user_registration_path},
          {name: "チャット", path: "#"}]
         @list_item.push({name: "社員一覧", path: "#"}, {name: "新規社員登録", path: "#"}) if current_user.chief_flag
