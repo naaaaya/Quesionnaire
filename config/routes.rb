@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     authenticated :user do
       root :to => 'devise/registrations#edit', as: :authenticated_user_root
     end
+    get "sign_up/:id", :to => "users/registrations#new", as: :new_company_user_registration
   end
 
   namespace :admins do
