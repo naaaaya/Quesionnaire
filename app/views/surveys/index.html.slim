@@ -7,6 +7,6 @@ h3
   p
     | ステータス：
     = survey.status
-  - if survey.status == '下書き' && current_admin
+  - if survey.status.to_i == 0 && current_admin
     = link_to '編集', edit_survey_path(survey)
     = link_to '削除', survey_path(survey), method: :delete
