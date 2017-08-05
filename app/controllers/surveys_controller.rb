@@ -1,5 +1,6 @@
 class SurveysController < ApplicationController
   before_action :authenticate_admin!, only:[:new, :create]
+  before_action :set_survey, only:[:show, :edit, :update]
   def index
     @surveys = Survey.all
   end
@@ -38,9 +39,32 @@ class SurveysController < ApplicationController
   end
 
   def show
-    @survey = Survey.find(params[:id])
     @added_companies = @survey.companies
     @surveys_company = @survey.surveys_company.build
+  end
+
+  def edit
+    @questions = @survey.questions
+  end
+
+  def update
+    begin
+      ActiveRecord::Base.transaction do
+        @survey.update(survey_params)
+        @questions = []
+        questions_edit_params.each do |question_params|
+          question = Question.find(question_params[:id])
+          question.update(description: question_params[:description], question_type: question_params[:question_type])
+          question_params[:choises].each do |choise_params|
+            choise = QuestionsChoise.find(choise_params[:id])
+            choise.update(choise_params)
+          end
+        end
+      end
+      redirect_to survey_path(params[:id])
+    rescue => e
+      render edit_survey_path
+    end
   end
 
   private
@@ -53,7 +77,12 @@ class SurveysController < ApplicationController
     params.require(:questions).map { |u| u.permit(:description, :question_type, choises: [%w(description)]) }
   end
 
-  def choises_params
-    question_params.require(:questions).permit(choises: [%w(description)])
+  def questions_edit_params
+    params.require(:questions).map { |u| u.permit(:id, :description, :question_type, choises: [%w(id description)]) }
+  end
+
+  def set_survey
+    survey_id = params[:id]
+    @survey = Survey.find(params[:id])
   end
 end
