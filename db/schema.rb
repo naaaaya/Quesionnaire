@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170806024536) do
+ActiveRecord::Schema.define(version: 20170807065316) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -28,6 +28,17 @@ ActiveRecord::Schema.define(version: 20170806024536) do
     t.string   "name"
     t.index ["email"], name: "index_admins_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "choise_answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "question_id"
+    t.integer  "questions_choise_id"
+    t.integer  "surveys_user_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.index ["question_id"], name: "index_choise_answers_on_question_id", using: :btree
+    t.index ["questions_choise_id"], name: "index_choise_answers_on_questions_choise_id", using: :btree
+    t.index ["surveys_user_id"], name: "index_choise_answers_on_surveys_user_id", using: :btree
   end
 
   create_table "companies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -68,6 +79,26 @@ ActiveRecord::Schema.define(version: 20170806024536) do
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_surveys_companies_on_company_id", using: :btree
     t.index ["survey_id"], name: "index_surveys_companies_on_survey_id", using: :btree
+  end
+
+  create_table "surveys_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "survey_id"
+    t.integer  "user_id"
+    t.boolean  "answered_flag", default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["survey_id"], name: "index_surveys_users_on_survey_id", using: :btree
+    t.index ["user_id"], name: "index_surveys_users_on_user_id", using: :btree
+  end
+
+  create_table "text_answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "description",     limit: 65535
+    t.integer  "question_id"
+    t.integer  "surveys_user_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["question_id"], name: "index_text_answers_on_question_id", using: :btree
+    t.index ["surveys_user_id"], name: "index_text_answers_on_surveys_user_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
