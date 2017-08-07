@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
         {name: "アンケート作成", path: new_admins_survey_path},
         {name: "ユーザー設定", path:edit_admin_registration_path}]
     elsif current_user
-        @list_item = [{name: "アンケート一覧", path: "#"},
+        @list_item = [{name: "アンケート一覧", path: surveys_path},
          {name: "アンケート回答", path: "#"},
          {name: "ユーザー設定", path: edit_user_registration_path},
          {name: "チャット", path: "#"}]
