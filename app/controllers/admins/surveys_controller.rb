@@ -20,9 +20,11 @@ class Admins::SurveysController < ApplicationController
       questions_params.each do |question_params|
         question = @survey.questions.new(description:question_params[:description], question_type:question_params[:question_type])
         @questions << question
-        choises_params = question_params[:choises]
-        choises_params.each do |choise_params|
-          @choises << question.questions_choises.new(choise_params)
+        if question_params[:choises]
+          choises_params = question_params[:choises]
+          choises_params.each do |choise_params|
+            @choises << question.questions_choises.new(choise_params)
+          end
         end
       end
       ActiveRecord::Base.transaction do
@@ -42,7 +44,7 @@ class Admins::SurveysController < ApplicationController
 
   def show
     @added_companies = @survey.companies
-    @surveys_company = @survey.surveys_company.build
+    @surveys_company = @survey.surveys_companies.build
   end
 
   def edit

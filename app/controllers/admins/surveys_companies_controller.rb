@@ -10,7 +10,7 @@ class Admins::SurveysCompaniesController < ApplicationController
       @survey = Survey.find(survey_id)
       @surveys_companies = []
       create_params[:company_ids].each do |company_id|
-        surveys_company = @survey.surveys_company.new(company_id: company_id)
+        surveys_company = @survey.surveys_companies.new(company_id: company_id)
         @surveys_companies << surveys_company
       end
       ActiveRecord::Base.transaction do
