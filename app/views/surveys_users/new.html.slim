@@ -1,0 +1,19 @@
+h3
+  = @survey.title
+p
+  = @survey.description
+
+  = form_for [@survey, @surveys_user] do |answer_form|
+    - @questions.each do |question|
+      h4
+        = question.description
+      - type = question.question_type_before_type_cast
+      - if type == 0
+        = text_field 'questions[][text_answer]', :description, placeholder: '自由記述（短文回答）'
+      - if type == 1
+        = text_area 'questions[][text_answer]', :description, placeholder: '自由記述（長文回答）'
+      - if type == 2
+        = collection_check_boxes 'questions[][choise_answer]', :choise_ids, question.questions_choises, :id, :description, include_hidden: false
+      - if type == 3
+        = collection_radio_buttons 'questions[][choise_answer]', :choise_ids, question.questions_choises, :id, :description, include_hidden: false
+    = answer_form.submit '回答する'
