@@ -2,6 +2,8 @@ class SurveysController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @surveys = current_user.company.surveys
+    @answered_surveys = current_user.surveys_users.answered
+    @draft_surveys = current_user.surveys_users.drafts
+    @unanswered_surveys = Survey.unanswered(current_user)
   end
 end
