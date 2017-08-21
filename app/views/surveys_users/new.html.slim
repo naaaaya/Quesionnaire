@@ -2,26 +2,9 @@ h3
   = @survey.title
 p
   = @survey.description
+  = render partial: "partial/errors", locals: {instance: @surveys_user}
 
   = form_for [@survey, @surveys_user] do |answer_form|
-    - @questions.each do |question|
-      h4
-        = question.description
-
-      = answer_form.fields_for "#{question.id}".to_sym do |question_type|
-        = question_type.hidden_field :question_type, value: question.question_type
-
-      - type = question.question_type_before_type_cast
-      - if type == 0
-        = answer_form.fields_for "#{question.id}".to_sym do |text_answer_form|
-          = text_answer_form.text_field :description, placeholder: '自由記述（短文回答）'
-      - if type == 1
-        = answer_form.fields_for "#{question.id}".to_sym do |text_answer_form|
-          = text_answer_form.text_area :description, placeholder: '自由記述（長文回答）'
-      - if type == 2
-        = answer_form.fields_for "#{question.id}".to_sym do |choise_answer_form|
-          = choise_answer_form.collection_check_boxes :choise_ids, question.questions_choises, :id, :description, include_hidden: false
-      - if type == 3
-        = answer_form.fields_for "#{question.id}".to_sym do |choise_answer_form|
-          = choise_answer_form.collection_radio_buttons :choise_id, question.questions_choises, :id, :description, include_hidden: false
-    = answer_form.submit '回答する'
+    = render partial: 'partial/answer_forms', collection: @questions, as: 'question', locals: {answer_form: answer_form}
+    = submit_tag '下書き保存'
+    = submit_tag '回答する'
