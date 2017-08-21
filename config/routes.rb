@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :surveys do
+  resources :surveys, only: [:index, :show] do
     resources :surveys_users, only: [:new, :create, :edit, :update]
   end
 end
