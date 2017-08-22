@@ -5,8 +5,8 @@ class SurveysUsersController < ApplicationController
   before_action :authenticate_user!, only:[:new, :create]
 
   def new
-    @surveys_user = @survey.surveys_users.new
-    @questions = @survey.questions
+    @surveys_user = @survey.surveys_users.includes([:text_answers, :choise_answers]).where(survey_id:params[:survey_id], user_id:current_user.id).new
+    @questions = @survey.questions.page(params[:page]).per(10)
   end
 
   def create
@@ -37,16 +37,31 @@ class SurveysUsersController < ApplicationController
           answer.destroy!
         end
       end
-      redirect_to surveys_path
+      redirect_to redirect_path
     rescue => e
       @questions = @survey.questions
-      render new_survey_surveys_user
+      render new_survey_surveys_user_path
     end
   end
 
   def set_survey
     @survey_id = params[:survey_id]
-    @survey = Survey.find(@survey_id)
+    @survey = Survey.includes(:surveys_users).find(@survey_id)
+  end
+
+  def redirect_path
+    case params[:commit]
+    when '下書き保存', '回答する'
+      return surveys_path
+    when '前の10件'
+      previous_page = param[:current_page].to_i - 1
+      path = "#{new_survey_surveys_user_path}/?page=#{previous_page}"
+      return path
+    when '次の10件'
+      next_page = params[:current_page].to_i + 1
+      path = "#{new_survey_surveys_user_path}/?page=#{next_page}"
+      return path
+    end
   end
 
   def set_arrays
@@ -63,7 +78,7 @@ class SurveysUsersController < ApplicationController
 
   def create_or_update_surveys_user
     case params[:commit]
-    when '下書き保存'
+    when '前の10件', '次の10件', '下書き保存'
       @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
     when '回答する'
       @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
