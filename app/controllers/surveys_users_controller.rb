@@ -54,7 +54,7 @@ class SurveysUsersController < ApplicationController
     when '下書き保存', '回答する'
       return surveys_path
     when '前の10件'
-      previous_page = param[:current_page].to_i - 1
+      previous_page = params[:current_page].to_i - 1
       path = "#{new_survey_surveys_user_path}/?page=#{previous_page}"
       return path
     when '次の10件'
