@@ -8,8 +8,7 @@ h3 未回答アンケート
 h3 下書き
 - @draft_surveys.each do |survey_user|
   h4
-    = link_to survey_user.survey.title,  edit_survey_surveys_user_path(survey_id: survey_user.survey.id, id:survey_user.id )
-  p
+    = link_to survey_user.survey.title, new_survey_surveys_user_path(survey_id: survey_user.survey.id)
     = survey_user.survey.description
 
 h3 回答済みアンケート
