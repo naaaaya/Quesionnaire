@@ -1,5 +1,6 @@
 class SurveysUsersController < ApplicationController
   before_action :set_survey, only:[:new, :create]
+  before_action :redirect_to_index, only:[:new, :create]
   before_action :set_arrays, only: :create
   before_action :authenticate_user!, only:[:new, :create]
 
@@ -52,6 +53,10 @@ class SurveysUsersController < ApplicationController
     @text_answers = []
     @choise_answers = []
     @delete_choise_answers = []
+  end
+
+  def redirect_to_index
+    redirect_to surveys_path if SurveysUser.find_by(user_id: current_user, survey_id: params[:survey_id]) && SurveysUser.find_by(user_id: current_user, survey_id: params[:survey_id]).answered_flag
   end
 
   private
