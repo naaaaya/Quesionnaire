@@ -32,7 +32,6 @@ class SurveysUsersController < ApplicationController
         @choise_answers.each do |answer|
           answer.save!
         end
-
         @delete_choise_answers.each do |answer|
           answer.destroy!
         end
