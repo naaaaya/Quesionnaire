@@ -77,18 +77,18 @@ class Admins::SurveysController < ApplicationController
     @surveys_companies = @survey.try(:surveys_companies)
     @surveys_users = @survey.try(:surveys_users)
     @questions = @survey.try(:questions)
-    @questions_choises = @survey.try(:questions_choises)
-    @text_answers = @survey.try(:text_answers)
-    @choise_answers = @survey.try(:choise_answers)
-
     begin
       ActiveRecord::Base.transaction do
-        @text_answers.try(:destroy!)
-        @choise_answers.try(:destroy!)
-        @questions_choises.try(:destroy!)
-        @questions.try(:destroy!)
-        @surveys_users.try(:destroy!)
-        @surveys_companies.try(:destroy!)
+        if @questions.present?
+          @questions.each do |question|
+            question.try(:text_answers).inject{|answer| answer.destroy! }
+            question.try(:choise_answers).inject{|answer| answer.destroy! }
+            question.try(:questions_choises).inject{|choise| choise.destroy! }
+            question.destroy!
+          end
+        end
+        @surveys_users.map{|surveys_user| surveys_user.destroy!} if @surveys_users.present?
+        @surveys_companies.map{|surveys_company| surveys_company.destroy! } if @surveys_companies.present?
         @survey.destroy!
       end
       redirect_to admins_surveys_path
