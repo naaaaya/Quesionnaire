@@ -6,6 +6,6 @@ class Survey < ApplicationRecord
   has_many :surveys_users
   enum status: { '下書き': 0, '公開': 1, '非公開': 2 }
   validates :title, presence: true
-  scope :unanswered, -> (user){ where.not(["exists (select id from surveys_users where surveys.id = surveys_users.survey_id and surveys_users.user_id = ?)", user.id])}
+  scope :never_answered, -> (user){ where.not(["exists (select id from surveys_users where surveys.id = surveys_users.survey_id and surveys_users.user_id = ?)", user.id])}
 
 end

@@ -1,16 +1,15 @@
 class SurveysUsersController < ApplicationController
   before_action :set_survey, only:[:new, :create]
-  before_action :redirect_to_index, only:[:new, :create]
   before_action :authenticate_user!, only:[:new, :create]
 
   def new
-    redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).answered_flag
+    redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).try(:answered_flag)
     @surveys_user = @survey.surveys_users.new
     @questions = @survey.questions
   end
 
   def create
-    redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).answered_flag
+    redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).try(:answered_flag)
     begin
       ActiveRecord::Base.transaction do
           create_or_update_surveys_user
@@ -69,7 +68,7 @@ class SurveysUsersController < ApplicationController
         answer_params << answer_param
       end
     end
-    return answer_params
+    answer_params
   end
 
   def create_or_update_text_answer(answer_param)
