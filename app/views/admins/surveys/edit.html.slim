@@ -7,7 +7,7 @@ h3
 .survey_form
   = form_for [:admins, @survey] do |f|
     = f.text_field :title, value: @survey.title
-    = f.text_area :description, placeholder: @survey.description
+    = f.text_area :description, value: @survey.description
     .questions
       p 問題
       .question_form
@@ -19,6 +19,4 @@ h3
              li
                 = text_field :questions_choise, :id, value: choise.id, name:'questions[][choises[][id]]', type: 'hidden'
                 = text_field :questions_choise, :description, value: choise.description, name:'questions[][choises[][description]]'
-
-    .add_question onclick='addQuestion()' 質問追加
     = f.submit '作成'
