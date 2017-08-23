@@ -16,15 +16,19 @@ Rails.application.routes.draw do
   end
   devise_scope :user do
     authenticated :user do
-      root :to => 'devise/registrations#edit', as: :authenticated_user_root
+      root :to => 'surveys#index', as: :authenticated_user_root
     end
+    get "sign_up/:id", :to => "users/registrations#new", as: :new_company_user_registration
   end
 
   namespace :admins do
     resources :companies
+    resources :surveys do
+      resources :surveys_companies, only:[:index, :create, :update]
+    end
   end
 
-  resources :surveys do
-    resources :surveys_companies, only:[:index, :create, :update]
+  resources :surveys, only: [:index, :show] do
+    resources :surveys_users, only: [:new, :create, :edit, :update]
   end
 end

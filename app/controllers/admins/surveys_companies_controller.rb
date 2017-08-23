@@ -1,4 +1,4 @@
-class SurveysCompaniesController < ApplicationController
+class Admins::SurveysCompaniesController < ApplicationController
 
   def index
     @searched_companies = Company.where("name LIKE(?)","%#{params[:keyword]}%")
@@ -10,7 +10,7 @@ class SurveysCompaniesController < ApplicationController
       @survey = Survey.find(survey_id)
       @surveys_companies = []
       create_params[:company_ids].each do |company_id|
-        surveys_company = @survey.surveys_company.new(company_id: company_id)
+        surveys_company = @survey.surveys_companies.new(company_id: company_id)
         @surveys_companies << surveys_company
       end
       ActiveRecord::Base.transaction do
@@ -19,9 +19,9 @@ class SurveysCompaniesController < ApplicationController
           surveys_company.save!
         end
       end
-      redirect_to survey_path(survey_id)
+      redirect_to admins_survey_path(survey_id)
     rescue Exception => e
-      redirect_to survey_path(survey_id)
+      redirect_to admins_survey_path(survey_id)
     end
   end
 

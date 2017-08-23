@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   validates :email, uniqueness: true
   belongs_to :company
+  has_many :surveys, through: :surveys_users
+  has_many :surveys_users
 end

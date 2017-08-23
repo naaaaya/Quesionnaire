@@ -5,7 +5,7 @@ h3
   - @questions.each do |question|
     = render partial: "partial/errors", locals: {instance: question}
 .survey_form
-  = form_for @survey do |f|
+  = form_for [:admins, @survey] do |f|
     = f.text_field :title, value: @survey.title
     = f.text_area :description, value: @survey.description
     .questions

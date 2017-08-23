@@ -6,19 +6,18 @@ class ApplicationController < ActionController::Base
   private
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :password_confirmation])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :password_confirmation, :company_id])
   end
 
   def set_header_content
     if current_admin
       @list_item = [{name: "法人一覧", path: admins_companies_path},
         {name: "新規法人登録", path: new_admins_company_path},
-        {name: "アンケート一覧", path: surveys_path},
-        {name: "アンケート作成", path: new_survey_path},
+        {name: "アンケート一覧", path: admins_surveys_path},
+        {name: "アンケート作成", path: new_admins_survey_path},
         {name: "ユーザー設定", path:edit_admin_registration_path}]
     elsif current_user
-        @list_item = [{name: "アンケート一覧", path: "#"},
-         {name: "アンケート回答", path: "#"},
+        @list_item = [{name: "アンケート一覧", path: surveys_path},
          {name: "ユーザー設定", path: edit_user_registration_path},
          {name: "チャット", path: "#"}]
         @list_item.push({name: "社員一覧", path: "#"}, {name: "新規社員登録", path: "#"}) if current_user.chief_flag

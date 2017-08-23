@@ -1,0 +1,8 @@
+h4
+  | 下書き
+
+- surveys.each do |survey|
+  .survey-title
+  = link_to survey.title, admins_survey_path(survey)
+  = link_to '編集', edit_admins_survey_path(survey)
+  = link_to '削除', admins_survey_path(survey), method: :delete

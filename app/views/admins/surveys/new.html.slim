@@ -9,7 +9,7 @@ h3
     = render partial: "partial/errors", locals: {instance: choise}
 
 .survey_form
-  = form_for @survey do |f|
+  = form_for [:admins, @survey] do |f|
     = f.text_field :title, value: '無題のアンケート'
     = f.text_area :description, placeholder: 'アンケートの説明'
     .questions

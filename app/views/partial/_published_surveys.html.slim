@@ -1,0 +1,6 @@
+h4
+  | 公開中
+
+- surveys.each do |survey|
+  .survey-title
+    = link_to survey.title, admins_survey_path(survey)
