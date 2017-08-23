@@ -50,17 +50,16 @@ class SurveysUsersController < ApplicationController
   end
 
   def redirect_path
-    case params[:commit]
-    when '下書き保存', '回答する'
-      return surveys_path
-    when '前の10件'
+    if params[:previous_page]
       previous_page = params[:current_page].to_i - 1
       path = "#{new_survey_surveys_user_path}/?page=#{previous_page}"
       return path
-    when '次の10件'
+    elsif params[:next_page]
       next_page = params[:current_page].to_i + 1
       path = "#{new_survey_surveys_user_path}/?page=#{next_page}"
       return path
+    else
+      return surveys_path
     end
   end
 
@@ -77,13 +76,12 @@ class SurveysUsersController < ApplicationController
   private
 
   def create_or_update_surveys_user
-    case params[:commit]
-    when '前の10件', '次の10件', '下書き保存'
-      @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
-    when '回答する'
+    if params[:send]
       @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
       @surveys_user.answered_flag = true
       return @surveys_user
+    else
+      @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
     end
   end
 

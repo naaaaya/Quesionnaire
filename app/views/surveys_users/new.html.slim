@@ -8,4 +8,4 @@ p
       = render partial: 'partial/edit_answer_forms', locals: {question: question, surveys_user: question.survey.surveys_users.find_by(user_id: current_user.id), answer_form: answer_form} if question.is_answered?(current_user)
       = render partial: 'partial/new_answer_forms', locals: {question: question, answer_form: answer_form} unless question.is_answered?(current_user)
     = render partial: 'partial/questions_pagination', locals: {questions: @questions}
-    = submit_tag '回答する'
+    = submit_tag '回答する', name:'send'
