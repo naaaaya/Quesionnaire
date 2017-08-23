@@ -5,15 +5,15 @@ h4
   = question_type.hidden_field :question_type, value: question.question_type
 
 - type = question.question_type_before_type_cast
-- if type == 0
+- if type == Question::TEXT_FIELD
   = answer_form.fields_for "#{question.id}".to_sym do |text_answer_form|
     = text_answer_form.text_field :description, placeholder: '自由記述（短文回答）'
-- if type == 1
+- if type == Question::TEXTAREA
   = answer_form.fields_for "#{question.id}".to_sym do |text_answer_form|
     = text_answer_form.text_area :description, placeholder: '自由記述（長文回答）'
-- if type == 2
+- if type == Question::CHECKBOX
   = answer_form.fields_for "#{question.id}".to_sym do |choise_answer_form|
     = choise_answer_form.collection_check_boxes :choise_ids, question.questions_choises, :id, :description, include_hidden: false
-- if type == 3
+- if type == Question::RADIO_BUTTON
   = answer_form.fields_for "#{question.id}".to_sym do |choise_answer_form|
     = choise_answer_form.collection_radio_buttons :choise_id, question.questions_choises, :id, :description, include_hidden: false
