@@ -4,7 +4,7 @@ class SurveysController < ApplicationController
   def index
     @answered_surveys = current_user.surveys_users.answered
     @draft_surveys = current_user.surveys_users.drafts
-    @unanswered_surveys = Survey.never_answered(current_user)
+    @unanswered_surveys = current_user.company.surveys_users.never_answered(current_user)
   end
 
   def show
