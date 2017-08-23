@@ -1,0 +1,9 @@
+- if questions.last_page?
+  = submit_tag '下書き保存'
+- elsif questions.first_page?
+  = hidden_field_tag 'current_page',questions.current_page
+  = submit_tag '次の10件', name:'next_page'
+- else
+  = hidden_field_tag 'current_page',questions.current_page
+  = submit_tag '前の10件', name:'previous_page'
+  = submit_tag '次の10件', name:'next_page'
