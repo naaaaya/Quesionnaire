@@ -12,3 +12,10 @@ h3 = @survey.title
     = form_for [:admins, @survey, @surveys_company] do |f|
       .hidden_company_field
       = f.submit '公開する'
+
+  .survey_results
+    - @questions.each do |question|
+      - case question.question_type_before_type_cast
+      - when Question::TEXT_FIELD
+        ul#text_answers
+          li Lorem ipsum dolor sit amet, consectetur adipisicing elit.        }
