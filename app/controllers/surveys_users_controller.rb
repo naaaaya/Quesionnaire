@@ -1,7 +1,6 @@
 class SurveysUsersController < ApplicationController
   before_action :set_survey, only:[:new, :create]
   before_action :redirect_to_index, only:[:new, :create]
-  before_action :set_arrays, only: :create
   before_action :authenticate_user!, only:[:new, :create]
 
   def new
@@ -11,30 +10,20 @@ class SurveysUsersController < ApplicationController
 
   def create
     begin
-      @surveys_user = create_or_update_surveys_user
-      create_params.each do |answer_param|
-        question = Question.find(answer_param[:question_id])
-        case question.question_type
-        when 'text_field', 'textarea'
-          create_or_update_text_answer(answer_param)
-        when 'checkbox'
-          checked_ids = question.choise_answers.where(surveys_user_id: @surveys_user.id).map{ |answer| answer.questions_choise.id }
-          delete_unchecked_choise_answer(checked_ids, answer_param)
-          create_or_update_checkbox_answer(answer_param)
-        when 'radio_button'
-          create_or_update_radio_answer(answer_param)
-        end
-      end
       ActiveRecord::Base.transaction do
-        @surveys_user.save!
-        @text_answers.each do |answer|
-          answer.save!
-        end
-        @choise_answers.each do |answer|
-          answer.save!
-        end
-        @delete_choise_answers.each do |answer|
-          answer.destroy!
+          create_or_update_surveys_user
+        create_params.each do |answer_param|
+          question = Question.find(answer_param[:question_id])
+          case question.question_type
+          when 'text_field', 'textarea'
+            create_or_update_text_answer(answer_param)
+          when 'checkbox'
+            checked_ids = question.choise_answers.where(surveys_user_id: @surveys_user.id).map{ |answer| answer.questions_choise.id }
+            delete_unchecked_choise_answer(checked_ids, answer_param)
+            create_or_update_checkbox_answer(answer_param)
+          when 'radio_button'
+            create_or_update_radio_answer(answer_param)
+          end
         end
       end
       redirect_to surveys_path
@@ -47,12 +36,6 @@ class SurveysUsersController < ApplicationController
   def set_survey
     @survey_id = params[:survey_id]
     @survey = Survey.find(@survey_id)
-  end
-
-  def set_arrays
-    @text_answers = []
-    @choise_answers = []
-    @delete_choise_answers = []
   end
 
   def redirect_to_index
@@ -70,6 +53,7 @@ class SurveysUsersController < ApplicationController
       @surveys_user.answered_flag = true
       return @surveys_user
     end
+    @surveys_user.save!
   end
 
   def create_params
@@ -93,25 +77,27 @@ class SurveysUsersController < ApplicationController
   def create_or_update_text_answer(answer_param)
     text_answer = @surveys_user.text_answers.where(question_id: answer_param[:question_id]).first_or_initialize
     text_answer.description = answer_param[:description]
-    @text_answers << text_answer
+    text_answer.save!
   end
 
   def create_or_update_checkbox_answer(answer_param)
     answer_param[:choise_ids].each do |choise_id|
-      @choise_answers << @surveys_user.choise_answers.where(question_id: answer_param[:question_id], questions_choise_id: choise_id).first_or_initialize
+      choise_answer = @surveys_user.choise_answers.where(question_id: answer_param[:question_id], questions_choise_id: choise_id).first_or_initialize
+      choise_answer.save!
     end
   end
 
   def delete_unchecked_choise_answer(checked_ids, answer_param)
     checked_ids.each do |checked_id|
-      @delete_choise_answers << @surveys_user.choise_answers.find_by(questions_choise_id: checked_id) unless answer_param[:choise_ids].include?(checked_id.to_s)
+      delete_choise_answer = @surveys_user.choise_answers.find_by(questions_choise_id: checked_id) unless answer_param[:choise_ids].include?(checked_id.to_s)
+      delete_choise_answer.destroy!
     end
   end
 
   def create_or_update_radio_answer(answer_param)
     choise_answer = @surveys_user.choise_answers.where(question_id: answer_param[:question_id]).first_or_initialize
     choise_answer.questions_choise_id = answer_param[:questions_choise_id]
-    @choise_answers << choise_answer
+    choise_answer.save!
   end
 
 end
