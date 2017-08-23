@@ -4,11 +4,13 @@ class SurveysUsersController < ApplicationController
   before_action :authenticate_user!, only:[:new, :create]
 
   def new
+    redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).answered_flag
     @surveys_user = @survey.surveys_users.new
     @questions = @survey.questions
   end
 
   def create
+    redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).answered_flag
     begin
       ActiveRecord::Base.transaction do
           create_or_update_surveys_user
@@ -36,10 +38,6 @@ class SurveysUsersController < ApplicationController
   def set_survey
     @survey_id = params[:survey_id]
     @survey = Survey.find(@survey_id)
-  end
-
-  def redirect_to_index
-    redirect_to surveys_path if SurveysUser.find_by(user_id: current_user, survey_id: params[:survey_id]) && SurveysUser.find_by(user_id: current_user, survey_id: params[:survey_id]).answered_flag
   end
 
   private
