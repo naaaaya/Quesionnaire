@@ -29,8 +29,7 @@ class Question < ApplicationRecord
   end
 
   def company_choise_answers_for_chart(company)
-    users = company.users
-    surveys_users = users.map{|user|user.surveys_users.find_by(survey_id: survey.id, answered_flag:1)}.map{|surveys_user| surveys_user.try(:id)}.compact!
+    surveys_users = company.users.map{|user|user.surveys_users.find_by(survey_id: survey.id, answered_flag:1)}.map{|surveys_user| surveys_user.try(:id)}.compact!
     choise_answers_per_inc = choise_answers.where(surveys_user_id: surveys_users)
     choise_answers_per_inc.group(:questions_choise_id).count.map {|key,val| [QuestionsChoise.find(key).description,val]}.to_h
   end
