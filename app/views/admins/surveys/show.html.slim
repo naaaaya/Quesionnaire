@@ -16,7 +16,7 @@ h3 = @survey.title
     =form_for [:admins, @survey] do |f|
       = f.hidden_field :status, value: 2
       = f.submit '非公開にする', name: 'unlist_survey'
-
-  .survey_results
-    h3 回答概要
-    = render partial: 'partial/overall_survey_results', locals:{questions: @questions}
+  - if @survey.status_before_type_cast == Survey::PUBLISHED
+    .survey_results
+      h3 回答概要
+      = render partial: 'partial/overall_survey_results', locals:{questions: @questions}

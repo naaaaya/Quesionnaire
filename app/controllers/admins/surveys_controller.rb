@@ -3,9 +3,9 @@ class Admins::SurveysController < ApplicationController
   before_action :set_survey, only:[:show, :edit, :update, :destroy]
   before_action :unlist_survey, only: :update
   def index
-    @draft_surveys = Survey.where(status: 0)
-    @published_surveys = Survey.where(status: 1)
-    @unlisted_surveys = Survey.where(status: 2)
+    @draft_surveys = Survey.where(status: Survey::DRAFT)
+    @published_surveys = Survey.where(status: Survey::PUBLISHED)
+    @unlisted_surveys = Survey.where(status: Survey::UNLISTED)
   end
 
   def new
@@ -16,25 +16,10 @@ class Admins::SurveysController < ApplicationController
   def create
     begin
       @survey = Survey.new(survey_params)
-      @questions = []
-      @choises = []
-      questions_params.each do |question_params|
-        question = @survey.questions.new(description:question_params[:description], question_type:question_params[:question_type])
-        @questions << question
-        if question_params[:choises]
-          choises_params = question_params[:choises]
-          choises_params.each do |choise_params|
-            @choises << question.questions_choises.new(choise_params)
-          end
-        end
-      end
       ActiveRecord::Base.transaction do
         @survey.save!
-        @questions.each do |question|
-          question.save!
-        end
-        @choises.each do |choise|
-          choise.save!
+        questions_params.each do |question_params|
+          create_question(question_params)
         end
       end
       redirect_to admins_surveys_path
@@ -58,12 +43,11 @@ class Admins::SurveysController < ApplicationController
       ActiveRecord::Base.transaction do
         @survey.update(survey_params)
         @questions = []
-        questions_edit_params.each do |question_params|
-          question = Question.find(question_params[:id])
-          question.update(description: question_params[:description], question_type: question_params[:question_type])
-          question_params[:choises].each do |choise_params|
-            choise = QuestionsChoise.find(choise_params[:id])
-            choise.update(choise_params)
+        questions_params.each do |question_params|
+          if question_params[:id]
+            edit_question(question_params)
+          else
+            create_question(question_params)
           end
         end
       end
@@ -111,11 +95,48 @@ class Admins::SurveysController < ApplicationController
   end
 
   def questions_params
-    params.require(:questions).map { |u| u.permit(:description, :question_type, choises: [%w(description)]) }
+    params.require(:questions).map { |u| u.permit(:id, :description, :question_type, choises: [%w(id description)]) }
   end
 
-  def questions_edit_params
-    params.require(:questions).map { |u| u.permit(:id, :description, :question_type, choises: [%w(id description)]) }
+  def create_question(question_params)
+    question = @survey.questions.create!(description: question_params[:description], question_type: question_params[:question_type])
+    if question_params[:choises]
+      question_params[:choises].each do |choise_params|
+        choise = question.questions_choises
+        choise.create!(choise_params)
+      end
+    end
+  end
+
+  def create_choises(question_params)
+    question = Question.find(question_params[:id])
+    if question_params[:choises]
+      question_params[:choises].each do |choise_params|
+        choise = question.questions_choises
+        choise.create!(choise_params)
+      end
+    end
+  end
+
+  def edit_choises(question_params)
+    question = Question.find(question_params[:id])
+    if question_params[:choises]
+      question_params[:choises].each do |choise_params|
+        choise = QuestionsChoise.find(choise_params[:id])
+        choise.update!(choise_params)
+      end
+    end
+  end
+
+  def edit_question(question_params)
+    question = Question.find(question_params[:id])
+    if question.question_type != question_params[:question_type]
+      question.try(:questions_choises).map{|choise| choise.destroy!}
+      create_choises(question_params)
+    else
+      edit_choises(question_params)
+    end
+    question.update!(description: question_params[:description], question_type: question_params[:question_type])
   end
 
   def set_survey
