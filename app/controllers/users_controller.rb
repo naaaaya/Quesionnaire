@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   def index
     redirect_to authenticated_user_root_path unless current_user.chief_flag
     @company = current_user.company
-    @users = @company.users
   end
 
   def destroy
