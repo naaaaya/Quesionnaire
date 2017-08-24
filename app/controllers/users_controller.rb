@@ -9,14 +9,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     begin
       ActiveRecord::Base.transaction do
-        @surveys_users = @user.try(:surveys_users)
-        if @surveys_users.present?
-          @surveys_users.each do |surveys_user|
-            surveys_user.text_answers.map{|answer| answer.destroy!} if surveys_user.text_answers
-            surveys_user.choise_answers.map{|answer| answer.destroy!} if surveys_user.choise_answers
-            surveys_user.destroy!
-          end
-        end
         @user.destroy!
       end
       redirect_to users_path
