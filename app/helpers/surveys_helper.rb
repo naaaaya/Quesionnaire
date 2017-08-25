@@ -1,6 +1,6 @@
 module SurveysHelper
 
-  def edit_question_form (question)
+  def question_description_form(question)
     question_description = content_tag(:div, class:"question_description") do
       concat text_field(:question, :id, value: question.id, name: 'questions[][id]', type:'hidden')
       concat text_field(:question, :description, value: question.description, name:'questions[][description]')
@@ -8,7 +8,10 @@ module SurveysHelper
         class: 'form-control', data: {"question-number" =>question.id}, id:"question#{question.id}_question_type",
           name:'questions[][question_type]', onchange:'appendAnswerForm(this)')
     end
-    answer_field = content_tag(:div, class: "question_field", id: "question#{question.id}" ) do
+  end
+
+  def answers_preview_forms(question)
+    content_tag(:div, class: "question_field", id: "question#{question.id}" ) do
       case question.question_type_before_type_cast
       when Question::TEXT_FIELD
         text_field(:answer, :description, placeholder: '自由記述（短文回答）')
@@ -19,7 +22,6 @@ module SurveysHelper
         concat content_tag(:input,'', {type:'button',class: 'append_checkbox', data: {"question-number" => question.id}, value:'選択肢追加', onclick:"appendCheckbox(this)"})
       end
     end
-    question_description + answer_field
   end
 
   def choise_list(question)
@@ -34,6 +36,44 @@ module SurveysHelper
         concat choises
       end
     end
+  end
+
+  def overall_survey_results(question)
+    description = content_tag(:h4, question.description)
+    case question.question_type_before_type_cast
+    when Question::TEXT_FIELD, Question::TEXTAREA
+      answer = content_tag(:ul, class: 'text_answers') do
+        question.text_answers.each do |answer|
+          if answer.surveys_user.answered_flag
+            concat content_tag(:li, answer.description)
+          end
+        end
+      end
+    when Question::CHECKBOX
+      answer = bar_chart question.overall_choise_answers_for_chart
+    when Question::RADIO_BUTTON
+      answer = pie_chart question.overall_choise_answers_for_chart
+    end
+    description + answer
+  end
+
+  def company_survey_results(question)
+      description = content_tag(:h4, question.description )
+      case question.question_type_before_type_cast
+      when Question::TEXT_FIELD, Question::TEXTAREA
+        answer = content_tag(:ul, class: "text_answers") do
+          question.text_answers.each do |answer|
+            if answer.surveys_user.user.company.id == current_user.company.id && answer.surveys_user.answered_flag
+              concat content_tag(:li, answer.description)
+            end
+          end
+        end
+      when Question::CHECKBOX
+        answer = bar_chart question.company_choise_answers_for_chart(current_user.company)
+      when Question::RADIO_BUTTON
+        answer = pie_chart question.company_choise_answers_for_chart(current_user.company)
+      end
+      description + answer
   end
 
 

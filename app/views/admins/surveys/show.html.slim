@@ -19,4 +19,5 @@ h3 = @survey.title
   - if @survey.status_before_type_cast == Survey::PUBLISHED
     .survey_results
       h3 回答概要
-      = render partial: 'partial/overall_survey_results', locals:{questions: @questions}
+      - @survey.questions.each do |question|
+        = overall_survey_results(question)
