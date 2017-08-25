@@ -13,6 +13,10 @@ h3 = @survey.title
       .hidden_company_field
       = f.submit '公開する'
 
+    =form_for [:admins, @survey] do |f|
+      = f.hidden_field :status, value: 2
+      = f.submit '非公開にする', name: 'unlist_survey'
+
   .survey_results
     h3 回答概要
     = render partial: 'partial/overall_survey_results', locals:{questions: @questions}
