@@ -7,4 +7,5 @@ class User < ApplicationRecord
   belongs_to :company
   has_many :surveys, through: :surveys_users
   has_many :surveys_users
+  mount_uploader :image, ImageUploader
 end
