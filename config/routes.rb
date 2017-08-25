@@ -31,4 +31,7 @@ Rails.application.routes.draw do
   resources :surveys, only: [:index, :show] do
     resources :surveys_users, only: [:new, :create, :edit, :update]
   end
+
+  resources :users, only: [:index, :destroy]
+
 end
