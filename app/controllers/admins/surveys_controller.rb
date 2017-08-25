@@ -99,8 +99,9 @@ class Admins::SurveysController < ApplicationController
 
   def create_question(question_params)
     question = @survey.questions.create!(description: question_params[:description], question_type: question_params[:question_type])
-    if question_params[:choises]
-      question_params[:choises].each do |choise_params|
+    choises = question_params[:choises]
+    if choises
+      choises.each do |choise_params|
         choise = question.questions_choises
         choise.create!(choise_params)
       end
@@ -109,8 +110,9 @@ class Admins::SurveysController < ApplicationController
 
   def create_choises(question_params)
     question = Question.find(question_params[:id])
-    if question_params[:choises]
-      question_params[:choises].each do |choise_params|
+    choises = question_params[:choises]
+    if choises
+      choises.each do |choise_params|
         choise = question.questions_choises
         choise.create!(choise_params)
       end
@@ -119,8 +121,9 @@ class Admins::SurveysController < ApplicationController
 
   def edit_choises(question_params)
     question = Question.find(question_params[:id])
-    if question_params[:choises]
-      question_params[:choises].each do |choise_params|
+    choises = question_params[:choises]
+    if choises
+      choises.each do |choise_params|
         choise = QuestionsChoise.find(choise_params[:id])
         choise.update!(choise_params)
       end
