@@ -13,6 +13,7 @@ h3
       .question_form
         - @questions.each_with_index do |question, index|
           p = "問題#{index + 1}"
-          = edit_question_form question
+          = question_description_form question
+          = answers_preview_forms question
     .add_question onclick='addQuestion()' 質問追加
     = f.submit '作成'
