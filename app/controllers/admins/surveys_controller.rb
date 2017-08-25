@@ -46,7 +46,6 @@ class Admins::SurveysController < ApplicationController
   def show
     @added_companies = @survey.companies
     @surveys_company = @survey.surveys_companies.build
-    @questions = @survey.questions
   end
 
   def edit
