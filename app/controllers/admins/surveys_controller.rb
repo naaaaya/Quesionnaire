@@ -42,7 +42,6 @@ class Admins::SurveysController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         @survey.update(survey_params)
-        @questions = []
         questions_params.each do |question_params|
           if question_params[:id]
             edit_question(question_params)
