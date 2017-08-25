@@ -2,17 +2,11 @@
   h4
     = question.description
   - case question.question_type_before_type_cast
-  - when Question::TEXT_FIELD
-    ul#text_field_answers
+  - when Question::TEXT_FIELD, Question::TEXTAREA
+    ul#text_answers
       - question.text_answers.each do |answer|
         - if answer.surveys_user.answered_flag
           li
-            = answer.description
-  - when Question::TEXTAREA
-    ul#text_field_answers
-      - question.text_answers.each do |answer|
-        - if answer.surveys_user.answered_flag
-          .text_area_answer
             = answer.description
   - when Question::CHECKBOX
     = bar_chart question.overall_choise_answers_for_chart
