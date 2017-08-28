@@ -1,6 +1,6 @@
 class SurveysUser < ApplicationRecord
-  has_many :text_answers
-  has_many :choise_answers
+  has_many :text_answers, dependent: :destroy
+  has_many :choise_answers, dependent: :destroy
   belongs_to :survey
   belongs_to :user
   validates :survey_id, uniqueness: {scope: :user_id}

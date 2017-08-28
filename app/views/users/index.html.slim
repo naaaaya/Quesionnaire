@@ -1,0 +1,8 @@
+h3
+  = @company.name
+  | 社員一覧
+ul.employees_name
+  - @company.users.each do |user|
+    li
+      = user.name
+      = link_to '削除', user_path(user), method: :delete unless user.chief_flag
