@@ -10,6 +10,6 @@ class SurveysController < ApplicationController
   def show
     users_have_no_authentication = !current_user.chief_flag && !SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:id]).try(:answered_flag)
     redirect_to surveys_path if users_have_no_authentication
-    @survey = Survey.find(params[:id])
+    @survey = Survey.includes(questions: [{questions_choises: :choise_answers}, :text_answers]).find(params[:id])
   end
 end

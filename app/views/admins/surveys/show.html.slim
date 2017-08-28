@@ -19,4 +19,4 @@ h3 = @survey.title
 
   .survey_results
     h3 回答概要
-    = render partial: 'partial/overall_survey_results', locals:{questions: @questions}
+    = render partial: 'partial/overall_survey_results', locals:{questions: @survey.questions}
