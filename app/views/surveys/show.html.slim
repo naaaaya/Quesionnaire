@@ -3,5 +3,5 @@ p = @survey.description
 
 .survey_results
   h3 回答概要
-  - @survey.questions.each do |question|
-    = company_survey_results(question)
+  = render partial: 'partial/company_survey_results', locals:{questions: @survey.questions}
+

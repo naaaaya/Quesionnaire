@@ -37,7 +37,9 @@ class SurveysUsersController < ApplicationController
   def set_survey
     @survey_id = params[:survey_id]
     @survey = Survey.find(@survey_id)
+
     redirect_to surveys_path unless @survey.status = Survey::PUBLISHED
+
   end
 
   private

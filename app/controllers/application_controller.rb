@@ -19,9 +19,8 @@ class ApplicationController < ActionController::Base
         {name: "ユーザー設定", path:edit_admin_registration_path}]
     elsif current_user
         @list_item = [{name: "アンケート一覧", path: surveys_path},
-         {name: "ユーザー設定", path: edit_user_registration_path},
-         {name: "チャット", path: "#"}]
-        @list_item.push({name: "社員一覧", path: "#"}, {name: "新規社員登録", path: "#"}) if current_user.chief_flag
+         {name: "ユーザー設定", path: edit_user_registration_path}]
+        @list_item.push({name: "社員一覧", path: users_path}) if current_user.chief_flag
       end
   end
 

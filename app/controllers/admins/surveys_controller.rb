@@ -31,7 +31,6 @@ class Admins::SurveysController < ApplicationController
   def show
     @added_companies = @survey.companies
     @surveys_company = @survey.surveys_companies.build
-    @questions = @survey.questions
   end
 
   def edit
@@ -57,21 +56,8 @@ class Admins::SurveysController < ApplicationController
   end
 
   def destroy
-    @surveys_companies = @survey.try(:surveys_companies)
-    @surveys_users = @survey.try(:surveys_users)
-    @questions = @survey.try(:questions)
     begin
       ActiveRecord::Base.transaction do
-        if @questions.present?
-          @questions.each do |question|
-            question.try(:text_answers).inject{|answer| answer.destroy! }
-            question.try(:choise_answers).inject{|answer| answer.destroy! }
-            question.try(:questions_choises).inject{|choise| choise.destroy! }
-            question.destroy!
-          end
-        end
-        @surveys_users.map{|surveys_user| surveys_user.destroy!} if @surveys_users.present?
-        @surveys_companies.map{|surveys_company| surveys_company.destroy! } if @surveys_companies.present?
         @survey.destroy!
       end
       redirect_to admins_surveys_path
