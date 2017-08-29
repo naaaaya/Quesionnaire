@@ -15,11 +15,10 @@ class Admins::SurveysController < ApplicationController
 
   def create
     begin
-      @survey = Survey.new(survey_params)
       ActiveRecord::Base.transaction do
-        @survey.save!
+        @survey = Survey.create!(survey_params)
         questions_params.each do |question_params|
-          create_question(question_params)
+          Question.create_question(@survey, question_params)
         end
       end
       redirect_to admins_surveys_path
@@ -40,17 +39,18 @@ class Admins::SurveysController < ApplicationController
   def update
     begin
       ActiveRecord::Base.transaction do
-        @survey.update(survey_params)
+        @survey.update!(survey_params)
         questions_params.each do |question_params|
           if question_params[:id]
-            edit_question(question_params)
+            Question.edit_question(question_params)
           else
-            create_question(question_params)
+            Question.create_question(@survey, question_params)
           end
         end
       end
       redirect_to admins_survey_path(params[:id])
     rescue => e
+      binding.pry
       render edit_admins_survey_path
     end
   end
@@ -70,7 +70,7 @@ class Admins::SurveysController < ApplicationController
 
   def unlist_survey
     if params[:unlist_survey]
-      @survey.update(status: 2)
+      @survey.update!(status: 2)
       redirect_to admins_surveys_path
     end
   end
@@ -83,52 +83,7 @@ class Admins::SurveysController < ApplicationController
     params.require(:questions).map { |u| u.permit(:id, :description, :question_type, choises: [%w(id description)]) }
   end
 
-  def create_question(question_params)
-    question = @survey.questions.create!(description: question_params[:description], question_type: question_params[:question_type])
-    choises = question_params[:choises]
-    if choises
-      choises.each do |choise_params|
-        choise = question.questions_choises
-        choise.create!(choise_params)
-      end
-    end
-  end
-
-  def create_choises(question_params)
-    question = Question.find(question_params[:id])
-    choises = question_params[:choises]
-    if choises
-      choises.each do |choise_params|
-        choise = question.questions_choises
-        choise.create!(choise_params)
-      end
-    end
-  end
-
-  def edit_choises(question_params)
-    question = Question.find(question_params[:id])
-    choises = question_params[:choises]
-    if choises
-      choises.each do |choise_params|
-        choise = QuestionsChoise.find(choise_params[:id])
-        choise.update!(choise_params)
-      end
-    end
-  end
-
-  def edit_question(question_params)
-    question = Question.find(question_params[:id])
-    if question.question_type != question_params[:question_type]
-      question.try(:questions_choises).map{|choise| choise.destroy!}
-      create_choises(question_params)
-    else
-      edit_choises(question_params)
-    end
-    question.update!(description: question_params[:description], question_type: question_params[:question_type])
-  end
-
   def set_survey
-    survey_id = params[:id]
     @survey = Survey.find(params[:id])
   end
 end

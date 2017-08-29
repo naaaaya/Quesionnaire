@@ -22,6 +22,25 @@ class Question < ApplicationRecord
   end
 
 
+  def self.create_question(survey, question_params)
+    question = survey.questions.create!(description: question_params[:description], question_type: question_params[:question_type])
+    choises_params = question_params[:choises]
+    QuestionsChoise.create_choises(question, choises_params) if choises_params
+  end
+
+  def self.edit_question(question_params)
+    question = Question.find(question_params[:id])
+    choises_params = question_params[:choises]
+    if question.question_type != question_params[:question_type]
+      previous_choises = question.questions_choises
+      previous_choises.destroy! if previous_choises.present?
+      QuestionsChoise.create_choises(question, choises_params) if choises_params
+    else
+      QuestionsChoise.edit_choises(question, choises_params) if choises_params
+    end
+    question.update!(description: question_params[:description], question_type: question_params[:question_type])
+  end
+
   def overall_choise_answers_for_chart
     surveys_users = choise_answers.map{|answer| answer.surveys_user}.select{|surveys_user| surveys_user.answered_flag}.map{|surveys_user| surveys_user.id}.uniq
     answers = choise_answers.where(surveys_user_id: surveys_users)
