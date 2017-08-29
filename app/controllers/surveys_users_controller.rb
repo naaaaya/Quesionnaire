@@ -11,7 +11,7 @@ class SurveysUsersController < ApplicationController
     redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).try(:answered_flag)
     begin
       ActiveRecord::Base.transaction do
-          create_or_update_surveys_user
+        create_or_update_surveys_user
         create_params.each do |answer_param|
           question = Question.find(answer_param[:question_id])
           case question.question_type
