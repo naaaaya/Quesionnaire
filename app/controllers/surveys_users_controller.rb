@@ -1,4 +1,4 @@
-class SurveysUsersController < ApplicationController
+  class SurveysUsersController < ApplicationController
   before_action :set_survey, only:[:new, :create]
   before_action :authenticate_user!, only:[:new, :create]
 
@@ -8,7 +8,9 @@ class SurveysUsersController < ApplicationController
   end
 
   def create
-    redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).try(:answered_flag)
+    if SurveysUser.exist?(user_id: current_user.id, survey_id: params[:survey_id], answered_flag: true)
+      redirect_to surveys_path
+    end
     begin
       ActiveRecord::Base.transaction do
         create_or_update_surveys_user
