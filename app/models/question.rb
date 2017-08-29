@@ -1,4 +1,3 @@
-
 class Question < ApplicationRecord
   belongs_to :survey
   has_many :questions_choises
@@ -24,15 +23,15 @@ class Question < ApplicationRecord
 
 
   def overall_choise_answers_for_chart
-    choise_answers_description = questions_choises.joins(:choise_answers).pluck(:id, :description).to_h
+    questions_choises_descriptions = questions_choises.index_by(&:id)
     choise_answers_ids = choise_answers.joins(:surveys_user).merge(SurveysUser.where(answered_flag: true)).pluck(:id).uniq
-    choise_answers.where(id:choise_answers_ids).group(:questions_choise_id).count.map {|key,val| [choise_answers_description[key],val]}.to_h
+    choise_answers.where(id:choise_answers_ids).group(:questions_choise_id).count.map {|key,val| [questions_choises_descriptions[key].description,val]}.to_h
   end
 
   def company_choise_answers_for_chart(company)
-    choise_answers_description = questions_choises.joins(:choise_answers).pluck(:id, :description).to_h
+    questions_choises_descriptions = questions_choises.index_by(&:id)
     choise_answers_ids = choise_answers.joins(:surveys_user).merge(SurveysUser.joins(:user).merge(User.where(company_id:company.id))).pluck(:id).uniq
-    choise_answers.where(id:choise_answers_ids).group(:questions_choise_id).count.map {|key,val| [choise_answers_description[key],val]}.to_h
+    choise_answers.where(id:choise_answers_ids).group(:questions_choise_id).count.map {|key,val| [questions_choises_descriptions[key].description,val]}.to_h
   end
 
 end
