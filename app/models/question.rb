@@ -25,7 +25,7 @@ class Question < ApplicationRecord
   def self.create_question(survey, question_params)
     question = survey.questions.create!(description: question_params[:description], question_type: question_params[:question_type])
     choises_params = question_params[:choises]
-    QuestionsChoise.create_choises(question, choises_params) if choises_params
+    choises_params.map{|choise_params| question.create_choise(choise_params)} if choises_params
   end
 
   def self.edit_question(question_params)
@@ -33,12 +33,25 @@ class Question < ApplicationRecord
     choises_params = question_params[:choises]
     if question.question_type != question_params[:question_type]
       previous_choises = question.questions_choises
-      previous_choises.destroy! if previous_choises.present?
-      QuestionsChoise.create_choises(question, choises_params) if choises_params
+      previous_choises.map(&:destroy!) if previous_choises.present?
+      choises_params.map{|choise_params| question.create_choise(choise_params)} if choises_params
     else
-      QuestionsChoise.edit_choises(question, choises_params) if choises_params
+      choises_params.map{|choise_params| question.edit_choise(choise_params)} if choises_params
     end
     question.update!(description: question_params[:description], question_type: question_params[:question_type])
+  end
+
+  def create_choise(choise_params)
+    questions_choises.create!(choise_params)
+  end
+
+  def edit_choise(choise_params)
+    if choise_params[:id]
+      choise = questions_choises.find(choise_params[:id])
+      choise.update!(choise_params)
+    else
+      create_choise(choise_params)
+    end
   end
 
   def overall_choise_answers_for_chart

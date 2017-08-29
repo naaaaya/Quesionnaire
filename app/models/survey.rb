@@ -14,4 +14,8 @@ class Survey < ApplicationRecord
   validates :title, presence: true
   scope :never_answered, -> (user){ where.not(["exists (select id from surveys_users where surveys.id = surveys_users.survey_id and surveys_users.user_id = ? and surveys.status = 1) ", user.id])}
 
+  def unlist
+    update!(status: 2)
+  end
+
 end
