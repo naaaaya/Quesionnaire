@@ -4,8 +4,7 @@ class SurveysUsersController < ApplicationController
 
   def new
     redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).try(:answered_flag)
-    @surveys_user = @survey.surveys_users.new
-    @questions = @survey.questions
+    @surveys_user = @survey.surveys_users.build
   end
 
   def create
