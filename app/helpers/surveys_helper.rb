@@ -26,13 +26,13 @@ module SurveysHelper
 
   def choise_list(question)
     content_tag(:ul, class: "checkbox_choises",id: "question#{question.id}-choises") do
-      choiseNumber = 1
+      choise_number = 1
       question.questions_choises.each do |choise|
-        choises = content_tag(:li, class: "question#{question.id}-choise", id: "choise#{choiseNumber}") do
+        choises = content_tag(:li, class: "question#{question.id}-choise", id: "choise#{choise_number}") do
           concat text_field(:questions_choise, :id, value: choise.id, name:'questions[][choises[][id]]', type: 'hidden')
           concat text_field(:questions_choise, :description, value: choise.description, name:'questions[][choises[][description]]')
         end
-        choiseNumber += 1
+        choise_number += 1
         concat choises
       end
     end
