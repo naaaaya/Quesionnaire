@@ -18,4 +18,17 @@ class Survey < ApplicationRecord
     update!(status: 2)
   end
 
+  def draft_surveys_user(user)
+    @surveys_user = surveys_users.where(user_id: user.id).first_or_initialize
+    @surveys_user.save!
+    @surveys_user
+  end
+
+  def answered_surveys_user(user)
+    @surveys_user = surveys_users.where(user_id: user.id).first_or_initialize
+    @surveys_user.answered_flag = true
+    @surveys_user.save!
+    @surveys_user
+  end
+
 end
