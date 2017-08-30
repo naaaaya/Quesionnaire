@@ -39,7 +39,6 @@ class Admins::SurveysController < ApplicationController
   def update
     begin
       ActiveRecord::Base.transaction do
-
         @survey.update!(survey_params)
         questions_params.each do |question_params|
           if question_params[:id]
@@ -51,7 +50,6 @@ class Admins::SurveysController < ApplicationController
       end
       redirect_to admins_survey_path(params[:id])
     rescue => e
-      binding.pry
       render edit_admins_survey_path
     end
   end
@@ -71,7 +69,7 @@ class Admins::SurveysController < ApplicationController
 
   def unlist_survey
     if params[:unlist_survey]
-      @survey.unlist
+      @survey.unlisted!
       redirect_to admins_surveys_path
     end
   end

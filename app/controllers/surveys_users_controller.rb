@@ -1,4 +1,5 @@
 class SurveysUsersController < ApplicationController
+
   before_action :set_survey, only:[:new, :create]
   before_action :authenticate_user!, only:[:new, :create]
 
@@ -36,9 +37,7 @@ class SurveysUsersController < ApplicationController
   def set_survey
     @survey_id = params[:survey_id]
     @survey = Survey.find(@survey_id)
-
-    redirect_to surveys_path unless @survey.status = Survey::PUBLISHED
-
+    redirect_to surveys_path unless @survey.published?
   end
 
   private
