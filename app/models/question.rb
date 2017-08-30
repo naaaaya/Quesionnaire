@@ -28,31 +28,31 @@ class Question < ApplicationRecord
     choises_params.map{|choise_params| question.create_choise(choise_params)} if choises_params
   end
 
-  def self.edit_question(question_params)
-    question = Question.find(question_params[:id])
+  def edit_question(question_params)
     choises_params = question_params[:choises]
-    if question.question_type != question_params[:question_type]
-      previous_choises = question.questions_choises
-      previous_choises.map(&:destroy!) if previous_choises.present?
-      choises_params.map{|choise_params| question.create_choise(choise_params)} if choises_params
+    if question_type != question_params[:question_type]
+      questions_choises.map(&:destroy!) if questions_choises.present?
+      choises_params.map{|choise_params| create_choise(choise_params)} if choises_params
     else
-      choises_params.map{|choise_params| question.edit_choise(choise_params)} if choises_params
+      if choises_params
+        choise_ids = choises_params.pluck(:id)
+        choises = questions_choises.where(id:choise_ids)
+        choises_params.zip(choises).each do |choise_params, choise|
+          if choise
+            choise.edit_choise(choise_params)
+          else
+            create_choise(choise_params)
+          end
+        end
+      end
     end
-    question.update!(description: question_params[:description], question_type: question_params[:question_type])
+    update!(description: question_params[:description], question_type: question_params[:question_type])
   end
 
   def create_choise(choise_params)
     questions_choises.create!(choise_params)
   end
 
-  def edit_choise(choise_params)
-    if choise_params[:id]
-      choise = questions_choises.find(choise_params[:id])
-      choise.update!(choise_params)
-    else
-      create_choise(choise_params)
-    end
-  end
 
   def overall_choise_answers_for_chart
     surveys_users = choise_answers.map{|answer| answer.surveys_user}.select{|surveys_user| surveys_user.answered_flag}.map{|surveys_user| surveys_user.id}.uniq

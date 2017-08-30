@@ -40,9 +40,11 @@ class Admins::SurveysController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         @survey.update!(survey_params)
-        questions_params.each do |question_params|
-          if question_params[:id]
-            Question.edit_question(question_params)
+        question_ids = questions_params.pluck(:id)
+        questions = Question.where(id: question_ids)
+        questions_params.zip(questions).each do |question_params, question|
+          if question
+            question.edit_question(question_params)
           else
             Question.create_question(@survey, question_params)
           end
