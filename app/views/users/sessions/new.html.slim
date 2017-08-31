@@ -1,12 +1,12 @@
-.container.col-md-8
+.container.col-md-4
   h2.form-heading
     | ログイン
   = form_for(resource, as: resource_name, url: session_path(resource_name), :html => { class: "form-signin"}) do |f|
     .form-group
-      = f.label :email, class: 'sr-only'
+      = f.label :email
       = f.email_field :email, autofocus: true, class: "form-control", id:'inputEmail'
     .form-group
-      = f.label :password, class: "sr-only"
+      = f.label :password
       = f.password_field :password, autocomplete: "off", id: "inputPassword", class: "form-control"
     - if devise_mapping.rememberable?
       .form-check

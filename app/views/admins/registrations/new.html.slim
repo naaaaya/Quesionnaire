@@ -1,23 +1,39 @@
-h2
-  | 新規登録
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :name
-    = f.text_field :name, autofocus: true
-  .field
-    = f.label :email
-    = f.email_field :email
-  .field
-    = f.label :password
-    - if @minimum_password_length
-        | (
-        = @minimum_password_length
-        |  文字以上)
-    = f.password_field :password, autocomplete: "off"
-  .field
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "新規登録"
-= render "admins/shared/links"
+#signupbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2 style=("margin-top:50px")
+  .panel.panel-info
+    .panel-heading
+      .panel-title 管理者登録
+      div style=("float:right; font-size: 85%; position: relative; top:-10px")
+        = render "admins/shared/links"
+    .panel-body
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), :html => { class: "form-horizontal", id: "signupform"}) do |f|
+        #signupalert.alert.alert-danger style="display:none"
+          p Error:
+          span
+            = devise_error_messages!
+        .form-group
+          label.col-md-3.control-label for="name"  氏名
+          .col-md-9
+            = f.text_field :name, autofocus: true, class: "form-control", placeholder: "氏名"
+        .form-group
+          label.col-md-3.control-label for="email"  メールアドレス
+          .col-md-9
+            = f.email_field :email, class: "form-control", placeholder: "メールアドレス"
+        .form-group
+          label.col-md-3.control-label for="password"  パスワード
+          .col-md-9
+            = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード"
+            - if @minimum_password_length
+              p.text-muted
+                | (
+                = @minimum_password_length
+                |  文字以上)
+        .form-group
+          label.col-md-3.control-label for="password"  確認用パスワード
+          .col-md-9
+            = f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "パスワード"
+        .form-group
+          /! Button
+          .col-md-offset-3.col-md-9
+            button#btn-signup.btn.btn-info type="button"
+              i.icon-hand-right
+              | 登録
