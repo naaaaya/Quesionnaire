@@ -1,11 +1,11 @@
 class Admins::SurveysController < ApplicationController
   before_action :authenticate_admin!
-  before_action :set_survey, only:[:show, :edit, :update, :destroy]
+  before_action :set_survey, only:[:update, :destroy]
   before_action :unlist_survey, only: :update
   def index
-    @draft_surveys = Survey.where(status: Survey::DRAFT)
-    @published_surveys = Survey.where(status: Survey::PUBLISHED)
-    @unlisted_surveys = Survey.where(status: Survey::UNLISTED)
+    @draft_surveys = Survey.where(status: Survey.statuses[:draft])
+    @published_surveys = Survey.where(status: Survey.statuses[:published])
+    @unlisted_surveys = Survey.where(status: Survey.statuses[:unlisted])
   end
 
   def new
@@ -28,11 +28,13 @@ class Admins::SurveysController < ApplicationController
   end
 
   def show
+    @survey = Survey.includes(questions:[{choise_answers: :surveys_user}, {text_answers: :surveys_user}]).find(params[:id])
     @added_companies = @survey.companies
     @surveys_company = @survey.surveys_companies.build
   end
 
   def edit
+    @survey = Survey.includes(questions: :questions_choises).find(params[:id])
     @questions = @survey.questions
   end
 
@@ -52,6 +54,7 @@ class Admins::SurveysController < ApplicationController
       end
       redirect_to admins_survey_path(params[:id])
     rescue => e
+      binding.pry
       render edit_admins_survey_path
     end
   end
