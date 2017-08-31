@@ -15,7 +15,7 @@ h3 = @survey.title
 
     =form_for [:admins, @survey] do |f|
       = f.submit '非公開にする', name: 'unlist_survey'
-  - if @survey.status_before_type_cast == Survey::PUBLISHED
+  - if @survey.published?
     .survey_results
       h3 回答概要
       - @survey.questions.each do |question|

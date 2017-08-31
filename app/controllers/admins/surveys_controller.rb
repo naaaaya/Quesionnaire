@@ -1,11 +1,11 @@
 class Admins::SurveysController < ApplicationController
   before_action :authenticate_admin!
-  before_action :set_survey, only:[:show, :edit, :update, :destroy]
+  before_action :set_survey, only:[:update, :destroy]
   before_action :unlist_survey, only: :update
   def index
-    @draft_surveys = Survey.where(status: Survey::DRAFT)
-    @published_surveys = Survey.where(status: Survey::PUBLISHED)
-    @unlisted_surveys = Survey.where(status: Survey::UNLISTED)
+    @draft_surveys = Survey.where(status: Survey.statuses[:draft])
+    @published_surveys = Survey.where(status: Survey.statuses[:published])
+    @unlisted_surveys = Survey.where(status: Survey.statuses[:unlisted])
   end
 
   def new
@@ -28,22 +28,25 @@ class Admins::SurveysController < ApplicationController
   end
 
   def show
+    @survey = Survey.includes(questions:[{choise_answers: :surveys_user}, {text_answers: :surveys_user}]).find(params[:id])
     @added_companies = @survey.companies
     @surveys_company = @survey.surveys_companies.build
   end
 
   def edit
+    @survey = Survey.includes(questions: :questions_choises).find(params[:id])
     @questions = @survey.questions
   end
 
   def update
     begin
       ActiveRecord::Base.transaction do
-
         @survey.update!(survey_params)
-        questions_params.each do |question_params|
-          if question_params[:id]
-            Question.edit_question(question_params)
+        question_ids = questions_params.pluck(:id)
+        questions = Question.where(id: question_ids)
+        questions_params.zip(questions).each do |question_params, question|
+          if question
+            question.edit_question(question_params)
           else
             Question.create_question(@survey, question_params)
           end
@@ -70,7 +73,7 @@ class Admins::SurveysController < ApplicationController
 
   def unlist_survey
     if params[:unlist_survey]
-      @survey.unlist
+      @survey.unlisted!
       redirect_to admins_surveys_path
     end
   end
