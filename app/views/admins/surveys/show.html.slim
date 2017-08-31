@@ -12,3 +12,11 @@ h3 = @survey.title
     = form_for [:admins, @survey, @surveys_company] do |f|
       .hidden_company_field
       = f.submit '公開する'
+
+    =form_for [:admins, @survey] do |f|
+      = f.submit '非公開にする', name: 'unlist_survey'
+  - if @survey.published?
+    .survey_results
+      h3 回答概要
+      - @survey.questions.each do |question|
+        = overall_survey_results(question)

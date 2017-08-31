@@ -1,0 +1,6 @@
+- answered_surveys.each do |survey_user|
+  h4
+    = survey_user.survey.title
+  p
+    = survey_user.survey.description
+    = link_to '結果を見る', survey_path(survey_user.survey)
