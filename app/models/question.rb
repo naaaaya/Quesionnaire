@@ -58,7 +58,7 @@ class Question < ApplicationRecord
 
   def company_choise_answers_for_chart(company)
     questions_choises_descriptions = questions_choises.index_by(&:id)
-    choise_answers_ids = choise_answers.joins(:surveys_user).merge(SurveysUser.joins(:user).merge(User.where(company_id:company.id))).pluck(:id).uniq
+    choise_answers_ids = choise_answers.joins(:surveys_user).merge(SurveysUser.where(answered_flag: true).joins(:user).merge(User.where(company_id:company.id))).pluck(:id).uniq
     choise_answers.where(id:choise_answers_ids).group(:questions_choise_id).count.map {|key,val| [questions_choises_descriptions[key].description,val]}.to_h
   end
 
