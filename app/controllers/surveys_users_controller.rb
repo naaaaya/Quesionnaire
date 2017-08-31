@@ -15,11 +15,10 @@ class SurveysUsersController < ApplicationController
     end
     begin
       ActiveRecord::Base.transaction do
-        case params[:commit]
-        when '下書き保存'
-          @surveys_user = @survey.draft_surveys_user(current_user)
-        when '回答する'
+        if params[:send]
           @surveys_user = @survey.answered_surveys_user(current_user)
+        else
+          @surveys_user = @survey.draft_surveys_user(current_user)
         end
         create_params.each do |answer_param|
           question = Question.find(answer_param[:question_id])
@@ -60,21 +59,10 @@ class SurveysUsersController < ApplicationController
     else
       return surveys_path
     end
+  end
 
 
   private
-
-
-  def create_or_update_surveys_user
-    if params[:send]
-      @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
-      @surveys_user.answered_flag = true
-      return @surveys_user
-    else
-      @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
-    end
-    @surveys_user.save!
-  end
 
   def create_params
     answer_params = []

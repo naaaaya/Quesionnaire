@@ -1,7 +1,6 @@
 class Admins::SurveysController < ApplicationController
   before_action :authenticate_admin!
-
-  before_action :set_survey, only:[:show, :edit, :update]
+  before_action :set_survey, only:[:show, :edit, :update, :destroy]
 
   def index
     @draft_surveys = Survey.where(status: Survey.statuses[:draft])
@@ -59,7 +58,26 @@ class Admins::SurveysController < ApplicationController
     end
   end
 
+  def destroy
+    begin
+      ActiveRecord::Base.transaction do
+        @survey.destroy!
+      end
+    rescue => e
+      # エラーメッセージを整形して表示する issue#14
+    end
+    redirect_to admins_surveys_path
+  end
+
   private
+
+  def unlist_survey
+    if params[:unlist_survey]
+      @survey.unlisted!
+      redirect_to admins_surveys_path
+    end
+  end
+
   def survey_params
     params.require(:survey).permit(:title, :description)
   end
