@@ -12,4 +12,17 @@ class Survey < ApplicationRecord
   scope :never_answered, -> (user){ where.not(["exists (select id from surveys_users where surveys.id = surveys_users.survey_id and surveys_users.user_id = ? and surveys.status = 1) ", user.id])}
 
 
+  def draft_surveys_user(user)
+    surveys_user = surveys_users.where(user_id: user.id).first_or_initialize
+    surveys_user.save!
+    surveys_user
+  end
+
+  def answered_surveys_user(user)
+    surveys_user = surveys_users.where(user_id: user.id).first_or_initialize
+    surveys_user.answered_flag = true
+    surveys_user.save!
+    surveys_user
+  end
+
 end

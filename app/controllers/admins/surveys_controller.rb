@@ -54,7 +54,6 @@ class Admins::SurveysController < ApplicationController
       end
       redirect_to admins_survey_path(params[:id])
     rescue => e
-      binding.pry
       render edit_admins_survey_path
     end
   end
