@@ -1,18 +1,31 @@
-h2
-  | パスワード変更
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = devise_error_messages!
-  = f.hidden_field :reset_password_token
-  .field
-    = f.label :password, "新規パスワード"
-    - if @minimum_password_length
-        | (
-        = @minimum_password_length
-        |  文字以上)
-    = f.password_field :password, autofocus: true, autocomplete: "off"
-  .field
-    = f.label :password_confirmation, "新規パスワード確認"
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "パスワード変更"
-= render "admins/shared/links"
+.container
+  #loginbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2 style="margin-top:50px;"
+    .panel.panel-info
+      .panel-heading
+        .panel-title パスワード変更
+        div style=("float:right; font-size: 80%; position: relative; top:-10px")
+          = render "admins/shared/links"
+      .panel-body style="padding-top:30px"
+        #login-alert.alert.alert-danger.col-sm-12 style="display:none"
+          = devise_error_messages!
+        = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "form-horizontal", id: "loginform"}) do |f|
+          = f.hidden_field :reset_password_token
+          .form-group
+          label.col-md-3.control-label for="password"  新規パスワード
+          .col-md-9
+            = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード"
+            - if @minimum_password_length
+              p.text-muted
+                | (
+                = @minimum_password_length
+                |  文字以上)
+          .form-group
+            label.col-md-3.control-label for="password"  新規パスワード確認
+            .col-md-9
+              = f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "パスワード"
+          .form-group
+            /! Button
+            .col-md-offset-3.col-md-9
+              button#btn-signup.btn.btn-info type="button"
+                i.icon-hand-right
+                | パスワード変更
