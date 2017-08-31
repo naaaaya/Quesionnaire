@@ -60,3 +60,5 @@ gem 'kaminari'
 gem 'chartkick'
 gem 'carrierwave'
 gem 'rmagick'
+gem 'bootstrap-sass'
+
