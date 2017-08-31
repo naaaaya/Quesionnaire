@@ -1,10 +1,12 @@
 class Admins::SurveysController < ApplicationController
   before_action :authenticate_admin!
+
   before_action :set_survey, only:[:show, :edit, :update]
+
   def index
-    @draft_surveys = Survey.where(status: 0)
-    @published_surveys = Survey.where(status: 1)
-    @unlisted_surveys = Survey.where(status: 2)
+    @draft_surveys = Survey.where(status: Survey.statuses[:draft])
+    @published_surveys = Survey.where(status: Survey.statuses[:published])
+    @unlisted_surveys = Survey.where(status: Survey.statuses[:unlisted])
   end
 
   def new
@@ -14,26 +16,10 @@ class Admins::SurveysController < ApplicationController
 
   def create
     begin
-      @survey = Survey.new(survey_params)
-      @questions = []
-      @choises = []
-      questions_params.each do |question_params|
-        question = @survey.questions.new(description:question_params[:description], question_type:question_params[:question_type])
-        @questions << question
-        if question_params[:choises]
-          choises_params = question_params[:choises]
-          choises_params.each do |choise_params|
-            @choises << question.questions_choises.new(choise_params)
-          end
-        end
-      end
       ActiveRecord::Base.transaction do
-        @survey.save!
-        @questions.each do |question|
-          question.save!
-        end
-        @choises.each do |choise|
-          choise.save!
+        @survey = Survey.create!(survey_params)
+        questions_params.each do |question_params|
+          Question.create_question(@survey, question_params)
         end
       end
       redirect_to admins_surveys_path
@@ -43,25 +29,27 @@ class Admins::SurveysController < ApplicationController
   end
 
   def show
+    @survey = Survey.includes(questions:[{choise_answers: :surveys_user}, {text_answers: :surveys_user}]).find(params[:id])
     @added_companies = @survey.companies
     @surveys_company = @survey.surveys_companies.build
   end
 
   def edit
+    @survey = Survey.includes(questions: :questions_choises).find(params[:id])
     @questions = @survey.questions
   end
 
   def update
     begin
       ActiveRecord::Base.transaction do
-        @survey.update(survey_params)
-        @questions = []
-        questions_edit_params.each do |question_params|
-          question = Question.find(question_params[:id])
-          question.update(description: question_params[:description], question_type: question_params[:question_type])
-          question_params[:choises].each do |choise_params|
-            choise = QuestionsChoise.find(choise_params[:id])
-            choise.update(choise_params)
+        @survey.update!(survey_params)
+        question_ids = questions_params.pluck(:id)
+        questions = Question.where(id: question_ids)
+        questions_params.zip(questions).each do |question_params, question|
+          if question
+            question.edit_question(question_params)
+          else
+            Question.create_question(@survey, question_params)
           end
         end
       end
@@ -72,16 +60,11 @@ class Admins::SurveysController < ApplicationController
   end
 
   private
-
   def survey_params
     params.require(:survey).permit(:title, :description)
   end
 
   def questions_params
-    params.require(:questions).map { |u| u.permit(:description, :question_type, choises: [%w(description)]) }
-  end
-
-  def questions_edit_params
     params.require(:questions).map { |u| u.permit(:id, :description, :question_type, choises: [%w(id description)]) }
   end
 

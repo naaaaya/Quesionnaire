@@ -6,5 +6,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   belongs_to :company
   has_many :surveys, through: :surveys_users
+  mount_uploader :image, ImageUploader
   has_many :surveys_users, dependent: :destroy
+
 end
