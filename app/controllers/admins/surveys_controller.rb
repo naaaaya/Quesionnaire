@@ -1,6 +1,5 @@
 class Admins::SurveysController < ApplicationController
   before_action :authenticate_admin!
-
   before_action :set_survey, only:[:show, :edit, :update, :destroy]
 
   def index
@@ -65,6 +64,7 @@ class Admins::SurveysController < ApplicationController
         @survey.destroy!
       end
     rescue => e
+      # エラーメッセージを整形して表示する issue#14
     end
     redirect_to admins_surveys_path
   end
