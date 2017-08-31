@@ -1,7 +1,8 @@
 class Admins::SurveysController < ApplicationController
   before_action :authenticate_admin!
-  before_action :set_survey, only:[:update, :destroy]
-  before_action :unlist_survey, only: :update
+
+  before_action :set_survey, only:[:show, :edit, :update]
+
   def index
     @draft_surveys = Survey.where(status: Survey.statuses[:draft])
     @published_surveys = Survey.where(status: Survey.statuses[:published])
@@ -58,26 +59,7 @@ class Admins::SurveysController < ApplicationController
     end
   end
 
-  def destroy
-    begin
-      ActiveRecord::Base.transaction do
-        @survey.destroy!
-      end
-      redirect_to admins_surveys_path
-    rescue => e
-      redirect_to admins_surveys_path
-    end
-  end
-
   private
-
-  def unlist_survey
-    if params[:unlist_survey]
-      @survey.unlisted!
-      redirect_to admins_surveys_path
-    end
-  end
-
   def survey_params
     params.require(:survey).permit(:title, :description)
   end
@@ -87,6 +69,7 @@ class Admins::SurveysController < ApplicationController
   end
 
   def set_survey
-    @survey = Survey.find(params[:id])
+    survey_id = params[:id]
+    @survey = Survey.includes(questions: [{questions_choises: :choise_answers}, :text_answers]).find(params[:id])
   end
 end
