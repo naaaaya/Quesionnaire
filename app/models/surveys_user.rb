@@ -23,7 +23,9 @@ class SurveysUser < ApplicationRecord
 
   def delete_unchecked_choise_answer(checked_ids, answer_param)
     checked_ids.each do |checked_id|
-      delete_choise_answer = choise_answers.find_by(questions_choise_id: checked_id) unless answer_param[:choise_ids].include?(checked_id.to_s)
+      unless answer_param[:choise_ids].include?(checked_id.to_s)
+        delete_choise_answer = choise_answers.find_by(questions_choise_id: checked_id)
+      end
       delete_choise_answer.destroy! if delete_choise_answer.present?
     end
   end
