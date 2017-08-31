@@ -59,6 +59,17 @@ class Admins::SurveysController < ApplicationController
     end
   end
 
+  def destroy
+    begin
+      ActiveRecord::Base.transaction do
+        @survey.destroy!
+      end
+      redirect_to admins_surveys_path
+    rescue => e
+      redirect_to admins_surveys_path
+    end
+  end
+
   private
 
   def unlist_survey
