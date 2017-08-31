@@ -60,6 +60,14 @@ class Admins::SurveysController < ApplicationController
   end
 
   private
+
+  def unlist_survey
+    if params[:unlist_survey]
+      @survey.unlisted!
+      redirect_to admins_surveys_path
+    end
+  end
+
   def survey_params
     params.require(:survey).permit(:title, :description)
   end
