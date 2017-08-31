@@ -4,6 +4,7 @@ class SurveysUsersController < ApplicationController
   before_action :authenticate_user!, only:[:new, :create]
 
   def new
+    @questions = @survey.questions.page(params[:page]).per(10)
     redirect_to surveys_path if SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:survey_id]).try(:answered_flag)
     @surveys_user = @survey.surveys_users.build
   end
@@ -34,10 +35,10 @@ class SurveysUsersController < ApplicationController
           end
         end
       end
-      redirect_to surveys_path
+      redirect_to redirect_path
     rescue => e
       @questions = @survey.questions
-      render new_survey_surveys_user
+      render new_survey_surveys_user_path
     end
   end
 
@@ -47,7 +48,33 @@ class SurveysUsersController < ApplicationController
     redirect_to surveys_path unless @survey.published?
   end
 
+  def redirect_path
+    if params[:previous_page]
+      previous_page = params[:current_page].to_i - 1
+      path = "#{new_survey_surveys_user_path}/?page=#{previous_page}"
+      return path
+    elsif params[:next_page]
+      next_page = params[:current_page].to_i + 1
+      path = "#{new_survey_surveys_user_path}/?page=#{next_page}"
+      return path
+    else
+      return surveys_path
+    end
+
+
   private
+
+
+  def create_or_update_surveys_user
+    if params[:send]
+      @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
+      @surveys_user.answered_flag = true
+      return @surveys_user
+    else
+      @surveys_user = @survey.surveys_users.where(user_id: current_user.id).first_or_initialize
+    end
+    @surveys_user.save!
+  end
 
   def create_params
     answer_params = []
