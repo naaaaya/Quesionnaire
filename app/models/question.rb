@@ -5,10 +5,6 @@ class Question < ApplicationRecord
   has_many :choise_answers, dependent: :destroy
   enum question_type: { 'text_field': 0, 'textarea': 1, 'checkbox': 2, 'radio_button': 3 }
   validates :description, presence: true
-  TEXT_FIELD = 0
-  TEXTAREA = 1
-  CHECKBOX = 2
-  RADIO_BUTTON = 3
 
   def is_answered?(user)
     surveys_user = SurveysUser.find_by(survey_id:survey_id, user_id: user.id)
