@@ -64,10 +64,9 @@ class Admins::SurveysController < ApplicationController
       ActiveRecord::Base.transaction do
         @survey.destroy!
       end
-      redirect_to admins_surveys_path
     rescue => e
-      redirect_to admins_surveys_path
     end
+    redirect_to admins_surveys_path
   end
 
   private
