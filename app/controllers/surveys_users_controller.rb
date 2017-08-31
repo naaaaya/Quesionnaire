@@ -60,6 +60,7 @@ class SurveysUsersController < ApplicationController
     else
       return surveys_path
     end
+  end
 
 
   private
