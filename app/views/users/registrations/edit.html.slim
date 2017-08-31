@@ -13,6 +13,11 @@ h2
       | Currently waiting confirmation for:
       = resource.unconfirmed_email
   .field
+    = image_tag current_user.image.thumb.url if current_user.image?
+    = f.label :image
+    = f.file_field :image
+    = f.hidden_field :image_cache
+  .field
     = f.label :password
     i
       | (変更したくない場合は何も記入しないでください)

@@ -22,6 +22,7 @@ ja:
         password_confirmation: パスワード確認
         remember_me: このユーザーを記憶
         current_password: 現在のパスワード
+        image: プロフィール画像
       company:
         name: 法人名
       survey:

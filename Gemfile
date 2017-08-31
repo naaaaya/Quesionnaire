@@ -50,6 +50,7 @@ group :development do
   gem 'rubocop', require: false
   gem 'pry-rails'
   gem 'rubocop-rspec'
+  gem 'bullet'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -57,3 +58,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'slim-rails'
 gem 'devise'
 gem 'kaminari'
+gem 'chartkick'
+gem 'carrierwave'
+gem 'rmagick'
