@@ -1,126 +1,173 @@
-/* YUI {{{ */
-/*
-Copyright (c) 2010, Yahoo! Inc. All rights reserved.
-Code licensed under the BSD License:
-http://developer.yahoo.com/yui/license.html
-version: 2.8.1
-*/
-/**
- * YUI Reset
- * @module reset
- * @namespace
- * @requires
- */
-html {
-  color: #000;
-  background: #FFF;
+/* nondestructive-reset.css v1.5.1 | MIT License | github.com/BYODKM */
+.html {
+  height: 100%;
 }
-
-html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+.body {
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.address {
+  margin: 0;
+  font-style: normal;
+}
+.blockquote {
+  margin: 0;
+}
+.button {
+  -webkit-box-sizing: border-box;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0;
+  border: 1px solid;
+  border-radius: 4px;
+  color: inherit;
+  text-decoration: none;
+  vertical-align: middle;
+  background: none;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.button:hover,
+.button:focus,
+.button:active {
+  outline: none;
+}
+.cite {
+  font-style: normal;
+}
+.dd {
+  margin: 0;
+}
+.dl {
+  margin: 0;
+}
+.em {
+  font-style: normal;
+}
+.fieldset {
+  margin: 0;
+  padding: 0;
+  border: 1px solid;
+}
+.figure {
+  margin: 0;
+}
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: inherit;
+}
+.hr {
+  clear: both;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid;
+}
+.i {
+  font-style: normal;
+}
+.iframe {
+  border: 0;
+  overflow: hidden;
+  vertical-align: top;
+}
+.img {
+  max-width: 100%;
+  vertical-align: bottom;
+}
+.input {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  width: 10em;
+  border: 1px solid;
+  border-radius: 0;
+  font-family: sans-serif;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
+}
+.input:focus {
+  outline: none;
+}
+.input::-moz-placeholder {
+  opacity: 1;
+}
+.label {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.li {
+  display: block;
+  list-style: none;
+}
+.ol,
+.ul {
   margin: 0;
   padding: 0;
 }
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
+.p {
+  margin: 0;
 }
-
-fieldset, img {
-  border: 0;
+.pre {
+  margin: 0;
+  word-wrap: normal;
 }
-
-address, caption, cite, code, dfn, em, strong, th, var, optgroup {
-  font-style: inherit;
-  font-weight: inherit;
+.select {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  border: 1px solid;
+  border-radius: 4px;
+  vertical-align: middle;
+  cursor: pointer;
+  background: none;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
 }
-
-del, ins {
-  text-decoration: none;
+.select:focus {
+  outline: none;
 }
-
-li {
-  list-style: none;
+.table {
+  margin: 0;
+  width: 100%;
 }
-
-caption, th {
+.tbody,
+.thead,
+.tfoot {
+  vertical-align: inherit;
+}
+.td,
+.th {
+  vertical-align: top;
+}
+.th {
+  font-weight: normal;
   text-align: left;
 }
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: 100%;
-  font-weight: normal;
+.textarea {
+  display: block;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  width: 100%;
+  border: 1px solid;
+  border-radius: 0;
+  resize: vertical;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
 }
-
-q:before, q:after {
-  content: '';
+.textarea:focus {
+  outline: none;
 }
-
-abbr, acronym {
-  border: 0;
-  font-variant: normal;
-}
-
-sup {
-  vertical-align: baseline;
-}
-
-sub {
-  vertical-align: baseline;
-}
-
-/*because legend doesn't inherit in IE */
-legend {
-  color: #000;
-}
-
-input, button, textarea, select, optgroup, option {
-  font-family: inherit;
-  font-size: inherit;
-  font-style: inherit;
-  font-weight: inherit;
-}
-
-/*@purpose To enable resizing for IE */
-/*@branch For IE6-Win, IE7-Win */
-input, button, textarea, select {
-  *font-size: 100%;
-}
-
-/**
- * Percents could work for IE, but for backCompat purposes, we are using keywords.
- * x-small is for IE6/7 quirks mode.
- */
-body {
-  font:13px/1.231 arial,helvetica,clean,sans-serif;
-  /* for IE6/7 */ 
-  *font-size:small; 
-  /* for IE Quirks Mode */
-  *font:x-small; 
-}
-
-/**
- * Nudge down to get to 13px equivalent for these form elements
- */
-select, input, button, textarea, button {
-  font:99% arial,helvetica,clean,sans-serif;
-}
-
-/**
- * To help tables remember to inherit
- */
-table {
-  font-size:inherit;
-  font:100%;
-}
-
-/**
- * Bump up IE to get to 13px equivalent for these fixed-width elements
- */
-pre, code, kbd, samp, tt {
-  font-family:monospace;
-  *font-size:108%;
-  line-height:100%;
-}
-
-/* }}} */
