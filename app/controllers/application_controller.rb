@@ -17,11 +17,13 @@ class ApplicationController < ActionController::Base
         {name: "新規法人登録", path: new_admins_company_path},
         {name: "アンケート一覧", path: admins_surveys_path},
         {name: "アンケート作成", path: new_admins_survey_path},
-        {name: "ユーザー設定", path:edit_admin_registration_path}]
+        {name: "ユーザー設定", path:edit_admin_registration_path},
+        {name: "ログアウト", path: destroy_admin_session_path, method: :delete}]
     elsif current_user
         @root_path = authenticated_user_root_path
         @list_item = [{name: "アンケート一覧", path: surveys_path},
-         {name: "ユーザー設定", path: edit_user_registration_path}]
+         {name: "ユーザー設定", path: edit_user_registration_path},
+         {name: "ログアウト", path: destroy_user_session_path, method: :delete}]
         @list_item.push({name: "社員一覧", path: "#"}) if current_user.chief_flag
       else
         @root_path = "#"

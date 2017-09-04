@@ -1,2 +1,5 @@
 li.nav-item
-  = link_to name, path, class: 'nav-link'
+  - if http_method
+    = link_to name, path, class: 'nav-link', method: http_method
+  - else
+    = link_to name, path, class: 'nav-link'
