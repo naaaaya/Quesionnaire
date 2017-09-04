@@ -6,9 +6,15 @@
     border-radius: 1em;
     }
 
-.table_wrapper {
+.table-wrapper {
   background-color: #fff;
   margin: 60px auto;
   padding: 20px 40px 30px;
   border-radius: 1em;
+}
+
+.edit-delete-btns{
+  .btn{
+    margin-right: 5px;
+  }
 }
