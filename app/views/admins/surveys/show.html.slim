@@ -1,22 +1,32 @@
-h3 = @survey.title
+.container.form_wrapper
+  .row
+    h2.page-header.col-md-12 = @survey.title
+    .survey_show_buttons.col-md-12
+      = link_to '編集', edit_admins_survey_path(@survey), class: "btn btn-default"
+      - if @survey.status_before_type_cast == Survey::PUBLISHED
+        =form_for [:admins, @survey] do |f|
+          = f.hidden_field :status, value: 2
+          = f.submit '非公開にする', name: 'unlist_survey', class: 'btn btn-warning'
+      = link_to '削除', admins_survey_path(@survey), method: :delete, class: "btn btn-danger"
 
-- if current_admin
-  .added_companies
-    p 公開範囲
-    - @added_companies.each do |company|
-      li
-        = company.name
-  .publication_setting
-    input#search_company type='text' placeholder='法人名を入力してください' onkeyup='searchCompany()'
-    ul.search_result
-    = form_for [:admins, @survey, @surveys_company] do |f|
-      .hidden_company_field
-      = f.submit '公開する'
+  - if current_admin
+    .added_companies
+      .row
+        .col-md-8
+          .panel.panel-default
+            .panel-heading 公開範囲
+            ul.list-group
+              - @added_companies.each do |company|
+                li.list-group-item
+                  = company.name
+    .publication_setting
+      input#search_company.form-control.col-md-8 type='text' placeholder='法人名を入力してください' onkeyup='searchCompany()'
+      = form_for [:admins, @survey, @surveys_company], html: { class: "col-md-4" } do |f|
+        .hidden_company_field
+        = f.submit '公開する', class: 'btn btn-primary'
+      ul.search_result.list-group
 
-    =form_for [:admins, @survey] do |f|
-      = f.hidden_field :status, value: 2
-      = f.submit '非公開にする', name: 'unlist_survey'
-  - if @survey.status_before_type_cast == Survey::PUBLISHED
-    .survey_results
-      h3 回答概要
-      = render partial: 'partial/overall_survey_results', locals:{questions: @questions}
+    - if @survey.status_before_type_cast == Survey::PUBLISHED
+      .survey_results
+        h3.page-header 回答概要
+        = render partial: 'partial/overall_survey_results', locals:{questions: @questions}
