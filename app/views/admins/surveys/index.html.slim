@@ -1,8 +1,8 @@
-h3
-  | アンケート一覧
-.draft_surveys
-  = render partial: 'partial/draft_surveys', locals: {surveys: @draft_surveys}
-.published_surveys
-  = render partial: 'partial/published_surveys', locals: {surveys: @published_surveys}
-.unlisted_surveys
-  = render partial: 'partial/unlisted_surveys', locals: {surveys: @unlisted_surveys}
+.container.form_wrapper
+  h2.page-header アンケート一覧
+  .draft_surveys
+    = render partial: 'partial/draft_surveys', locals: {surveys: @draft_surveys}
+  .published_surveys
+    = render partial: 'partial/published_surveys', locals: {surveys: @published_surveys}
+  .unlisted_surveys
+    = render partial: 'partial/unlisted_surveys', locals: {surveys: @unlisted_surveys}

@@ -1,6 +1,12 @@
-h4
-  | 公開中
-
-- surveys.each do |survey|
-  .survey-title
-    = link_to survey.title, admins_survey_path(survey)
+.container
+  h4 公開中
+  .row
+    .col-md-8
+      - surveys.each do |survey|
+        = link_to admins_survey_path(survey) do
+          .panel.panel-info
+            .panel-heading
+              h3.panel-title
+                = survey.title
+            .panel-body
+              = survey.description
