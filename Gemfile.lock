@@ -235,7 +235,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   jbuilder (~> 2.5)
-  jquery-rails (= 4.3.0)
+  jquery-rails
   kaminari
   listen (~> 3.0.5)
   mysql2 (>= 0.3.18, < 0.5)
