@@ -7,24 +7,6 @@
   - @choises.each do |choise|
     = render partial: "partial/errors", locals: {instance: choise}
 
-/ .survey_form
-/   = form_for [:admins, @survey] do |f|
-/     = f.text_field :title, value: '無題のアンケート'
-/     = f.text_area :description, placeholder: 'アンケートの説明'
-/     .questions
-/       p 問題
-/       .question_form
-/         = text_field :question, :description, value: '無題の質問', name:'questions[][description]'
-/         = select :question, :question_type, Question.question_types.keys.to_a, {} ,
-/         class: 'form-control', data: {"question-number" =>1}, id:"question1_question_type",
-/          name:'questions[][question_type]', onchange:'appendAnswerForm(this)'
-/         .question_field id="question1"
-/           = text_field :answer, :description, placeholder: '自由記述（短文回答）'
-/     .add_question onclick='addQuestion()' 質問追加
-/     = f.submit '作成'
-
-
-
 .container.form_wrapper
   = form_for [:admins, @survey], html: { class: "form-horizontal" } do |f|
     h2.page-header
