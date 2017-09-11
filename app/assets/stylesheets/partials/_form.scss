@@ -28,6 +28,7 @@
 }
 
 .new-survey-buttons {
+  @include clearfix;
   .btn {
     float: right;
     margin: 0 10px;
