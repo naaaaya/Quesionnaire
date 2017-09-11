@@ -1,7 +1,7 @@
 $ ->
   preInputedCompanyName = ""
   appendResultList = (company) ->
-      html = "<li class='list-group-item'>#{company.name}<input type='button' value='公開' data-company-id=#{company.id} data-company-name=#{company.name} class='add_company_button btn btn-primary btn-sm' onclick=addCompanyButton(this)></input></li>"
+      html = "<li class='list-group-item'>#{company.name}<input type='button' value='公開' data-company-id=#{company.id} data-company-name=#{company.name} class='add-company-button btn btn-primary btn-sm' onclick=addCompanyButton(this)></input></li>"
       $('.search_result').append(html)
 
   appendCompaniesList = (id, name) ->

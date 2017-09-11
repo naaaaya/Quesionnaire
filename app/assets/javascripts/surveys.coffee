@@ -15,7 +15,7 @@ $ ->
         questionField.append("<textarea name='answer' rows='4' cols='40' placeholder='自由記述（長文回答）' class='form-control'>")
       when 'checkbox'
         choiseNumber = 1
-        questionField.append("<ul class='checkbox_choises' id='question#{questionNumber}-choises'>
+        questionField.append("<ul class='checkbox-choises' id='question#{questionNumber}-choises'>
                               <li id='choise#{choiseNumber}' class='choise question#{questionNumber}-choise'>
                               <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}',
                               class='form-control col-md-4'>
@@ -24,7 +24,7 @@ $ ->
                               <input type='button' class='append_checkbox btn btn-default' data-question-number=#{questionNumber} value='選択肢追加' onclick=appendCheckbox(this)>")
       when 'radio_button'
         choiseNumber = 1
-        questionField.append("<ul class='radio_choises' id='question#{questionNumber}-choises'>
+        questionField.append("<ul class='radio-choises' id='question#{questionNumber}-choises'>
                               <li id='choise#{choiseNumber}' class='choise question#{questionNumber}-choise'>
                               <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}',
                               class='form-control col-md-4'>
@@ -61,7 +61,7 @@ $ ->
 
   @addQuestion = ->
     questionNumber = questionNumber + 1
-    html = "<div class='question'>
+    html = "<div class='question-wrapper'>
             <h4>問題#{questionNumber}</h4>
             <div class='form-group'>
               <div class='col-md-6'>
@@ -83,4 +83,4 @@ $ ->
                 <input placeholder='自由記述（短文回答）' type='text'></div>
                 </div>
             </div></div>"
-    $('.questions').append(html)
+    $('.questions-wrapper').append(html)
