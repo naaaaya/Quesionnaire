@@ -1,6 +1,4 @@
 $ ->
-
-
   type = 'text_field'
   choiseNumber = 1
   questionNumber = 1
@@ -16,7 +14,7 @@ $ ->
       when 'checkbox'
         choiseNumber = 1
         questionField.append("<ul class='checkbox-choises' id='question#{questionNumber}-choises'>
-                              <li id='choise#{choiseNumber}' class='choise question#{questionNumber}-choise'>
+                              <li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
                               <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}',
                               class='form-control col-md-4'>
                               <input type='button' id='delete_choise' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber} onclick=deleteChoise(this) class='append_checkbox btn btn-danger'>
@@ -25,7 +23,7 @@ $ ->
       when 'radio_button'
         choiseNumber = 1
         questionField.append("<ul class='radio-choises' id='question#{questionNumber}-choises'>
-                              <li id='choise#{choiseNumber}' class='choise question#{questionNumber}-choise'>
+                              <li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
                               <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}',
                               class='form-control col-md-4'>
                               <input type='button' id='delete_choise' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber} onclick=deleteChoise(this) class='append_checkbox btn btn-danger'>
@@ -42,7 +40,7 @@ $ ->
   @appendCheckbox = (button) ->
     choiseNumber = choiseNumber + 1
     questionNumber = $(button).data('questionNumber')
-    $("#question#{questionNumber}-choises").append("<li id='choise#{choiseNumber}' class='choise question#{questionNumber}-choise'>
+    $("#question#{questionNumber}-choises").append("<li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
                                                 <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}',
                                                 class='form-control col-md-4'>
                                                 <input type='button' id='delete_choise' class='append_checkbox btn btn-danger' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber} onclick=deleteChoise(this)>
@@ -50,7 +48,7 @@ $ ->
   @appendRadioButton = (button) ->
     choiseNumber = choiseNumber + 1
     questionNumber = $(button).data('questionNumber')
-    $("#question#{questionNumber}-choises").append("<li id='choise#{choiseNumber}' class='choise question#{questionNumber}-choise'>
+    $("#question#{questionNumber}-choises").append("<li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
                                                 <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}' class='form-control col-md-4'>
                                                 <input type='button' id='delete_choise' class='append_checkbox btn btn-danger' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber} onclick=deleteChoise(this)>
                                                 </li>")
