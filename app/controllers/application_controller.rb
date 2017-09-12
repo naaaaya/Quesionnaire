@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
         @list_item = [{name: "アンケート一覧", path: surveys_path},
          {name: "ユーザー設定", path: edit_user_registration_path},
          {name: "ログアウト", path: destroy_user_session_path, method: :delete}]
-        @list_item.push({name: "社員一覧", path: "#"}) if current_user.chief_flag
+        @list_item.push({name: "社員一覧", path: users_path}) if current_user.chief_flag
       else
         @root_path = "#"
       end

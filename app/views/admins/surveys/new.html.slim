@@ -25,7 +25,7 @@
               .ui-select
                 = select :question, :question_type, Question.question_types.keys.to_a, {} ,
                   class: 'form-control', data: {"question-number" =>1}, id:"question1_question_type",
-                  name:'questions[][question_type]', onchange:'appendAnswerForm(this)'
+                  name:'questions[][question_type]'
           .form-group
             .col-md-8
               .question_field id="question1"
