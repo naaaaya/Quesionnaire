@@ -16,7 +16,7 @@
       .col-md-8
         .panel.panel-default
           .panel-heading 公開範囲
-          ul.added-companies.list-group
+          ul.added-companies.list-group.added_companies
             - @added_companies.each do |company|
               li.list-group-item
                 = company.name
