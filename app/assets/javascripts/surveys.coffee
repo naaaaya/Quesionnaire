@@ -1,5 +1,4 @@
 $ ->
-
   type = 'text_field'
   choiseNumber = 1
   questionNumber = 1
@@ -55,13 +54,15 @@ $ ->
                                                 class='form-control col-md-4'>
                                                 <input type='button' id='delete_choise' class='append_checkbox btn btn-danger' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber}>
                                                 </li>")
+
   $('.questions').on 'click', '#append_radio', ->
     choiseNumber = choiseNumber + 1
     questionNumber = $(this).data('questionNumber')
     $("#question#{questionNumber}-choises").append("<li id='choise#{choiseNumber}' class='question#{questionNumber}-choise'>
                                                 <input type= 'text' name= 'questions[][choises[][description]]' value= '選択肢#{choiseNumber}' class='form-control col-md-4'>
-                                                <input type= 'button' id='delete_choise' class='append_checkbox btn btn-danger' value= '削除' data-number= #{choiseNumber} data-question-number=#{questionNumber}>
+                                                <input type= 'button' id='delete_choise' class='append_checkbox btn btn-danger' value= '削除' 
                                                 </li>")
+
   $('.questions').on 'click', '#delete_choise', ->
     questionNumber = $(this).data('questionNumber')
     deleteChoiseNumber = $(this).data('number')
@@ -69,8 +70,9 @@ $ ->
 
   $('.add_question').on 'click', ->
     questionNumber = questionNumber + 1
-    html = "<div class='question'><h4>問題#{questionNumber}</h4>
-            <div class ='form-group'>
+    html = "<div class='question-wrapper'>
+            <h4>問題#{questionNumber}</h4>
+            <div class='form-group'>
               <div class='col-md-6'>
                 <input value='無題の質問' type='text' name='questions[][description]' id='question#{questionNumber}_description' class='form-control'>
               </div>
@@ -90,4 +92,4 @@ $ ->
                 <input placeholder='自由記述（短文回答）' type='text'></div>
                 </div>
             </div></div>"
-    $('.questions').append(html)
+    $('.questions-wrapper').append(html)

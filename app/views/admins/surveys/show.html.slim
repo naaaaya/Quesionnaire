@@ -1,7 +1,7 @@
-.container.form_wrapper
+.container.main-wrapper
   .row
     h2.page-header.col-md-12 = @survey.title
-    .survey_show_buttons.col-md-12
+    .survey-show-buttons.col-md-12
       - if @survey.status_before_type_cast == Survey::DRAFT
         = link_to '編集', edit_admins_survey_path(@survey), class: "btn btn-primary"
       - elsif @survey.status_before_type_cast == Survey::PUBLISHED
@@ -16,18 +16,17 @@
       .col-md-8
         .panel.panel-default
           .panel-heading 公開範囲
-          ul.added_companies.list-group
+          ul.added-companies.list-group
             - @added_companies.each do |company|
               li.list-group-item
                 = company.name
-    .publication_setting
-      .container
-          .row
-            input#search_company.form-control.col-md-6 type='text' placeholder='法人名を入力してください' onkeyup='searchCompany()'
-            = form_for [:admins, @survey, @surveys_company], html: { class: "col-md-4" } do |f|
-              .hidden_company_field
-              = f.submit '公開する', class: 'btn btn-primary'
-            ul.search_result.list-group.col-md-6
+    .container
+        .row
+          input#search_company.form-control.col-md-6 type='text' placeholder='法人名を入力してください' onkeyup='searchCompany()'
+          = form_for [:admins, @survey, @surveys_company], html: { class: "col-md-4" } do |f|
+            .hidden_company_field
+            = f.submit '公開する', class: 'btn btn-primary'
+          ul.search_result.list-group.col-md-6
     - if @survey.published?
       .survey_results
         h3.page-header 回答概要

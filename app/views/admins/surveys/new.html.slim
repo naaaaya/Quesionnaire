@@ -1,4 +1,3 @@
-
 = render partial: "partial/errors", locals: {instance: @survey}
 -if @questions
   - @questions.each do |question|
@@ -7,16 +6,16 @@
   - @choises.each do |choise|
     = render partial: "partial/errors", locals: {instance: choise}
 
-.container.form_wrapper
+.container.main-wrapper
   = form_for [:admins, @survey], html: { class: "form-horizontal" } do |f|
     h2.page-header
       = f.text_field :title, value: '無題のアンケート', autofocus: true
     .row
       .survey_form.col-md-12
         .form_group
-          = f.text_area :description, placeholder: 'アンケートの説明', class: "form-control col-md-12 question_description"
-      .questions.col-md-12
-        .question
+          = f.text_area :description, placeholder: 'アンケートの説明', class: "form-control col-md-12 question-description"
+      .questions-wrapper.col-md-12
+        .question-wrapper
           h4 問題１
           .form-group
             .col-md-6
@@ -31,6 +30,6 @@
               .question_field id="question1"
                 = text_field :answer, :description, placeholder: '自由記述（短文回答）', class: "form-control"
       .form-group.col-md-8
-        .new_survey_buttons
+        .new-survey-buttons
           = f.submit "作成", class: "btn btn-primary submit-answer"
           input.btn.btn-default.add_question onclick='addQuestion()' value="質問追加"

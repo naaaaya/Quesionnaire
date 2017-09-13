@@ -1,12 +1,12 @@
 .container
-  #loginbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2 style="margin-top:50px;"
+  .mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
     .panel.panel-info
       .panel-heading
         .panel-title パスワード変更
-        div style=("float:right; font-size: 80%; position: relative; top:-10px")
+        .devise-link-list
           = render "admins/shared/links"
-      .panel-body style="padding-top:30px"
-        #login-alert.alert.alert-danger.col-sm-12 style="display:none"
+      .panel-body.devise-form-wrapper
+        #login-alert.alert.alert-danger.col-sm-12
           = devise_error_messages!
         = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "form-horizontal", id: "loginform"}) do |f|
           = f.hidden_field :reset_password_token
@@ -24,7 +24,6 @@
             .col-md-9
               = f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "パスワード"
           .form-group
-            /! Button
             .col-md-offset-3.col-md-9
               button#btn-signup.btn.btn-info type="button"
                 i.icon-hand-right

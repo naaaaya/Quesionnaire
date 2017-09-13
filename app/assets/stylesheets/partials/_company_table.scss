@@ -1,20 +1,19 @@
-.custab{
-    font-size: 16px;
-    border: 1px;
-    padding: 5px;
-    margin: 5% 0;
-    border-radius: 1em;
-    }
-
-.table-wrapper {
-  background-color: #fff;
-  margin: 60px auto;
-  padding: 20px 40px 30px;
-  border-radius: 1em;
+.custab {
+  border: 1px;
+  border-radius: 12px;
+  font-size: 16px;
+  padding: 5px;
 }
 
-.edit-delete-btns{
-  .btn{
+.table-wrapper {
+  background-color: $wrapper-background;
+  border-radius: 12px;
+  margin: 60px auto;
+  padding: 20px 40px 30px;
+}
+
+.edit-delete-btns {
+  .btn {
     margin-right: 5px;
   }
 }

@@ -1,12 +1,12 @@
-#signupbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2 style=("margin-top:50px")
+#signupbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
   .panel.panel-info
     .panel-heading
       .panel-title 新規登録
-      div style=("float:right; font-size: 85%; position: relative; top:-10px")
+      .devise-link-list
         = render "users/shared/links"
     .panel-body
       = form_for(resource, as: resource_name, url: registration_path(resource_name), :html => { class: "form-horizontal", id: "signupform"}) do |f|
-        #signupalert.alert.alert-danger style="display:none"
+        #signupalert.alert.alert-danger
           p Error:
           span
             = devise_error_messages!
@@ -33,6 +33,5 @@
             = f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "パスワード"
         = f.hidden_field :company_id, value: params[:id]
         .form-group
-          /! Button
           .col-md-offset-3.col-md-9
             =f.submit '登録', id: 'btn-signup', class: "btn btn-info"

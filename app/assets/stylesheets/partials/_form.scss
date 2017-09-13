@@ -1,44 +1,30 @@
-.devise_link-list {
-  margin-right: 3px;
-}
-
-.form_wrapper {
-  background-color: #fff;
+.main-wrapper {
+  background-color: $wrapper-background;
+  border-radius: 12px;
   margin: 60px auto;
   padding: 20px 40px 30px;
-  border-radius: 1em;
-}
-
-.form_wrapper_for_chief {
-  background-color: #D9EDF7;
-  border-radius: 1em;
 }
 
 .question {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border-radius: 1em;
-  border: solid;
-  border-width: 1px;
-  border-color: #d3d3d3;
+  border: solid 1px $border-gray;
+  border-radius: 12px;
+  margin: 20px 0;
   padding: 20px;
 }
 
-.question_description {
-  height: 80px;
-}
-
-.choise{
+.choise-description {
   margin: 10px;
 }
 
-.checkbox_choises, .radio_choises {
+.checkbox-choises,
+.radio-choises {
   li {
     list-style: none;
   }
 }
 
-.new_survey_buttons {
+.new-survey-buttons {
+  @include clearfix;
   .btn {
     float: right;
     margin: 0 10px;
