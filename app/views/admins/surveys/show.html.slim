@@ -2,9 +2,9 @@
   .row
     h2.page-header.col-md-12 = @survey.title
     .survey-show-buttons.col-md-12
-      - if @survey.status_before_type_cast == Survey::DRAFT
+      - if @survey.draft?
         = link_to '編集', edit_admins_survey_path(@survey), class: "btn btn-primary"
-      - elsif @survey.status_before_type_cast == Survey::PUBLISHED
+      - elsif @survey.published?
         =form_for [:admins, @survey] do |f|
           = f.hidden_field :status, value: 2
           = f.submit '非公開にする', name: 'unlist_survey', class: 'btn btn-warning'

@@ -1,19 +1,25 @@
-h3
-  | アンケート編集
 = render partial: "partial/errors", locals: {instance: @survey}
 -if @questions
   - @questions.each do |question|
     = render partial: "partial/errors", locals: {instance: question}
-.survey_form
-  = form_for [:admins, @survey] do |f|
-    = f.text_field :title, value: @survey.title
-    = f.text_area :description, value: @survey.description
-    .questions-wrapper
-      p 問題
-      .question_form
+
+.container.main-wrapper
+  = form_for [:admins, @survey], html: { class: "form-horizontal" } do |f|
+    h2.page-header
+      = f.text_field :title, value: @survey.title
+    .row
+      .survey_form.col-md-12
+        .form_group
+          = f.text_area :description, value: @survey.description, class: "form-control col-md-12 question-description"
+      .questions-wrapper.col-md-12
         - @questions.each_with_index do |question, index|
-          p = "問題#{index + 1}"
-          = question_description_form question
-          = answers_preview_forms question
-    .add_question onclick='addQuestion()' 質問追加
-    = f.submit '更新'
+          .question-wrapper
+            .form-group
+              = question_description_form question
+            .form-group
+              .col-md-8
+                = answers_preview_forms question
+    .form-group.col-md-8
+        .new-survey-buttons
+          = f.submit "更新", class: "btn btn-primary edit-survey"
+          input.btn.btn-default.add_question value="質問追加"
