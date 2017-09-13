@@ -17,6 +17,7 @@
 }
 
 .panel-button {
+  @include clearfix;
   float: right;
   .btn {
     margin-right: 5px;
