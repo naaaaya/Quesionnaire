@@ -3,9 +3,9 @@
     .panel.panel-info
       .panel-heading
         .panel-title ログイン
-        .devise-link-list
+        .auth-link-list
           = render "admins/shared/links"
-      .panel-body.devise-form-wrapper
+      .panel-body.auth-form-wrapper
         #login-alert.alert.alert-danger.col-sm-12
         = form_for(resource, as: resource_name, url: session_path(resource_name), :html => { class: "form-horizontal", id: "loginform"}) do |f|
           .input-group.field-with-icon
