@@ -5,7 +5,7 @@
         .panel-title 管理者ログイン
         .devise-link-list
           = render "admins/shared/links"
-      .panel-body.admins-form-wrapper
+      .panel-body.devise-form-wrapper
         #login-alert.alert.alert-danger.col-sm-12
         = form_for(resource, as: resource_name, url: session_path(resource_name), :html => { class: "form-horizontal", id: "loginform"}) do |f|
           .input-group.field-with-icon

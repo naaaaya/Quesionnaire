@@ -5,7 +5,7 @@
         .panel-title パスワード変更
         .devise-link-list
           = render "admins/shared/links"
-      .panel-body.admins-form-wrapper
+      .panel-body.devise-form-wrapper
         #login-alert.alert.alert-danger.col-sm-12
           = devise_error_messages!
         = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "form-horizontal", id: "loginform"}) do |f|
