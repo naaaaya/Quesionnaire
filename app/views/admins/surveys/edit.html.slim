@@ -8,7 +8,7 @@ h3
   = form_for [:admins, @survey] do |f|
     = f.text_field :title, value: @survey.title
     = f.text_area :description, placeholder: @survey.description
-    .questions
+    .questions-wrapper
       p 問題
       .question_form
         - @questions.each_with_index do |question, index|

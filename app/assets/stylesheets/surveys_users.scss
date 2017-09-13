@@ -1,17 +1,18 @@
-.survey_show_buttons{
-  .btn{
+.survey-show-buttons {
+  @include clearfix;
+  .btn {
     float: right;
     margin-right: 10px;
   }
 }
 
-.added_companies {
-  .btn{
+.added-companies {
+  .btn {
     margin-left: 10px;
   }
 }
 
-.add_company_button {
+.add-company-button {
   margin-left: 10px;
 }
 
