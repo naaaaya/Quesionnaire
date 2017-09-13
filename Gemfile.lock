@@ -232,11 +232,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-<<<<<<< HEAD
   bootstrap-sass
-=======
   bullet
->>>>>>> master
   byebug
   carrierwave
   chartkick
