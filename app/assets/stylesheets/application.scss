@@ -1,3 +1,9 @@
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
 @import 'mixin';
-@import 'header';
+@import 'partials/*';
 
+body {
+  background-color: $background-gray;
+  height: 100%;
+}

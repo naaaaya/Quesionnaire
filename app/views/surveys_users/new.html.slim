@@ -1,11 +1,23 @@
-h3
-  = @survey.title
-p
-  = @survey.description
-  = render partial: "partial/errors", locals: {instance: @surveys_user}
-  = form_for [@survey, @surveys_user] do |answer_form|
-    - @questions.each do |question|
-      = render partial: 'partial/edit_answer_forms', locals: {question: question, surveys_user: question.survey.surveys_users.find_by(user_id: current_user.id), answer_form: answer_form} if question.is_answered?(current_user)
-      = render partial: 'partial/new_answer_forms', locals: {question: question, answer_form: answer_form} unless question.is_answered?(current_user)
-    = render partial: 'partial/questions_pagination', locals: {questions: @questions}
-    = submit_tag '回答する', name:'send'
+.container.main-wrapper
+  h2.page-header
+    = @survey.title
+  p.list-item
+    = @survey.description
+    = render partial: "partial/errors", locals: {instance: @surveys_user}
+  .row
+      .survey_form.col-md-12
+        .form_group
+          .questions-wrapper.col-md-12
+            = form_for [@survey, @surveys_user] do |answer_form|
+              - @questions.each do |question|
+                .question-wrapper
+                  .form-group
+                    h4
+                      = question.description
+                    = answer_form.fields_for "#{question.id}".to_sym do |question_type|
+                      = question_type.hidden_field :question_type, value: question.question_type
+                    = answer_field(question, answer_form)
+              .form-group
+                .answer-survey-buttons
+                  = render partial: 'partial/questions_pagination', locals: {questions: @questions}
+                  = submit_tag '回答する', name:'send', class: 'btn btn-primary'

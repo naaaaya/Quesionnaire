@@ -1,6 +1,15 @@
-h3 未回答アンケート
-= render partial: 'partial/unanswered_surveys', locals: {unanswered_surveys: @unanswered_surveys}
-h3 下書き
-= render partial: 'partial/user_draft_surveys', locals: {draft_surveys: @draft_surveys}
-h3 回答済みアンケート
-= render partial: 'partial/answered_surveys', locals: {answered_surveys: @answered_surveys}
+.container.main-wrapper
+  h2.page-header 未回答アンケート
+  .row
+    .col-md-8
+      = render partial: 'partial/unanswered_surveys', locals: {unanswered_surveys: @unanswered_surveys}
+
+  h2.page-header 下書き
+  .row
+    .col-md-8
+      = render partial: 'partial/user_draft_surveys', locals: {draft_surveys: @draft_surveys}
+
+  h2.page-header 回答済みアンケート
+  .row
+    .col-md-8
+      = render partial: 'partial/answered_surveys', locals: {answered_surveys: @answered_surveys}

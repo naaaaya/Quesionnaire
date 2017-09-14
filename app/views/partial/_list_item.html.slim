@@ -1,2 +1,5 @@
-li.list-index
-  = link_to name, path
+li.nav-item
+  - if http_method
+    = link_to name, path, class: 'nav-link', method: http_method
+  - else
+    = link_to name, path, class: 'nav-link'

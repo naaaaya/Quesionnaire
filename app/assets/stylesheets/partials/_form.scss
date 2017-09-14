@@ -1,0 +1,33 @@
+.main-wrapper {
+  background-color: $wrapper-background;
+  border-radius: 12px;
+  margin: 60px auto;
+  padding: 20px 40px 30px;
+}
+
+.question-wrapper {
+  border: solid 1px $border-gray;
+  border-radius: 12px;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+.choise-description {
+  margin: 10px;
+}
+
+.checkbox-choises,
+.radio-choises {
+  li {
+    list-style: none;
+  }
+}
+
+.new-survey-buttons {
+  @include clearfix;
+  .btn {
+    float: right;
+    margin: 0 10px;
+  }
+}
+

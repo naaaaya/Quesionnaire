@@ -1,24 +1,35 @@
-h3 = @survey.title
+.container.main-wrapper
+  .row
+    h2.page-header.col-md-12 = @survey.title
+    .survey-show-buttons.col-md-12
+      - if @survey.draft?
+        = link_to '編集', edit_admins_survey_path(@survey), class: "btn btn-primary"
+      - elsif @survey.published?
+        =form_for [:admins, @survey] do |f|
+          = f.hidden_field :status, value: Survey.statuses[:unlisted]
+          = f.submit '非公開にする', name: 'unlist_survey', class: 'btn btn-warning'
+      - elsif @survey.unlisted?
+        = link_to '削除', admins_survey_path(@survey), method: :delete, class: "btn btn-danger"
 
-- if current_admin
-  .added_companies
-    p 公開範囲
-    - @added_companies.each do |company|
-      li
-        = company.name
-  .publication_setting
-    input#search_company type='text' placeholder='法人名を入力してください' onkeyup='searchCompany()'
-    ul.search_result
-    = form_for [:admins, @survey, @surveys_company] do |f|
-      .hidden_company_field
-      = f.submit '公開する'
-
-    =form_for [:admins, @survey] do |f|
-      = f.submit '非公開にする', name: 'unlist_survey'
-
-  - if @survey.published?
-    .survey_results
-      h3 回答概要
-      - @survey.questions.each do |question|
-        = overall_survey_results(question)
-
+  - if current_admin
+    .row
+      .col-md-8
+        .panel.panel-default
+          .panel-heading 公開範囲
+          ul.added-companies.list-group.added_companies
+            - @added_companies.each do |company|
+              li.list-group-item
+                = company.name
+    .container
+        .row
+          input#search_company.form-control.col-md-6 type='text' placeholder='法人名を入力してください' onkeyup='searchCompany()'
+          = form_for [:admins, @survey, @surveys_company], html: { class: "col-md-4" } do |f|
+            .hidden_company_field
+            = f.submit '公開する', class: 'btn btn-primary'
+          ul.search_result.list-group.col-md-6
+    - if @survey.published?
+      .survey_results
+        h3.page-header 回答概要
+        - @survey.questions.each do |question|
+          .row
+            = overall_survey_results(question)

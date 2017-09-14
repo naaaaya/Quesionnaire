@@ -1,3 +1,32 @@
-// Place all the styles related to the surveys_users controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.survey-show-buttons {
+  @include clearfix;
+  .btn {
+    float: right;
+    margin-right: 10px;
+  }
+}
+
+.unlist-company-btn,
+.publish-company-btn {
+  margin-left: 10px;
+}
+
+.panel-button {
+  @include clearfix;
+  float: right;
+
+  .btn {
+    margin-right: 5px;
+  }
+
+}
+
+.answer-survey-buttons {
+  @include clearfix;
+
+  .btn {
+    float: right;
+    margin-right: 10px;
+  }
+
+}

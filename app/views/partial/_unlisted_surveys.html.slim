@@ -1,7 +1,12 @@
-h4
-  | 非公開
-
-- surveys.each do |survey|
-  .survey-title
-  = link_to survey.title, admins_survey_path(survey)
-  = link_to '削除', admins_survey_path(survey), method: :delete
+.container
+  h4 非公開
+  .row
+    .col-md-8
+      - surveys.each do |survey|
+        = link_to admins_survey_path(survey) do
+          .panel.panel-danger
+            .panel-heading
+              h3.panel-title
+                = survey.title
+            .panel-body
+              = survey.description

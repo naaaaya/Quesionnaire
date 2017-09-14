@@ -32,6 +32,10 @@ Rails.application.routes.draw do
     resources :surveys_users, only: [:new, :create, :edit, :update]
   end
 
-  resources :users, only: [:index, :destroy]
+  resources :users, only: [:index, :destroy] do
+    member do
+      patch :change_chief
+    end
+  end
 
 end

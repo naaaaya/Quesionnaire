@@ -1,8 +1,14 @@
-h3
-  | 法人一覧
-
-- @companies.each do |company|
-  .company-name
-  = link_to company.name, admins_company_path(company)
-  = link_to '編集', edit_admins_company_path(company)
-  = link_to '削除', admins_company_path(company), method: :delete
+.container.table-wrapper
+  h2.page-header 法人一覧
+  .row.col-md-10.col-md-offset-1
+    table.table.table-striped.custab
+      thead
+        - @companies.each do |company|
+          tr
+            td
+              = link_to company.name, admins_company_path(company.id)
+            td.text-right.edit-delete-btns
+              = link_to edit_admins_company_path(company.id), class: "btn btn-info btn-xs" do
+                span.glyphicon.glyphicon-edit
+              = link_to admins_company_path(company.id), method: :delete, class: "btn btn-danger btn-xs" do
+                span.glyphicon.glyphicon-remove

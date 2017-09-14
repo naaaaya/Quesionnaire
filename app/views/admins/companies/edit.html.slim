@@ -1,7 +1,13 @@
-h3
-  | 法人名編集
-= render partial: "partial/errors", locals: {messages: @error_messages}
-= form_for [:admins, @company] do |f|
-  =f.label '新規法人名'
-  =f.text_field :name
-  =f.submit "編集"
+.container.main-wrapper
+  h2.page-header 法人名編集
+  .row
+    .col-md-8.col-sm-6.col-xs-12.personal-info
+      = form_for [:admins, @company], html: { class: "form-horizontal" } do |f|
+        .form-group
+          =f.label '新規法人名', class: "col-md-3 control-label"
+          .col-md-8
+            = f.text_field :name, autofocus: true, class: "form-control"
+        .form-group
+          label.col-md-3.control-label
+          .col-md-8
+            =f.submit "編集", class: "btn btn-primary"
