@@ -36,7 +36,6 @@ class Admins::SurveysController < ApplicationController
 
   def edit
     @survey = Survey.includes(questions: :questions_choises).find(params[:id])
-    @questions = @survey.questions
   end
 
   def update
@@ -55,7 +54,7 @@ class Admins::SurveysController < ApplicationController
       end
       redirect_to admins_survey_path(params[:id])
     rescue => e
-      render edit_admins_survey_path(@survey)
+      render edit_admins_survey_path
     end
   end
 

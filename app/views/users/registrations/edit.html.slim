@@ -2,6 +2,7 @@
   h2.page-header プロフィール編集
   .row
     = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f|
+      = devise_error_messages!
       .col-md-4.col-sm-6.col-xs-12
         .text-center
           = image_tag current_user.image.thumb.url, class: "avatar img-circle img-thumbnail" if current_user.image?
