@@ -1,6 +1,7 @@
 .container.table-wrapper
   h2.page-header 法人一覧
   .row.col-md-10.col-md-offset-1
+    = render partial: 'partial/errors', locals: {instance: @company} if @company
     table.table.table-striped.custab
       thead
         - @companies.each do |company|

@@ -2,6 +2,8 @@
   h2.page-header 法人追加
   .row
     .col-md-8.col-sm-6.col-xs-12.personal-info
+      = render partial: "partial/errors", locals: {instance: @company}
+      = render partial: "partial/errors", locals: {instance: @user}
       = form_for [:admins, @company], html: { class: "form-horizontal" } do |f|
         .form-group
           = f.label '法人名', class: "col-md-3 control-label"
