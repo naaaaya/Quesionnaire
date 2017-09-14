@@ -1,7 +1,6 @@
-= render partial: "partial/errors", locals: {instance: @survey}
-
 .container.main-wrapper
   = form_for [:admins, @survey], html: { class: "form-horizontal" } do |f|
+    = render partial: "partial/errors", locals: {instance: @survey}
     h2.page-header
       = f.text_field :title, value: @survey.title
     .row
@@ -11,6 +10,7 @@
       .questions-wrapper.col-md-12
         - @survey.questions.each_with_index do |question, index|
           .question-wrapper
+            = link_to '削除', survey_question_path(@survey, question), method: :delete, class: 'btn btn-danger float-right' unless index == 0
             .form-group
               = question_description_form question
             .form-group
