@@ -6,7 +6,6 @@
     - @company.users.each do |user|
       li.list-group-item
         = user.name
-        = link_to '削除', user_path(user), method: :delete, class: 'btn btn-danger float-right' unless user.chief_flag
         - if user.chief_flag
           span.badge.badge-primary 代表ユーザー
         - else
