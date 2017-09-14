@@ -40,6 +40,8 @@ class Admins::CompaniesController < ApplicationController
     end
   end
 
+
+
   def destroy
     begin
       ActiveRecord::Base.transaction do
