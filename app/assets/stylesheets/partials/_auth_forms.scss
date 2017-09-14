@@ -1,8 +1,9 @@
 .auth-link-list {
-  float:right;
+  float: right;
   font-size: 80%;
   margin-right: 3px;
-  position: relative; top:-10px
+  position: relative;
+  top: -10px;
 }
 
 .mainbox {
@@ -10,7 +11,7 @@
 }
 
 .alert-danger {
-  display:none;
+  display: none;
 }
 
 .login-btn {
@@ -22,5 +23,5 @@
 }
 
 .auth-form-wrapper {
-  padding-top:30px;
+  padding-top: 30px;
 }

@@ -1,11 +1,11 @@
 $ ->
   preInputedCompanyName = ""
   appendResultList = (company) ->
-      html = "<li class='list-group-item'>#{company.name}<input type='button' value='公開' data-company-id=#{company.id} data-company-name=#{company.name} class='add-company-button btn btn-primary btn-sm' onclick=addCompanyButton(this)></input></li>"
+      html = "<li class='list-group-item'>#{company.name}<input type='button' value='公開' data-company-id=#{company.id} data-company-name=#{company.name} class='publish-company-btn btn btn-primary btn-sm' onclick=addCompanyButton(this)></input></li>"
       $('.search_result').append(html)
 
   appendCompaniesList = (id, name) ->
-      html = "<li class='list-group-item'>#{name}<input type='button' value='非公開' data-company-id=#{id} class='delete_company_button btn btn-danger btn-sm' onclick=deleteCompanyButton(this)></input></li>"
+      html = "<li class='list-group-item'>#{name}<input type='button' value='非公開' data-company-id=#{id} class='unlist-company-btn btn btn-danger btn-sm' onclick=deleteCompanyButton(this)></input></li>"
       $('.added_companies').append(html)
 
   appendHiddenField = (companyId) ->

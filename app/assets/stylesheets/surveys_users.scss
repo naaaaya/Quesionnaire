@@ -6,20 +6,27 @@
   }
 }
 
-.added-companies {
-  .btn {
-    margin-left: 10px;
-  }
-}
-
-.add-company-button {
+.unlist-company-btn,
+.publish-company-btn {
   margin-left: 10px;
 }
 
 .panel-button {
   @include clearfix;
   float: right;
+
   .btn {
     margin-right: 5px;
   }
+
+}
+
+.answer-survey-buttons {
+  @include clearfix;
+
+  .btn {
+    float: right;
+    margin-right: 10px;
+  }
+
 }

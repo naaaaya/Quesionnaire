@@ -1,35 +1,27 @@
-h3
-  | アンケート編集
 = render partial: "partial/errors", locals: {instance: @survey}
 -if @questions
   - @questions.each do |question|
     = render partial: "partial/errors", locals: {instance: question}
-.survey_form
-  = form_for [:admins, @survey] do |f|
-    = f.text_field :title, value: @survey.title
-    = f.text_area :description, placeholder: @survey.description
-    .questions-wrapper
-      p 問題
-      .question_form
-        - @questions.each_with_index do |question, index|
-          p
-            = "問題#{index + 1}"
-          = text_field :question, :id, value: question.id, name: 'questions[][id]', type:'hidden'
-          = text_field :question, :description, value: question.description, name:'questions[][description]'
-          = select :question, :question_type, Question.question_types.keys.to_a, {selected: question.question_type},
-          class: 'form-control', data: {"question-number" =>question.id}, id:"question1_question_type",
-          name:'questions[][question_type]', onchange:'appendAnswerForm(this)'
-          .question_field id="question#{question.id}"
-            - case question.question_type_before_type_cast
-            - when Question::TEXT_FIELD
-              = text_field :answer, :description, placeholder: '自由記述（短文回答）'
-            - when Question::TEXTAREA
-              = text_area :answer, :description, placeholder: '自由記述（長文回答）'
-            - when Question::CHECKBOX, Question::RADIO_BUTTON
-              - question.questions_choises.each do |choise|
-               li
-                  = text_field :questions_choise, :id, value: choise.id, name:'questions[][choises[][id]]', type: 'hidden'
-                  = text_field :questions_choise, :description, value: choise.description, name:'questions[][choises[][description]]'
 
-    .add_question onclick='addQuestion()' 質問追加
-    = f.submit '作成'
+.container.main-wrapper
+  = form_for [:admins, @survey], html: { class: "form-horizontal" } do |f|
+    h2.page-header
+      = f.text_field :title, value: @survey.title
+    .row
+      .survey_form.col-md-12
+        .form_group
+          = f.text_area :description, value: @survey.description, class: "form-control col-md-12 question-description"
+      .questions-wrapper.col-md-12
+        - @questions.each_with_index do |question, index|
+          .question-wrapper
+            .form-group
+              = question_description_form question
+            .form-group
+              .col-md-8
+                = answers_preview_forms question
+    .form-group.col-md-8
+        .new-survey-buttons
+          = f.submit "更新", class: "btn btn-primary edit-survey"
+          input.btn.btn-default.add_question value="質問追加"
+
+
