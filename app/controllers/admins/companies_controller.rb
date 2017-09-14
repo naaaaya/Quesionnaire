@@ -19,7 +19,7 @@ class Admins::CompaniesController < ApplicationController
       end
       redirect_to admins_companies_path
     rescue => e
-        render new_admins_company_path
+      render new_admins_company_path
     end
   end
 
