@@ -1,1 +1,12 @@
-h3 = @company.name
+.container.main-wrapper
+  h3.page-header
+    = @company.name
+    |   社員一覧
+  ul.employees_name.list-group
+    - @company.users.each do |user|
+      li.list-group-item
+        = user.name
+        - if user.chief_flag
+          span.badge.badge-primary 代表ユーザー
+        - else
+          = link_to '代表権を移す', change_chief_user_path(user), method: :patch, class: 'btn btn-primary float-right' unless user.chief_flag
