@@ -1,6 +1,7 @@
 .container.main-wrapper
   .row
     h2.page-header.col-md-12 = @survey.title
+    = render partial: 'partial/errors', locals: {instance: @survey}
     .survey-show-buttons.col-md-12
       - if @survey.draft?
         = link_to '編集', edit_admins_survey_path(@survey), class: "btn btn-primary"

@@ -1,7 +1,4 @@
 = render partial: "partial/errors", locals: {instance: @survey}
--if @questions
-  - @questions.each do |question|
-    = render partial: "partial/errors", locals: {instance: question}
 
 .container.main-wrapper
   = form_for [:admins, @survey], html: { class: "form-horizontal" } do |f|

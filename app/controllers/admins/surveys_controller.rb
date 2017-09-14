@@ -14,9 +14,10 @@ class Admins::SurveysController < ApplicationController
   end
 
   def create
+    @survey = Survey.new(survey_params)
     begin
       ActiveRecord::Base.transaction do
-        @survey = Survey.create!(survey_params)
+        @survey.save!
         questions_params.each do |question_params|
           Question.create_question(@survey, question_params)
         end
@@ -54,7 +55,7 @@ class Admins::SurveysController < ApplicationController
       end
       redirect_to admins_survey_path(params[:id])
     rescue => e
-      render edit_admins_survey_path
+      render edit_admins_survey_path(@survey)
     end
   end
 
@@ -64,7 +65,7 @@ class Admins::SurveysController < ApplicationController
         @survey.destroy!
       end
     rescue => e
-      # エラーメッセージを整形して表示する issue#14
+      render admins_survey_path
     end
     redirect_to admins_surveys_path
   end
