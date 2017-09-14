@@ -15,15 +15,17 @@ class SurveysUser < ApplicationRecord
   end
 
   def create_or_update_checkbox_answer(answer_param)
-    answer_param[:choise_ids].each do |choise_id|
-      choise_answer = choise_answers.where(question_id: answer_param[:question_id], questions_choise_id: choise_id).first_or_initialize
-      choise_answer.save!
+    if answer_param[:choise_ids]
+      answer_param[:choise_ids].each do |choise_id|
+        choise_answer = choise_answers.where(question_id: answer_param[:question_id], questions_choise_id: choise_id).first_or_initialize
+        choise_answer.save!
+      end
     end
   end
 
   def delete_unchecked_choise_answer(checked_ids, answer_param)
     checked_ids.each do |checked_id|
-      unless answer_param[:choise_ids].include?(checked_id.to_s)
+      unless answer_param[:choise_ids].try(:include?, checked_id.to_s)
         delete_choise_answer = choise_answers.find_by(questions_choise_id: checked_id)
       end
       delete_choise_answer.destroy! if delete_choise_answer.present?
@@ -31,9 +33,11 @@ class SurveysUser < ApplicationRecord
   end
 
   def create_or_update_radio_answer(answer_param)
-    choise_answer = choise_answers.where(question_id: answer_param[:question_id]).first_or_initialize
-    choise_answer.questions_choise_id = answer_param[:questions_choise_id]
-    choise_answer.save!
+    if answer_param[:questions_choise_id]
+      choise_answer = choise_answers.where(question_id: answer_param[:question_id]).first_or_initialize
+      choise_answer.questions_choise_id = answer_param[:questions_choise_id]
+      choise_answer.save!
+    end
   end
 
 
