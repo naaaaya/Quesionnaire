@@ -13,14 +13,13 @@ class Admins::CompaniesController < ApplicationController
 
   def create
     begin
-      @company = Company.new(company_params)
-      @user = @company.users.new(user_params)
       ActiveRecord::Base.transaction do
-        @company.save!
-        @user.save!
+        @company = Company.create!(company_params)
+        @user = @company.users.create!(user_params)
       end
       redirect_to admins_companies_path
     rescue => e
+      binding.pry
       render new_admins_company_path
     end
   end
@@ -42,7 +41,15 @@ class Admins::CompaniesController < ApplicationController
   end
 
   def destroy
-    redirect_to companies_path
+    begin
+      ActiveRecord::Base.transaction do
+        @company = Company.find(params[:id])
+        @company.destroy
+      end
+      redirect_to admins_companies_path
+    rescue => e
+      render admins_companies_path
+    end
   end
 
 
