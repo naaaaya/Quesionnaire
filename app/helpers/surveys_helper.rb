@@ -1,41 +1,92 @@
 module SurveysHelper
 
-  def question_description_form(question)
-    question_description = content_tag(:div, class: "col-md-6") do
-      concat text_field(:question, :id, value: question.id, name: 'questions[][id]', type:'hidden')
-      concat text_field(:question, :description, value: question.description, name:'questions[][description]', class: "form-control")
+  def answer_forms(question, answer_form)
+    question_description = content_tag(:h4, question.description) do
+      answer_form.fields_for "#{question.id}".to_sym do |question_type|
+        question_type.hidden_field :question_type, value: question.question_type
+      end
     end
-    question_description + question_type_select(question)
+    question_description + answer_form(question, answer_form)
   end
 
-  def question_type_select(question)
-    content_tag(:div, class: "col-md-4 ui-select") do
-      select(:question, :question_type, Question.question_types.keys.to_a, {selected: question.question_type},
-      class: 'form-control', data: {"question-number" =>question.id}, id:"question#{question.id}_question_type",
-      name:'questions[][question_type]', onchange:'appendAnswerForm(this)')
-    end
-  end
-
-  def answers_preview_forms(question)
-    content_tag(:div, class: "question_field", id: "question#{question.id}" ) do
+  def answer_field(question, answer_form)
+    if question.is_answered?
       if question.text_field?
-        text_field(:answer, :description, placeholder: '自由記述（短文回答）', class: "form-control")
-      elsif question.textarea?
-        text_area(:answer, :description, placeholder: '自由記述（長文回答）', class: "form-control")
-      else
-        concat choise_list(question)
-        concat content_tag(:input,'', {type:'button',class: 'append_checkbox btn btn-default', data: {"question-number" => question.id}, value:'選択肢追加'})
+        answer_form = answer_form.fields_for "#{question.id}".to_sym do |text_answer_form|
+         text_answer_form.text_field :description, placeholder: '自由記述（短文回答）', class: 'form-control'
+       end
+     elsif question.textarea?
+      answer_form.fields_for "#{question.id}".to_sym do |text_answer_form|
+        text_answer_form.text_area :description, placeholder: '自由記述（長文回答）', class: 'form-control'
+      end
+    elsif question.checkbox?
+      answer_form.fields_for "#{question.id}".to_sym do |choise_answer_form|
+        choise_answer_form.collection_check_boxes :choise_ids, question.questions_choises, :id, :description, include_hidden: false
+      end
+    elsif question.radio_button?
+      answer_form.fields_for "#{question.id}".to_sym do |choise_answer_form|
+        choise_answer_form.collection_radio_buttons :choise_id, question.questions_choises, :id, :description, include_hidden: false
+      end
+    end
+  else
+    if question.text_field?
+      answer_form = answer_form.fields_for "#{question.id}".to_sym do |text_answer_form|
+        text_answer_form.text_field :description, value: question.text_answers.find_by(surveys_user_id: surveys_user.id).description, class: 'form-control'
+      end
+    elsif question.textarea?
+      answer_form = answer_form.fields_for "#{question.id}".to_sym do |text_answer_form|
+        text_answer_form.text_area :description, value: question.text_answers.find_by(surveys_user_id: surveys_user.id).description, class: 'form-control'
+      end
+    elsif question.checkbox?
+      answer_form = answer_form.fields_for "#{question.id}".to_sym do |choise_answer_form|
+        choise_answer_form.collection_check_boxes :choise_ids, question.questions_choises, :id, :description,checked: question.choise_answers.where(surveys_user_id: surveys_user.id).map {|answer| answer.questions_choise.id },
+        include_hidden: false
+      end
+    else
+      answer_form = answer_form.fields_for "#{question.id}".to_sym do |choise_answer_form|
+        choise_answer_form.collection_radio_buttons :choise_id, question.questions_choises, :id, :description,checked: question.choise_answers.find_by(surveys_user_id: surveys_user.id).questions_choise.id, include_hidden: false
       end
     end
   end
+end
 
-  def choise_list(question)
-    content_tag(:ul, class: "checkbox-choises",id: "question#{question.id}-choises") do
-      choise_number = 1
-      question.questions_choises.each do |choise|
-        choises = content_tag(:li, class: "choise-description question#{question.id}-choise", id: "choise#{choise_number}") do
-          concat text_field(:questions_choise, :id, value: choise.id, name:'questions[][choises[][id]]', type: 'hidden', class: "form-control")
-          concat text_field(:questions_choise, :description, value: choise.description, name:'questions[][choises[][description]]',
+
+def question_description_form(question)
+  question_description = content_tag(:div, class: "col-md-6") do
+    concat text_field(:question, :id, value: question.id, name: 'questions[][id]', type:'hidden')
+    concat text_field(:question, :description, value: question.description, name:'questions[][description]', class: "form-control")
+  end
+  question_description + question_type_select(question)
+end
+
+def question_type_select(question)
+  content_tag(:div, class: "col-md-4 ui-select") do
+    select(:question, :question_type, Question.question_types.keys.to_a, {selected: question.question_type},
+      class: 'form-control', data: {"question-number" =>question.id}, id:"question#{question.id}_question_type",
+        name:'questions[][question_type]', onchange:'appendAnswerForm(this)')
+  end
+end
+
+def answers_preview_forms(question)
+  content_tag(:div, class: "question_field", id: "question#{question.id}" ) do
+    if question.text_field?
+      text_field(:answer, :description, placeholder: '自由記述（短文回答）', class: "form-control")
+    elsif question.textarea?
+      text_area(:answer, :description, placeholder: '自由記述（長文回答）', class: "form-control")
+    else
+      concat choise_list(question)
+      concat content_tag(:input,'', {type:'button',class: 'append_checkbox btn btn-default', data: {"question-number" => question.id}, value:'選択肢追加'})
+    end
+  end
+end
+
+def choise_list(question)
+  content_tag(:ul, class: "checkbox-choises",id: "question#{question.id}-choises") do
+    choise_number = 1
+    question.questions_choises.each do |choise|
+      choises = content_tag(:li, class: "choise-description question#{question.id}-choise", id: "choise#{choise_number}") do
+        concat text_field(:questions_choise, :id, value: choise.id, name:'questions[][choises[][id]]', type: 'hidden', class: "form-control")
+        concat text_field(:questions_choise, :description, value: choise.description, name:'questions[][choises[][description]]',
           class: "form-control")
         end
         choise_number += 1

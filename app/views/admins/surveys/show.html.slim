@@ -6,7 +6,7 @@
         = link_to '編集', edit_admins_survey_path(@survey), class: "btn btn-primary"
       - elsif @survey.published?
         =form_for [:admins, @survey] do |f|
-          = f.hidden_field :status, value: 2
+          = f.hidden_field :status, value: Survey.statuses[:unlisted]
           = f.submit '非公開にする', name: 'unlist_survey', class: 'btn btn-warning'
       - else
         = link_to '削除', admins_survey_path(@survey), method: :delete, class: "btn btn-danger"
