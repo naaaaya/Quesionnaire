@@ -1,8 +1,9 @@
-h3 = @survey.title
-p = @survey.description
-
-.survey_results
-  h3 回答概要
-  - @survey.questions.each do |question|
-    = company_survey_results(question)
-
+.container.main-wrapper
+  .row
+    h2.page-header.col-md-12 = @survey.title
+    p = @survey.description
+    .survey_results
+      h3 回答概要
+      - @survey.questions.each do |question|
+        .row
+          = company_survey_results(question)

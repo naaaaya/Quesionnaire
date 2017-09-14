@@ -1,18 +1,27 @@
-.container.col-md-4
-  h2.form-heading
-    | ログイン
-  = form_for(resource, as: resource_name, url: session_path(resource_name), :html => { class: "form-signin"}) do |f|
-    .form-group
-      = f.label :email
-      = f.email_field :email, autofocus: true, class: "form-control", id:'inputEmail'
-    .form-group
-      = f.label :password
-      = f.password_field :password, autocomplete: "off", id: "inputPassword", class: "form-control"
-    - if devise_mapping.rememberable?
-      .form-check
-        = f.check_box :remember_me, class: "form-check-input"
-        = f.label :remember_me, class: 'form-check-label'
-    .actions
-      = f.submit "ログイン", class: "btn btn-primary"
-  = render "users/shared/links"
-
+.container
+  .mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
+    .panel.panel-info
+      .panel-heading
+        .panel-title ログイン
+        .auth-link-list
+          = render "admins/shared/links"
+      .panel-body.auth-form-wrapper
+        #login-alert.alert.alert-danger.col-sm-12
+        = form_for(resource, as: resource_name, url: session_path(resource_name), :html => { class: "form-horizontal", id: "loginform"}) do |f|
+          .input-group.field-with-icon
+            span.input-group-addon
+              i.glyphicon.glyphicon-envelope
+            = f.email_field :email, autofocus: true, class: "form-control", placeholder: "メールアドレス"
+          .input-group.field-with-icon
+            span.input-group-addon
+              i.glyphicon.glyphicon-lock
+            = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "パスワード"
+          - if devise_mapping.rememberable?
+            .input-group
+              .checkbox
+                label
+                  = f.check_box :remember_me, class: "form-check-input"
+                  = f.label :remember_me, class: 'form-check-label'
+          .form-group.login-btn
+            .col-sm-12.controls
+              = f.submit "ログイン", class: "btn btn-success", id: 'btn-login'

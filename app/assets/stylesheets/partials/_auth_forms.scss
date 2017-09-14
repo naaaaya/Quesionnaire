@@ -1,8 +1,9 @@
-.devise-link-list {
-  float:right;
+.auth-link-list {
+  float: right;
   font-size: 80%;
   margin-right: 3px;
-  position: relative; top:-10px
+  position: relative;
+  top: -10px;
 }
 
 .mainbox {
@@ -10,7 +11,7 @@
 }
 
 .alert-danger {
-  display:none;
+  display: none;
 }
 
 .login-btn {
@@ -21,6 +22,6 @@
   margin-bottom: 25px;
 }
 
-.admins-form-wrapper {
-  padding-top:30px;
+.auth-form-wrapper {
+  padding-top: 30px;
 }

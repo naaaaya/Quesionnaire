@@ -3,9 +3,9 @@
     .panel.panel-info
       .panel-heading
         .panel-title パスワード再登録
-        .devise-link-list
+        .auth-link-list
           = render "admins/shared/links"
-      .panel-body style="padding-top:30px"
+      .panel-body.auth-form-wrapper
         #login-alert.alert.alert-danger.col-sm-12
           = devise_error_messages!
         = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form-horizontal", id: "loginform"}) do |f|

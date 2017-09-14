@@ -4,26 +4,27 @@ $ ->
   questionNumber = 1
 
   renderTextField = ->
-    "<input type = 'text' placeholder = '自由記述（短文回答）'>"
+    "<input type = 'text' placeholder = '自由記述（短文回答）' class='form-control'>"
 
   renderTextArea = ->
-    "<textarea name = 'answer' rows='4' cols='40' placeholder = '自由記述（長文回答）'>"
+    "<textarea name = 'answer' rows='4' cols='40' placeholder = '自由記述（長文回答）' class='form-control'>"
 
   renderCheckBox = (choiseNumber, QuestionNumber) ->
-    "<ul class= 'checkbox_choises' id='question#{questionNumber}-choises'>
-    <li id='choise#{choiseNumber}' class='question#{questionNumber}-choise'>
-    <input type= 'text' name= 'questions[][choises[][description]]' value= '選択肢#{choiseNumber}'>
-    <input type= 'button' id='delete_choise' value= '削除' data-number=#{choiseNumber} data-question-number=#{questionNumber}>
-    </li></ul>
-    <input type= 'button' class='append_checkbox' data-question-number=#{questionNumber} value= '選択肢追加'>"
+    "<ul class='checkbox-choises' id='question#{questionNumber}-choises'>
+    <li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
+    <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}', class='form-control col-md-4'>
+    <input type='button' id='delete_choise' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber},
+    class='delete_choise btn btn-danger'></li></ul>
+    <input type='button' class='append_checkbox btn btn-default' data-question-number=#{questionNumber} value='選択肢追加'>"
+
 
   renderRadioButton = (choiseNumber, QuestionNumber) ->
-    "<ul class= 'radio_choises' id='question#{questionNumber}-choises'>
-    <li id='choise#{choiseNumber}' class='question#{questionNumber}-choise'>
-    <input type= 'text' name= 'questions[][choises[][description]]' value= '選択肢#{choiseNumber}'>
-    <input type= 'button' id='delete_choise' value= '削除' data-number=#{choiseNumber} data-question-number=#{questionNumber}>
-    </li></ul>
-    <input type= 'button' id='append_radio' data-question-number=#{questionNumber}  value= '選択肢追加'>"
+    "<ul class='radio-choises' id='question#{questionNumber}-choises'>
+    <li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
+    <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}', class='form-control col-md-4'>
+    <input type='button' id='delete_choise' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber},
+    class='delete_choise btn btn-danger'></li></ul>
+    <input type='button' class='append_checkbox btn btn-default' data-question-number=#{questionNumber} value='選択肢追加'>"
 
   appendQuestionType = (type, questionNumber) ->
     questionField = $("#question#{questionNumber}")
@@ -52,17 +53,18 @@ $ ->
     $("#question#{questionNumber}-choises").append("<li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
                                                 <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}',
                                                 class='form-control col-md-4'>
-                                                <input type='button' id='delete_choise' class='append_checkbox btn btn-danger' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber} >
+                                                <input type='button' id='delete_choise' class='delete_choise btn btn-danger' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber}>
                                                 </li>")
+
   $('.questions-wrapper').on 'click', '#append_radio', ->
     choiseNumber = choiseNumber + 1
     questionNumber = $(this).data('questionNumber')
     $("#question#{questionNumber}-choises").append("<li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
-                                                <input type='text' name='questions[][choises[][description]]' value='選択肢#{choiseNumber}' class='form-control col-md-4'>
-                                                <input type='button' id='delete_choise' class='append_checkbox btn btn-danger' value='削除' data-number=#{choiseNumber} data-question-number=#{questionNumber}>
+                                                <input type= 'text' name= 'questions[][choises[][description]]' value= '選択肢#{choiseNumber}' class='form-control col-md-4'>
+                                                <input type= 'button' id='delete_choise' class='delete_choise btn btn-danger' value= '削除'
                                                 </li>")
 
-  $('.questions-wrapper').on 'click', '#delete_choise', ->
+  $('.questions-wrapper').on 'click', '.delete_choise', ->
     questionNumber = $(this).data('questionNumber')
     deleteChoiseNumber = $(this).data('number')
     $("#choise#{deleteChoiseNumber}").remove(".question#{questionNumber}-choise")
@@ -76,7 +78,7 @@ $ ->
               </div>
               <div class='col-md-4'>
                 <div class='ui-select'>
-                  <select class='form-control' name='questions[][question_type]' id='question#{questionNumber}_question_type' data-question-number=#{questionNumber} onchange='appendAnswerForm(this)'>
+                  <select class='form-control' name='questions[][question_type]' id='question#{questionNumber}_question_type' data-question-number=#{questionNumber}>
                   <option value='text_field'>text_field</option>
                   <option value='textarea'>textarea</option>
                   <option value='checkbox'>checkbox</option>
@@ -87,7 +89,7 @@ $ ->
             <div class='form-group'>
               <div class='col-md-8'>
                 <div id='question#{questionNumber}' class='questionField'>
-                <input placeholder='自由記述（短文回答）' type='text'></div>
+                <input placeholder='自由記述（短文回答）' type='text' class='form-control'></div>
                 </div>
             </div></div>"
     $('.questions-wrapper').append(html)
