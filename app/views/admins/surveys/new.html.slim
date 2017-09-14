@@ -16,7 +16,6 @@
           = f.text_area :description, placeholder: 'アンケートの説明', class: "form-control col-md-12 question-description"
       .questions-wrapper.col-md-12
         .question-wrapper
-          h4 問題１
           .form-group
             .col-md-6
               = text_field :question, :description, value: '無題の質問', name:'questions[][description]', class: "form-control"
@@ -24,7 +23,7 @@
               .ui-select
                 = select :question, :question_type, Question.question_types.keys.to_a, {} ,
                   class: 'form-control', data: {"question-number" =>1}, id:"question1_question_type",
-                  name:'questions[][question_type]', onchange:'appendAnswerForm(this)'
+                  name:'questions[][question_type]'
           .form-group
             .col-md-8
               .question_field id="question1"
@@ -32,4 +31,5 @@
       .form-group.col-md-8
         .new-survey-buttons
           = f.submit "作成", class: "btn btn-primary submit-answer"
-          input.btn.btn-default.add_question onclick='addQuestion()' value="質問追加"
+          input.btn.btn-default.add_question value="質問追加"
+

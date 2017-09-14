@@ -2,13 +2,13 @@
   .row
     h2.page-header.col-md-12 = @survey.title
     .survey-show-buttons.col-md-12
-      - if @survey.status_before_type_cast == Survey::DRAFT
+      - if @survey.draft?
         = link_to '編集', edit_admins_survey_path(@survey), class: "btn btn-primary"
-      - elsif @survey.status_before_type_cast == Survey::PUBLISHED
+      - elsif @survey.published?
         =form_for [:admins, @survey] do |f|
           = f.hidden_field :status, value: 2
           = f.submit '非公開にする', name: 'unlist_survey', class: 'btn btn-warning'
-      - else
+      - elsif @survey.unlisted?
         = link_to '削除', admins_survey_path(@survey), method: :delete, class: "btn btn-danger"
 
   - if current_admin
@@ -27,7 +27,8 @@
             .hidden_company_field
             = f.submit '公開する', class: 'btn btn-primary'
           ul.search_result.list-group.col-md-6
-    - if @survey.status_before_type_cast == Survey::PUBLISHED
+    - if @survey.published?
       .survey_results
         h3.page-header 回答概要
-        = render partial: 'partial/overall_survey_results', locals:{questions: @questions}
+        - @survey.questions.each do |question|
+          = overall_survey_results(question)

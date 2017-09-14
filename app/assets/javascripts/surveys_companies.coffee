@@ -6,7 +6,7 @@ $ ->
 
   appendCompaniesList = (id, name) ->
       html = "<li class='list-group-item'>#{name}<input type='button' value='非公開' data-company-id=#{id} class='delete_company_button btn btn-danger btn-sm' onclick=deleteCompanyButton(this)></input></li>"
-      $('.added_companies').append(html)
+      $('.added-companies').append(html)
 
   appendHiddenField = (companyId) ->
     html = "<input type='hidden' name='company_ids[]' value=#{companyId} id='hidden_company#{companyId}'>"

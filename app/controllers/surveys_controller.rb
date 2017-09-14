@@ -4,13 +4,12 @@ class SurveysController < ApplicationController
   def index
     @answered_surveys = current_user.surveys_users.answered
     @draft_surveys = current_user.surveys_users.drafts
-    @unanswered_surveys = current_user.company.surveys.never_answered(current_user)
+    @unanswered_surveys = current_user.company.surveys.where(status: Survey.statuses[:published]).never_answered(current_user)
   end
 
   def show
-    redirect_to surveys_path if current_user.chief_flag == false && SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:id]).try(:answered_flag) == false
-    @survey = Survey.find(params[:id])
-    @questions = @survey.questions
-    @users = current_user.company.users
+    users_have_no_authentication = !current_user.chief_flag && !SurveysUser.try(:find_by, user_id: current_user, survey_id: params[:id]).try(:answered_flag)
+    redirect_to surveys_path if users_have_no_authentication
+    @survey = Survey.includes(questions: [{questions_choises: :choise_answers}, :text_answers]).find(params[:id])
   end
 end
