@@ -6,8 +6,8 @@
         .auth-link-list
           = render "admins/shared/links"
       .panel-body.auth-form-wrapper
-        #login-alert.alert.alert-danger.col-sm-12
         = form_for(resource, as: resource_name, url: session_path(resource_name), :html => { class: "form-horizontal", id: "loginform"}) do |f|
+          = devise_error_messages!
           .input-group.field-with-icon
             span.input-group-addon
               i.glyphicon.glyphicon-envelope

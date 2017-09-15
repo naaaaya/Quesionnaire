@@ -12,10 +12,12 @@ class Admins::CompaniesController < ApplicationController
   end
 
   def create
+    @company = Company.new(company_params)
+    @user = @company.users.new(user_params)
     begin
       ActiveRecord::Base.transaction do
-        @company = Company.create!(company_params)
-        @user = @company.users.create!(user_params)
+        @company.save!
+        @user.save!
       end
       redirect_to admins_companies_path
     rescue => e
@@ -31,12 +33,10 @@ class Admins::CompaniesController < ApplicationController
   end
 
   def update
-    if @company.update(company_params)
-      redirect_to admins_companies_path
-    else
-      @error_messages = @company.errors.full_messages
-      render 'admins/companies/edit'
-    end
+    @company.update(company_params)
+    redirect_to admins_companies_path
+  rescue => e
+    render edit_admins_company_path(@company)
   end
 
 
@@ -44,7 +44,7 @@ class Admins::CompaniesController < ApplicationController
   def destroy
     begin
       ActiveRecord::Base.transaction do
-        @company.destroy
+        @company.destroy!
       end
       redirect_to admins_companies_path
     rescue => e

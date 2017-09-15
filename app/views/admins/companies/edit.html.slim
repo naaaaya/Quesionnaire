@@ -1,5 +1,6 @@
 .container.main-wrapper
   h2.page-header 法人名編集
+  = render partial: "partial/errors", locals: {instance: @company}
   .row
     .col-md-8.col-sm-6.col-xs-12.personal-info
       = form_for [:admins, @company], html: { class: "form-horizontal" } do |f|

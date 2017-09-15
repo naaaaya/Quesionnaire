@@ -1,13 +1,6 @@
-= render partial: "partial/errors", locals: {instance: @survey}
--if @questions
-  - @questions.each do |question|
-    = render partial: "partial/errors", locals: {instance: question}
--if @choises
-  - @choises.each do |choise|
-    = render partial: "partial/errors", locals: {instance: choise}
-
 .container.main-wrapper
   = form_for [:admins, @survey], html: { class: "form-horizontal" } do |f|
+    = render partial: "partial/errors", locals: {instance: @survey}
     h2.page-header
       = f.text_field :title, value: '無題のアンケート', autofocus: true
     .row
