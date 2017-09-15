@@ -1,6 +1,7 @@
 class Admins::SurveysController < ApplicationController
   before_action :authenticate_admin!
   before_action :set_survey, only:[:show, :edit, :update, :destroy]
+  before_action :unlist_survey, only: :update
 
   def index
     @draft_surveys = Survey.where(status: Survey.statuses[:draft])
@@ -36,6 +37,7 @@ class Admins::SurveysController < ApplicationController
 
   def edit
     @survey = Survey.includes(questions: :questions_choises).find(params[:id])
+    redirect_to admins_surveys_path unless @survey.draft?
   end
 
   def update
