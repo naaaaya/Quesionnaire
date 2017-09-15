@@ -22,14 +22,13 @@ class SurveysUsersController < ApplicationController
         end
         create_params.each do |answer_param|
           question = Question.find(answer_param[:question_id])
-          case question.question_type
-          when 'text_field', 'textarea'
+          if question.text_field? || question.textarea?
             @surveys_user.create_or_update_text_answer(answer_param)
-          when 'checkbox'
+          elsif question.checkbox?
             checked_ids = question.choise_answers.where(surveys_user_id: @surveys_user.id).pluck(:questions_choise_id)
             @surveys_user.delete_unchecked_choise_answer(checked_ids, answer_param)
             @surveys_user.create_or_update_checkbox_answer(answer_param)
-          when 'radio_button'
+          elsif question.radio_button?
             @surveys_user.create_or_update_radio_answer(answer_param)
           end
         end
