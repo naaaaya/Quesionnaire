@@ -62,7 +62,6 @@ $ ->
     $("#question#{questionNumber}-choises").append("<li id='choise#{choiseNumber}' class='choise-description question#{questionNumber}-choise'>
                                                 <input type= 'text' name= 'questions[][choises[][description]]' value= '選択肢#{choiseNumber}' class='form-control col-md-4'>
                                                 <input type= 'button' id='delete_choise' class='delete_choise btn btn-danger' value= '削除'
-                                                  data-number=#{choiseNumber} data-question-number=#{questionNumber}>
                                                 </li>")
 
   $('.questions-wrapper').on 'click', '.delete_choise', ->
@@ -70,15 +69,9 @@ $ ->
     deleteChoiseNumber = $(this).data('number')
     $("#choise#{deleteChoiseNumber}").remove(".question#{questionNumber}-choise")
 
-  $('.questions-wrapper').on 'click', '.delete-question', ->
-    questionNumber = $(this).data('questionNumber')
-    $("#question#{questionNumber}-wrapper").remove()
-
   $('.add_question').on 'click', ->
     questionNumber = questionNumber + 1
-    html = "<div class='question-wrapper' id='question#{questionNumber}-wrapper'>
-            <input type= 'button' id='delete-question' class='delete-question btn btn-danger float-right' value= '削除'
-            data-question-number=#{questionNumber}>
+    html = "<div class='question-wrapper'>
             <div class='form-group'>
               <div class='col-md-6'>
                 <input value='無題の質問' type='text' name='questions[][description]' id='question#{questionNumber}_description' class='form-control'>
