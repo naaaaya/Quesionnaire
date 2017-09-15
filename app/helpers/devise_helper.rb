@@ -6,7 +6,7 @@ module DeviseHelper
     html << content_tag(:div, class: 'alert alert-danger', role: 'alert') do
       content_tag(:ul) do
         resource.errors.full_messages.each do |error_message|
-          concat content_tag(:li, error_message.to_s)
+          concat content_tag(:li, error_message)
         end
       end
     end
@@ -15,6 +15,6 @@ module DeviseHelper
   end
 
   def devise_error_messages?
-    resource.errors.empty? ? false : true
+    !!resource.errors.empty?
   end
 end
