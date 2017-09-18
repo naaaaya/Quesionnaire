@@ -12,9 +12,9 @@
               = link_to edit_admins_company_path(company.id), class: "btn btn-info btn-xs" do
                 span.glyphicon.glyphicon-edit
               = link_to admins_company_path(company.id), method: :delete,
-              data: { confirm: "本当に<strong>#{company.name}</strong>を削除してよろしいですか？",
-              verify: "#{company.name}",
-              verify_text: "削除する場合は法人名を入力してください",
-              cancel: "やめる",
-              commit: "削除する"}, title: "削除の確認", class: "btn btn-danger btn-xs delete-company" do
+                data: { confirm: "本当に<strong>#{company.name}</strong>を削除してよろしいですか？",
+                verify: "#{company.name}",
+                verify_text: "削除する場合は法人名を入力してください",
+                cancel: "やめる",
+                commit: "削除する"}, title: "削除の確認", class: "btn btn-danger btn-xs delete-company" do
                 span.glyphicon.glyphicon-remove
