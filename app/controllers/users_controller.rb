@@ -14,6 +14,8 @@ class UsersController < ApplicationController
       end
       redirect_to users_path
     rescue  => e
+      logger.error
+      render users_path
     end
   end
 
@@ -28,6 +30,7 @@ class UsersController < ApplicationController
       end
       redirect_to admins_company_path(@company)
     rescue => e
+      logger.error
       render admins_company_path(@company)
     end
   end
