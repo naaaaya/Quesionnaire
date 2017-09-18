@@ -79,8 +79,8 @@ module SurveysHelper
         choises = content_tag(:li, class: "choise-description question#{question.id}-choise", id: "choise#{choise_number}") do
           concat text_field(:questions_choise, :id, value: choise.id, name:'questions[][choises[][id]]', type: 'hidden', class: "form-control")
           concat text_field(:questions_choise, :description, value: choise.description, name:'questions[][choises[][description]]',
-            class: "form-control")
-          concat link_to '削除', survey_questions_choise_path(question.survey, choise), method: :delete, class: 'btn btn-danger float-right'
+            class: "form-control col-md-4")
+          concat link_to '削除', survey_questions_choise_path(question.survey, choise), method: :delete, class: 'btn btn-danger'
           end
           choise_number += 1
           concat choises
