@@ -8,9 +8,4 @@
         = user.name
         - if user.chief_flag
           span.badge.badge-primary 代表ユーザー
-        = link_to '削除', user_path(user), method: :delete,
-          data: { confirm: "本当に<strong>#{user.name}さん</strong>を削除してよろしいですか？",
-          verify: "#{user.name}",
-          verify_text: "削除する場合は社員名を入力してください",
-          cancel: "やめる",
-          commit: "削除する"}, title: "削除の確認", class: 'btn btn-danger float-right' unless user.chief_flag
+        = render partial: 'partial/delete_user_btn', locals: { user: user }
