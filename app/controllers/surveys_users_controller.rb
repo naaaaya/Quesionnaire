@@ -15,10 +15,10 @@ class SurveysUsersController < ApplicationController
     end
     begin
       ActiveRecord::Base.transaction do
-        @surveys_user = @survey.get_surveys_user(params, current_user)
-        create_params.each do |answer_param|
-          question = Question.find(answer_param[:question_id])
-          @surveys_user.create_or_update_answer(answer_param, question)
+        @surveys_user = @survey.get_surveys_user_by_status(params, current_user)
+        create_params.each do |answer_params|
+          question = Question.find(answer_params[:question_id])
+          @surveys_user.create_or_update_answer(answer_params, question)
         end
       end
       redirect_to redirect_path
