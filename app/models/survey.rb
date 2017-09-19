@@ -27,7 +27,7 @@ class Survey < ApplicationRecord
     surveys_user
   end
 
-  def get_surveys_user(params, user)
+  def get_draft_surveys_user_or_send_answer(params, user)
     if params[:send]
       answered_surveys_user(user)
     else
