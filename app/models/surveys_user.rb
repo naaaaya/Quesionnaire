@@ -7,6 +7,17 @@ class SurveysUser < ApplicationRecord
   scope :answered, -> { where(answered_flag: true) }
   scope :drafts, -> { where(answered_flag: false) }
 
+  def create_or_update_answer(answer_param, question)
+    if question.text_field? || question.textarea?
+      create_or_update_text_answer(answer_param)
+    elsif question.checkbox?
+      checked_ids = question.choise_answers.where(surveys_user_id: id).pluck(:questions_choise_id)
+      delete_unchecked_choise_answer(checked_ids, answer_param)
+      create_or_update_checkbox_answer(answer_param)
+    elsif question.radio_button?
+      create_or_update_radio_answer(answer_param)
+    end
+  end
 
   def create_or_update_text_answer(answer_param)
     text_answer = text_answers.where(question_id: answer_param[:question_id]).first_or_initialize
@@ -39,8 +50,5 @@ class SurveysUser < ApplicationRecord
       choise_answer.save!
     end
   end
-
-
-
 
 end
