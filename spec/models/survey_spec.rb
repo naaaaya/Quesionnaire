@@ -18,4 +18,47 @@ describe Survey do
     expect(survey.errors[:description]).to include("を入力してください")
   end
 
+  describe 'instance methods' do
+    let(:company) { create(:company) }
+    let(:user) { create(:user, company_id: company.id) }
+    let(:survey) { create(:survey) }
+
+    describe '#draft_surveys_user' do
+      it 'return surveys_user when user has already created draft' do
+        surveys_user = SurveysUser.create(survey_id: survey.id, user_id: user.id)
+        expect(survey.draft_surveys_user(user)).to eq surveys_user
+      end
+      it 'create surveys_user when user do not answer' do
+        expect {
+          survey.draft_surveys_user(user)
+        }.to change(SurveysUser, :count).by(1)
+      end
+    end
+
+    describe '#answered_surveys_user' do
+      it 'return surveys_user when user has already created draft' do
+        surveys_user = SurveysUser.create(survey_id: survey.id, user_id: user.id, answered_flag: 1)
+        expect(survey.answered_surveys_user(user)).to eq surveys_user
+      end
+      it 'create surveys_user when user do not answer' do
+        expect {
+          survey.answered_surveys_user(user)
+        }.to change(SurveysUser, :count).by(1)
+      end
+    end
+
+    describe '#get_surveys_user_by_status' do
+      it 'call #draft_surveys_user when user save draft' do
+        params = {}
+        expect(survey).to receive(:draft_surveys_user)
+        survey.get_surveys_user_by_status(params, user)
+      end
+      it 'call #answered_surveys_user when user send answer' do
+        params = {send: '回答する'}
+        expect(survey).to receive(:answered_surveys_user)
+        survey.get_surveys_user_by_status(params, user)
+      end
+    end
+
+  end
 end
