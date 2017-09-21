@@ -10,7 +10,7 @@
           = f.hidden_field :status, value: Survey.statuses[:unlisted]
           = f.submit '非公開にする', name: 'unlist_survey', class: 'btn btn-warning'
       - elsif @survey.unlisted?
-        = render partial: 'partial/delete_survey_btn', locals: { survey: @survey }
+        = render partial: 'partial/delete_popup_btn', locals: { path: admins_survey_path(@survey), data_name: @survey.title, verify_key: @survey.title, verify_text: "アンケート名"}
 
   - if current_admin
     .row

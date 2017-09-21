@@ -8,4 +8,4 @@
         = user.name
         - if user.chief_flag
           span.badge.badge-primary 代表ユーザー
-        = render partial: 'partial/delete_user_btn', locals: { user: user }
+        = render partial: 'partial/delete_popup_btn', locals: { path: user_path(user), data_name: user.name, verify_key: user.name, verify_text: "社員名"} unless user.chief_flag
