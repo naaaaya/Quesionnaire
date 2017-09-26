@@ -10,5 +10,5 @@
               = link_to company.name, admins_company_path(company.id)
             td.text-right.edit-delete-btns
               = link_to '編集', edit_admins_company_path(company.id), class: "btn btn-primary"
-              = render partial: 'partial/delete_popup_btn', locals: { path: admins_company_path(company.id),
-                data_name: company.name, verify_key: company.name, verify_text: "法人名"}
+              = render partial: 'partial/delete_confirm_popup', locals: { path: admins_company_path(company.id),data_name: company.name,
+                                                                          verify: company.name, verify_text: "法人名"}
