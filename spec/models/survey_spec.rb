@@ -2,8 +2,7 @@ require 'rails_helper'
 
 describe Survey do
   it 'is valid with title and description' do
-    survey = build(:survey)
-    expect(survey).to be_valid
+    expect(build(:survey)).to be_valid
   end
 
   it 'is invalid without title' do
