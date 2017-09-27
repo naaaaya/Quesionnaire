@@ -2,7 +2,7 @@ require 'faker'
 
 FactoryGirl.define do
   factory :survey do
-    title Faker::Lorem.sentence
-    description Faker::Lorem.paragraph
+    title Faker::Name.title
+    description Faker::Lorem.sentence
   end
 end

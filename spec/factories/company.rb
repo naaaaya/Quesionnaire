@@ -2,6 +2,6 @@ require 'faker'
 
 FactoryGirl.define do
   factory :company do
-    name Faker::Lorem.sentence
+    name Faker::Company.name
   end
 end

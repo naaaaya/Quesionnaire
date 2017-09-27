@@ -2,7 +2,7 @@ require 'faker'
 
 FactoryGirl.define do
   factory :question do
-    description Faker::Lorem.sentence
+    description Faker::Name.title
     question_type 0
   end
 end
