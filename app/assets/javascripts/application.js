@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require chartkick
+//= require data-confirm-modal
 //= require_tree .

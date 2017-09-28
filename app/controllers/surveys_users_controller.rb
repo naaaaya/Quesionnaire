@@ -15,26 +15,15 @@ class SurveysUsersController < ApplicationController
     end
     begin
       ActiveRecord::Base.transaction do
-        if params[:send]
-          @surveys_user = @survey.answered_surveys_user(current_user)
-        else
-          @surveys_user = @survey.draft_surveys_user(current_user)
-        end
-        create_params.each do |answer_param|
-          question = Question.find(answer_param[:question_id])
-          if question.text_field? || question.textarea?
-            @surveys_user.create_or_update_text_answer(answer_param)
-          elsif question.checkbox?
-            checked_ids = question.choise_answers.where(surveys_user_id: @surveys_user.id).pluck(:questions_choise_id)
-            @surveys_user.delete_unchecked_choise_answer(checked_ids, answer_param)
-            @surveys_user.create_or_update_checkbox_answer(answer_param)
-          elsif question.radio_button?
-            @surveys_user.create_or_update_radio_answer(answer_param)
-          end
+        @surveys_user = @survey.get_surveys_user_by_status(params, current_user)
+        create_params.each do |answer_params|
+          question = Question.find(answer_params[:question_id])
+          @surveys_user.create_or_update_answer(answer_params, question)
         end
       end
       redirect_to redirect_path
     rescue => e
+      logger.error
       @questions = @survey.questions
       render new_survey_surveys_user_path
     end

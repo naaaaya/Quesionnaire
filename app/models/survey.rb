@@ -27,4 +27,12 @@ class Survey < ApplicationRecord
     surveys_user
   end
 
+  def get_surveys_user_by_status(params, user)
+    if params[:send]
+      answered_surveys_user(user)
+    else
+      draft_surveys_user(user)
+    end
+  end
+
 end

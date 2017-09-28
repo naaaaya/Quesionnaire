@@ -21,6 +21,7 @@ class Admins::CompaniesController < ApplicationController
       end
       redirect_to admins_companies_path
     rescue => e
+      logger.error
       render new_admins_company_path
     end
   end
@@ -36,6 +37,7 @@ class Admins::CompaniesController < ApplicationController
     @company.update(company_params)
     redirect_to admins_companies_path
   rescue => e
+    logger.error
     render edit_admins_company_path(@company)
   end
 
@@ -48,6 +50,7 @@ class Admins::CompaniesController < ApplicationController
       end
       redirect_to admins_companies_path
     rescue => e
+      logger.error
       render admins_companies_path
     end
   end

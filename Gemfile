@@ -61,4 +61,5 @@ gem 'chartkick'
 gem 'carrierwave'
 gem 'rmagick'
 gem 'bootstrap-sass'
+gem 'data-confirm-modal'
 
