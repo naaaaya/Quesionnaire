@@ -4,7 +4,7 @@
       .panel-heading
         .panel-title ログイン
         .auth-link-list
-          = render "admins/shared/links"
+          = render "users/shared/links"
       .panel-body.auth-form-wrapper
         = form_for(resource, as: resource_name, url: session_path(resource_name), :html => { class: "form-horizontal", id: "loginform"}) do |f|
           = devise_error_messages!
