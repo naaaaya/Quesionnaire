@@ -40,6 +40,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'pry-rails'
 end
 
 group :development do
@@ -50,7 +51,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'rubocop', require: false
-  gem 'pry-rails'
   gem 'rubocop-rspec'
   gem 'bullet'
 end
