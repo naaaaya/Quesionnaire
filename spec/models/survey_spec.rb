@@ -18,8 +18,7 @@ describe Survey do
   end
 
   describe 'instance methods' do
-    let(:company) { create(:company) }
-    let(:user) { create(:user, company_id: company.id) }
+    let(:user) { create(:user) }
     let(:survey) { create(:survey) }
 
     describe '#draft_surveys_user' do

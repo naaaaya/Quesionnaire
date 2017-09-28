@@ -2,8 +2,7 @@ require 'rails_helper'
 
 describe SurveysUser do
   let(:survey) { create(:survey) }
-  let(:company) { create(:company) }
-  let(:user) { create(:user, company_id: company.id) }
+  let(:user) { create(:user) }
   let!(:surveys_user) { SurveysUser.create(survey_id: survey.id, user_id: user.id)}
   let!(:question) { create(:question, survey_id: survey.id) }
   let(:text_answer_params) { { question_id: question.id, description: 'aaa' } }
