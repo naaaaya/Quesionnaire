@@ -23,6 +23,7 @@ class SurveysUsersController < ApplicationController
       end
       redirect_to redirect_path
     rescue => e
+      logger.error
       @questions = @survey.questions
       render new_survey_surveys_user_path
     end

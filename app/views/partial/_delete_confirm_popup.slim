@@ -1,0 +1,6 @@
+= link_to '削除', path, method: :delete,
+          data: { confirm: "本当に<strong>#{data_name}</strong>を削除してよろしいですか？",
+          verify: verify,
+          verify_text: "削除する場合は#{verify_text}を入力してください",
+          cancel: "やめる",
+          commit: "削除する"}, title: "削除の確認", class: 'btn btn-danger float-right'

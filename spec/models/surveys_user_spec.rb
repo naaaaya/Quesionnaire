@@ -5,7 +5,7 @@ describe SurveysUser do
   let(:company) { create(:company) }
   let(:user) { create(:user, company_id: company.id) }
   let!(:surveys_user) { SurveysUser.create(survey_id: survey.id, user_id: user.id)}
-  let!(:question) { create(:question, survey_id: survey.id) }
+  let!(:question) { create(:question, survey_id: survey.id, question_type: 0) }
   let(:text_answer_params) { { question_id: question.id, description: 'aaa' } }
 
   it 'is invalid when survey and user are already taken' do

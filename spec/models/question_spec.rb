@@ -4,7 +4,7 @@ describe Question do
   let(:survey) { create(:survey) }
   let(:company) { create(:company) }
   let(:user) { create(:user, company_id: company.id) }
-  let(:question) { create(:question, survey_id: survey.id) }
+  let(:question) { create(:question, survey_id: survey.id, question_type: 0) }
 
   it 'is valid with description' do
     expect(build(:question, survey_id: survey.id)).to be_valid

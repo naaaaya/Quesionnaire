@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :surveys, only: [:index, :show] do
     resources :surveys_users, only: [:new, :create, :edit, :update]
     resources :questions, only: :destroy
+    resources :questions_choises, only: :destroy
   end
 
   resources :users, only: [:index, :destroy] do

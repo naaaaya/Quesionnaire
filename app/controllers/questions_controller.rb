@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
       @question.destroy
       redirect_to edit_admins_survey_path(@survey)
     rescue => e
+      logger.error
       render edit_admins_survey_path(@survey)
     end
   end
