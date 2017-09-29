@@ -174,11 +174,66 @@ describe Admins::SurveysController do
     end
 
     context 'with invalid attributes' do
+      let(:params) { {id: survey, survey: attributes_for(:survey, title: nil), questions: questions} }
       it 'returns error message' do
-        patch :update, params: { id: survey, survey: attributes_for(:survey, title: nil), questions: questions }
-        expect(assigns(:survey)).to eq false
+        patch :update, params: params
+        expect(assigns(:survey).errors[:title]).to include "を入力してください"
       end
-      it 're-renders to :edit'
+      it 're-renders to :edit' do
+        patch :update, params: params
+        expect(response).to render_template :edit
+      end
+    end
+
+    it 'unlist survey' do
+      patch :update, params: { id: survey, survey: attributes_for(:survey), unlist_survey: "非表示" }
+      survey.reload
+      expect(survey.unlisted?).to be true
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:survey) { create(:survey) }
+    let!(:question) { create(:question, survey_id: survey.id) }
+    let!(:user) { create(:user) }
+    let!(:questions_choise) { create(:questions_choise, question_id: question.id) }
+    let!(:surveys_user) { survey.surveys_users.create(user_id: user.id) }
+    let!(:choise_answer) { questions_choise.choise_answers.create(surveys_user_id: surveys_user.id, question_id: question.id) }
+
+    it "locates the requested @survey" do
+        delete :destroy, params: { id: survey }
+        expect(assigns(:survey)).to eq(survey)
+      end
+    it 'deletes surveys' do
+      expect {
+      delete :destroy, params: { id: survey }
+      }.to change(Survey, :count).by(-1)
+    end
+    it 'deletes question' do
+       expect {
+      delete :destroy, params: { id: survey }
+      }.to change(Question, :count).by(-1)
+    end
+    it 'deletes questions_choises' do
+       expect {
+      delete :destroy, params: { id: survey }
+      }.to change(QuestionsChoise, :count).by(-1)
+    end
+    it 'deletes choise_answer' do
+       expect {
+      delete :destroy, params: { id: survey }
+      }.to change(ChoiseAnswer, :count).by(-1)
+    end
+
+    it 'deletes surveys_user' do
+       expect {
+      delete :destroy, params: { id: survey }
+      }.to change(SurveysUser, :count).by(-1)
+    end
+
+    it 'redirects to admins_surveys_path' do
+      delete :destroy, params: { id: survey }
+      expect(response).to redirect_to admins_surveys_path
     end
   end
 end

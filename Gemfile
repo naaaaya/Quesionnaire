@@ -75,3 +75,4 @@ gem 'rmagick'
 gem 'bootstrap-sass'
 gem 'data-confirm-modal'
 
+gem 'rake', '< 11.0'

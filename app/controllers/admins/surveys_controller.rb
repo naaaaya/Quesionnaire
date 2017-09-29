@@ -58,7 +58,7 @@ class Admins::SurveysController < ApplicationController
       redirect_to admins_survey_path(params[:id])
     rescue => e
       logger.error
-      render edit_admins_survey_path
+      render :edit
     end
   end
 
