@@ -26,7 +26,7 @@ class Question < ApplicationRecord
 
   def edit_question(question_params)
     choises_params = question_params[:choises]
-    if question_type != question_params[:question_type]
+    if question_type_before_type_cast != question_params[:question_type]
       questions_choises.map(&:destroy!) if questions_choises.present?
       choises_params.map{|choise_params| create_choise(choise_params)} if choises_params
     else
