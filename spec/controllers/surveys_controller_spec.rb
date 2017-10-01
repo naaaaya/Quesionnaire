@@ -34,14 +34,11 @@ describe SurveysController do
 
   describe 'GET #show' do
     let(:survey) { create(:survey) }
-    it 'assigns requested survey to @survey' do
+    before do
       get :show, params: { id: survey }
-      expect(assigns(:survey)).to eq survey
     end
-    it 'redirects to surveys_path when user do not have authentication' do
-      get :show, params: { id: survey }
-      expect(response).to redirect_to surveys_path
-    end
+    it { expect(assigns(:survey)).to eq survey }
+    it { expect(response).to redirect_to surveys_path }
   end
 
 end

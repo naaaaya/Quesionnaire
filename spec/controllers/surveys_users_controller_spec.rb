@@ -10,15 +10,16 @@ describe SurveysUsersController do
   end
 
   describe 'GET #new' do
+    subject { get :new, params: { survey_id: survey.id } }
     it 'redirects to surveys_path unless survey are published' do
       survey.draft!
-      get :new, params: { survey_id: survey.id }
+      subject
       expect(response).to redirect_to surveys_path
     end
 
     it 'redirects surveys_path after user answered' do
       user.surveys_users.create(survey_id: survey.id, answered_flag: true)
-      get :new, params: { survey_id: survey.id }
+      subject
       expect(response).to redirect_to surveys_path
     end
   end

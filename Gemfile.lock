@@ -77,7 +77,6 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
-    database_cleaner (1.6.1)
     data-confirm-modal (1.4.0)
       railties (>= 3.0)
     database_cleaner (1.6.1)
@@ -296,7 +295,6 @@ DEPENDENCIES
   carrierwave
   chartkick
   coffee-rails (~> 4.2)
-  database_cleaner
   data-confirm-modal
   database_cleaner
   devise

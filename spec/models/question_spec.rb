@@ -116,8 +116,10 @@ describe Question do
       let!(:surveys_user) { create(:surveys_user, survey_id: survey.id, user_id: user.id) }
       it 'return data for chart' do
         users = create_list(:user, 2)
-        surveys_users = [create(:surveys_user, survey_id: survey.id, user_id: users[0].id, answered_flag: true),
-                          survey.surveys_users.create(user_id: users[1].id, answered_flag: true)]
+        surveys_users = []
+        users.each_with_index do |user, index|
+          surveys_users << create(:surveys_user, survey_id: survey.id, user_id: users[index].id, answered_flag: true)
+        end
         questions_choises = create_list(:questions_choise, 3, question_id: question.id)
         create(:choise_answer, questions_choise_id: questions_choises[0].id, surveys_user_id: surveys_users[0].id, question_id: question.id)
         create(:choise_answer, questions_choise_id: questions_choises[0].id, surveys_user_id: surveys_users[1].id, question_id: question.id)
