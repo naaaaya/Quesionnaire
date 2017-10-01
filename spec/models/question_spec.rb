@@ -4,14 +4,19 @@ describe Question do
   let(:survey) { create(:survey) }
   let(:user) { create(:user) }
   let(:question) { create(:question, survey_id: survey.id) }
+  let!(:surveys_user) { create(:surveys_user, survey_id: survey.id, user_id: user.id) }
+  let!(:questions_choise) { create(:questions_choise, question_id: question.id) }
 
-  it 'is valid with description' do
-    expect(build(:question, survey_id: survey.id)).to be_valid
-  end
-  it 'is invalid without description' do
-    question = build(:question, description: nil, survey_id: survey.id)
-    question.valid?
-    expect(question.errors[:description]).to include("を入力してください")
+
+
+  describe '#validate' do
+    it { expect(build(:question, survey_id: survey.id)).to be_valid }
+
+    it 'is invalid without description' do
+      question = build(:question, description: nil, survey_id: survey.id)
+      question.valid?
+      expect(question.errors[:description]).to include("を入力してください")
+    end
   end
 
   describe '#is_answered?' do
@@ -22,7 +27,6 @@ describe Question do
     end
 
     context 'survey is answered' do
-      let!(:surveys_user) { SurveysUser.create(survey_id: survey.id, user_id: user.id) }
       context 'return false if question is not answered' do
         it { is_expected.to be false }
       end
@@ -33,9 +37,8 @@ describe Question do
       end
 
       context 'choice question is answered' do
-        let!(:questions_choise) { create(:questions_choise, question_id: question.id) }
-        let!(:choise_answer) { ChoiseAnswer.create(surveys_user_id: surveys_user.id, question_id: question.id,
-                              questions_choise_id: questions_choise.id) }
+        let!(:choise_answer) { create(:choise_answer, surveys_user_id: surveys_user.id, question_id: question.id,
+          questions_choise_id: questions_choise.id) }
         before do
           question.checkbox!
         end
@@ -73,7 +76,7 @@ describe Question do
         question_params = { id: question.id, description: 'aaa', question_type: 3 }
         expect {
           question.edit_question(question_params)
-          }.to change(question.questions_choises, :count).by(-1)
+        }.to change(question.questions_choises, :count).by(-1)
       end
 
       it 'edit choices when params has choices' do
@@ -105,14 +108,14 @@ describe Question do
         choise_params = { description: 'aaa' }
         expect {
           question.create_choise(choise_params)
-          }.to change(question.questions_choises, :count).by(1)
+        }.to change(question.questions_choises, :count).by(1)
       end
     end
 
     describe '#overall_choise_answers_for_chart' do
       it 'return data for chart' do
         users = create_list(:user, 2)
-        surveys_users = [survey.surveys_users.create(user_id: users[0].id, answered_flag: true), survey.surveys_users.create(user_id: users[1].id, answered_flag: true)]
+        surveys_users = [create(:surveys_user, survey_id: survey.id, user_id: users[0].id, answered_flag: true), survey.surveys_users.create(user_id: users[1].id, answered_flag: true)]
         questions_choises = create_list(:questions_choise, 3, question_id: question.id)
         questions_choises[0].choise_answers.create(surveys_user_id: surveys_users[0].id, question_id: question.id)
         questions_choises[0].choise_answers.create(surveys_user_id: surveys_users[1].id, question_id: question.id)
@@ -138,5 +141,4 @@ describe Question do
       end
     end
   end
-
 end

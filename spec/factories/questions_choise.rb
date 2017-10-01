@@ -2,6 +2,6 @@ require 'faker'
 
 FactoryGirl.define do
   factory :questions_choise do
-    description { Faker::Name.title }
+    description { Faker::Lorem.sentence }
   end
 end
