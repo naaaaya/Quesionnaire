@@ -25,6 +25,7 @@ class Admins::SurveysController < ApplicationController
       end
       redirect_to admins_surveys_path
     rescue => e
+      logger.error
       render new_admins_survey_path
     end
   end
@@ -56,6 +57,7 @@ class Admins::SurveysController < ApplicationController
       end
       redirect_to admins_survey_path(params[:id])
     rescue => e
+      logger.error
       render edit_admins_survey_path
     end
   end
@@ -66,6 +68,7 @@ class Admins::SurveysController < ApplicationController
         @survey.destroy!
       end
     rescue => e
+      logger.error
       render admins_survey_path
     end
     redirect_to admins_surveys_path

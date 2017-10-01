@@ -15,7 +15,8 @@ class Admins::SurveysCompaniesController < ApplicationController
         end
       end
       redirect_to admins_survey_path(survey_id)
-    rescue Exception => e
+    rescue => e
+      logger.error
       redirect_to admins_survey_path(survey_id)
     end
   end
