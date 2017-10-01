@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 describe Survey do
-  it 'is valid with title and description' do
-    expect(build(:survey)).to be_valid
-  end
-
+    it { expect(build(:survey)).to be_valid }
   it 'is invalid without title' do
     survey = build(:survey, title: nil)
     survey.valid?
@@ -18,8 +15,7 @@ describe Survey do
   end
 
   describe 'instance methods' do
-    let(:company) { create(:company) }
-    let(:user) { create(:user, company_id: company.id) }
+    let(:user) { create(:user) }
     let(:survey) { create(:survey) }
 
     describe '#draft_surveys_user' do
@@ -27,11 +23,9 @@ describe Survey do
         surveys_user = SurveysUser.create(survey_id: survey.id, user_id: user.id)
         expect(survey.draft_surveys_user(user)).to eq surveys_user
       end
-      it 'create surveys_user when user do not answer' do
-        expect {
+        it { expect {
           survey.draft_surveys_user(user)
-        }.to change(SurveysUser, :count).by(1)
-      end
+        }.to change(SurveysUser, :count).by(1) }
     end
 
     describe '#answered_surveys_user' do
@@ -39,11 +33,9 @@ describe Survey do
         surveys_user = SurveysUser.create(survey_id: survey.id, user_id: user.id, answered_flag: 1)
         expect(survey.answered_surveys_user(user)).to eq surveys_user
       end
-      it 'create surveys_user when user do not answer' do
-        expect {
+      it { expect {
           survey.answered_surveys_user(user)
-        }.to change(SurveysUser, :count).by(1)
-      end
+      }.to change(SurveysUser, :count).by(1) }
     end
 
     describe '#get_surveys_user_by_status' do
