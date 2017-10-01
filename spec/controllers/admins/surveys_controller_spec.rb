@@ -46,9 +46,7 @@ describe Admins::SurveysController do
 
   describe 'GET #edit' do
     subject { get :edit, params: { id: survey } }
-    it 'renders edit' do
-      expect(subject).to render_template :edit
-    end
+    it { expect(subject).to render_template :edit }
 
     it 'redirects to index unless survey is draft' do
       survey.published!
@@ -64,7 +62,7 @@ describe Admins::SurveysController do
     ]}
     it 'redirects to admins_surveys_path after survey is saved' do
       post :create, params: { survey: attributes_for(:survey), questions: questions}
-       expect(response).to redirect_to admins_surveys_path
+      expect(response).to redirect_to admins_surveys_path
     end
     it 're-renders admins_surveys_path' do
       post :create, params: { survey: attributes_for(:invalid_survey), questions: questions}
@@ -72,7 +70,7 @@ describe Admins::SurveysController do
     end
   end
 
-  describe 'PATCH #edit' do
+  describe 'PATCH #update' do
     let(:question) { create(:question, survey_id: survey.id) }
     let(:questions_choise) { create(:questions_choise, question_id: question.id) }
     let(:questions) {[

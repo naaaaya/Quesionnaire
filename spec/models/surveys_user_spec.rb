@@ -3,22 +3,17 @@ require 'rails_helper'
 describe SurveysUser do
   let(:survey) { create(:survey) }
   let(:user) { create(:user) }
-  let!(:surveys_user) { SurveysUser.create(survey_id: survey.id, user_id: user.id)}
+  let!(:surveys_user) { create(:surveys_user, survey_id: survey.id, user_id: user.id)}
   let!(:question) { create(:question, survey_id: survey.id) }
   let(:text_answer_params) { { question_id: question.id, description: 'aaa' } }
   let(:question_choises) { create_list(:questions_choise, 2, question_id: question.id) }
   let(:choise_ids) { question_choises.pluck(:id) }
 
-  it 'is invalid when survey and user are already taken' do
-    surveys_user = SurveysUser.create(survey_id: survey.id, user_id: user.id)
-    surveys_user.valid?
-    expect(surveys_user.errors[:survey_id]).to include("はすでに存在します")
-  end
-
   it { expect(surveys_user).to be_valid }
 
   describe '#create_or_update_answer' do
     it 'calls #create_or_update_text_answer when question_type is text_field' do
+      question.text_field!
       expect(surveys_user).to receive(:create_or_update_text_answer)
       surveys_user.create_or_update_answer(text_answer_params, question)
     end
@@ -75,7 +70,7 @@ describe SurveysUser do
 
     describe '#delete_unchecked_choise_answer' do
       it 'delete choises if they are unchecked' do
-        choise_answer = ChoiseAnswer.create(question_id: question.id, surveys_user_id: surveys_user.id, questions_choise_id: choise_ids[0])
+        choise_answer = create(:choise_answer, question_id: question.id, surveys_user_id: surveys_user.id, questions_choise_id: choise_ids[0])
         checked_ids = [choise_ids[0]]
         answer_params = { question_id: question.id, choise_ids: [choise_ids[1]] }
         expect {
@@ -96,7 +91,7 @@ describe SurveysUser do
       }.to change(surveys_user.choise_answers, :count).by(1)
     end
     it 'update choise_answer when it is answered' do
-      choise_answer = ChoiseAnswer.create(question_id: question.id, surveys_user_id: surveys_user.id, questions_choise_id: choise_ids[0])
+      choise_answer = create(:choise_answer, question_id: question.id, surveys_user_id: surveys_user.id, questions_choise_id: choise_ids[0])
       answer_params = { question_id: question.id, questions_choise_id: choise_ids[1] }
       surveys_user.create_or_update_radio_answer(answer_params)
       choise_answer.reload
