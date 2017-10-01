@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe Admins::SurveysController do
   let(:admin) { create(:admin) }
+  let(:survey) { create(:survey) }
+
   before do
     login_admin(admin)
   end
@@ -35,25 +37,22 @@ describe Admins::SurveysController do
   end
 
   describe 'GET #show' do
-    let(:survey) { create(:survey, status: 1) }
     it 'renders the :show template' do
+      survey.published!
       get :show, params: { id: survey }
       expect(response).to render_template :show
     end
   end
 
   describe 'GET #edit' do
-    let(:survey) { create(:survey) }
-
+    subject { get :edit, params: { id: survey } }
     it 'renders edit' do
-      get :edit, params: { id: survey }
-      expect(response).to render_template :edit
+      expect(subject).to render_template :edit
     end
 
     it 'redirects to index unless survey is draft' do
       survey.published!
-      get :edit, params: { id: survey }
-      expect(response).to redirect_to admins_surveys_path
+      expect(subject).to redirect_to admins_surveys_path
     end
   end
 
@@ -74,7 +73,6 @@ describe Admins::SurveysController do
   end
 
   describe 'PATCH #edit' do
-    let(:survey) { create(:survey) }
     let(:question) { create(:question, survey_id: survey.id) }
     let(:questions_choise) { create(:questions_choise, question_id: question.id) }
     let(:questions) {[
@@ -99,12 +97,8 @@ describe Admins::SurveysController do
       before do
         patch :update, params: params
       end
-      it 'returns error message' do
-        expect(assigns(:survey).errors[:title]).to include "を入力してください"
-      end
-      it 're-renders to :edit' do
-        expect(response).to render_template :edit
-      end
+      it { expect(assigns(:survey).errors[:title]).to include "を入力してください" }
+      it { expect(response).to render_template :edit }
     end
 
     it 'unlist survey' do
@@ -115,7 +109,6 @@ describe Admins::SurveysController do
   end
 
   describe 'DELETE #destroy' do
-    let!(:survey) { create(:survey) }
     let!(:question) { create(:question, survey_id: survey.id) }
     let!(:user) { create(:user) }
     let!(:questions_choise) { create(:questions_choise, question_id: question.id) }
