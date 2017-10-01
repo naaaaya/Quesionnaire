@@ -5,6 +5,7 @@ describe Admins::SurveysController do
   before do
     login_admin(admin)
   end
+
   describe 'GET #index' do
     it 'assigns the draft surveys to @draft_surveys' do
       draft_surveys = create_list(:survey, 2, status: 0)

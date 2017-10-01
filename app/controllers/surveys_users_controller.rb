@@ -11,7 +11,7 @@ class SurveysUsersController < ApplicationController
 
   def create
     if SurveysUser.exists?(user_id: current_user.id, survey_id: params[:survey_id], answered_flag: true)
-      redirect_to surveys_path
+      redirect_to surveys_path and return
     end
     begin
       ActiveRecord::Base.transaction do
