@@ -49,11 +49,10 @@ describe SurveysUser do
   end
 
   describe '#create_or_update_text_answer' do
-    it 'create text_answer when it is not answered' do
-      expect {
-        surveys_user.create_or_update_text_answer(text_answer_params)
-      }.to change(surveys_user.text_answers, :count).by(1)
-      end
+    it { expect {
+      surveys_user.create_or_update_text_answer(text_answer_params)
+    }.to change(surveys_user.text_answers, :count).by(1) }
+
     it 'update text_answer when it is answered' do
       text_answer = create(:text_answer, question_id: question.id, surveys_user_id: surveys_user.id)
       surveys_user.create_or_update_text_answer(text_answer_params)

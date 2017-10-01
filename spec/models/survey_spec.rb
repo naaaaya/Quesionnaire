@@ -24,11 +24,9 @@ describe Survey do
         surveys_user = SurveysUser.create(survey_id: survey.id, user_id: user.id)
         expect(survey.draft_surveys_user(user)).to eq surveys_user
       end
-      it 'create surveys_user when user do not answer' do
-        expect {
+        it { expect {
           survey.draft_surveys_user(user)
-        }.to change(SurveysUser, :count).by(1)
-      end
+        }.to change(SurveysUser, :count).by(1) }
     end
 
     describe '#answered_surveys_user' do
@@ -36,11 +34,9 @@ describe Survey do
         surveys_user = SurveysUser.create(survey_id: survey.id, user_id: user.id, answered_flag: 1)
         expect(survey.answered_surveys_user(user)).to eq surveys_user
       end
-      it 'create surveys_user when user do not answer' do
-        expect {
+      it { expect {
           survey.answered_surveys_user(user)
-        }.to change(SurveysUser, :count).by(1)
-      end
+      }.to change(SurveysUser, :count).by(1) }
     end
 
     describe '#get_surveys_user_by_status' do
