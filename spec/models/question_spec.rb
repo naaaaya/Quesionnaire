@@ -27,7 +27,7 @@ describe Question do
     end
 
     context 'survey is answered' do
-      context 'return false if question is not answered' do
+      context 'when question is not answered' do
         it { is_expected.to be false }
       end
 
