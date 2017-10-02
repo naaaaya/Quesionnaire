@@ -40,6 +40,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'pry-rails'
+  gem 'rails-controller-testing'
 end
 
 group :development do
@@ -74,3 +75,4 @@ gem 'rmagick'
 gem 'bootstrap-sass'
 gem 'data-confirm-modal'
 
+gem 'rake', '< 11.0'

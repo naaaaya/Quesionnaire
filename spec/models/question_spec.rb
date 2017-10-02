@@ -3,8 +3,7 @@ require 'rails_helper'
 describe Question do
   let(:survey) { create(:survey) }
   let(:user) { create(:user) }
-  let(:question) { create(:question, survey_id: survey.id) }
-  let!(:surveys_user) { create(:surveys_user, survey_id: survey.id, user_id: user.id) }
+  let(:question) { create(:question, survey_id: survey.id, question_type: 0) }
   let!(:questions_choise) { create(:questions_choise, question_id: question.id) }
 
 
@@ -27,6 +26,7 @@ describe Question do
     end
 
     context 'survey is answered' do
+      let!(:surveys_user) { create(:surveys_user, survey_id: survey.id, user_id: user.id) }
       context 'when question is not answered' do
         it { is_expected.to be false }
       end
@@ -113,14 +113,18 @@ describe Question do
     end
 
     describe '#overall_choise_answers_for_chart' do
+      let!(:surveys_user) { create(:surveys_user, survey_id: survey.id, user_id: user.id) }
       it 'return data for chart' do
         users = create_list(:user, 2)
-        surveys_users = [create(:surveys_user, survey_id: survey.id, user_id: users[0].id, answered_flag: true), survey.surveys_users.create(user_id: users[1].id, answered_flag: true)]
+        surveys_users = []
+        users.each_with_index do |user, index|
+          surveys_users << create(:surveys_user, survey_id: survey.id, user_id: users[index].id, answered_flag: true)
+        end
         questions_choises = create_list(:questions_choise, 3, question_id: question.id)
-        questions_choises[0].choise_answers.create(surveys_user_id: surveys_users[0].id, question_id: question.id)
-        questions_choises[0].choise_answers.create(surveys_user_id: surveys_users[1].id, question_id: question.id)
-        questions_choises[1].choise_answers.create(surveys_user_id: surveys_users[0].id, question_id: question.id)
-        questions_choises[2].choise_answers.create(surveys_user_id: surveys_users[1].id, question_id: question.id)
+        create(:choise_answer, questions_choise_id: questions_choises[0].id, surveys_user_id: surveys_users[0].id, question_id: question.id)
+        create(:choise_answer, questions_choise_id: questions_choises[0].id, surveys_user_id: surveys_users[1].id, question_id: question.id)
+        create(:choise_answer, questions_choise_id: questions_choises[1].id, surveys_user_id: surveys_users[0].id, question_id: question.id)
+        create(:choise_answer, questions_choise_id: questions_choises[2].id,surveys_user_id: surveys_users[1].id, question_id: question.id)
         overall_choise_answers_for_chart = { questions_choises[0].description.to_s => 2, questions_choises[1].description.to_s => 1, questions_choises[2].description.to_s => 1 }
         expect(question.overall_choise_answers_for_chart).to eq(overall_choise_answers_for_chart)
       end
@@ -130,12 +134,13 @@ describe Question do
       it 'return data for chart' do
         company = create(:company)
         users = [user, create(:user, company_id: company.id)]
-        surveys_users = [survey.surveys_users.create(user_id: users[0].id, answered_flag: true), survey.surveys_users.create(user_id: users[1].id, answered_flag: true)]
+        surveys_users = [create(:surveys_user, survey_id: survey.id, user_id: users[0].id, answered_flag: true),
+                          survey.surveys_users.create(user_id: users[1].id, answered_flag: true)]
         questions_choises = create_list(:questions_choise, 3, question_id: question.id)
-        questions_choises[0].choise_answers.create(surveys_user_id: surveys_users[0].id, question_id: question.id)
-        questions_choises[0].choise_answers.create(surveys_user_id: surveys_users[1].id, question_id: question.id)
-        questions_choises[1].choise_answers.create(surveys_user_id: surveys_users[0].id, question_id: question.id)
-        questions_choises[2].choise_answers.create(surveys_user_id: surveys_users[1].id, question_id: question.id)
+        create(:choise_answer, questions_choise_id: questions_choises[0].id, surveys_user_id: surveys_users[0].id, question_id: question.id)
+        create(:choise_answer, questions_choise_id: questions_choises[0].id, surveys_user_id: surveys_users[1].id, question_id: question.id)
+        create(:choise_answer, questions_choise_id: questions_choises[1].id, surveys_user_id: surveys_users[0].id, question_id: question.id)
+        create(:choise_answer, questions_choise_id: questions_choises[2].id,surveys_user_id: surveys_users[1].id, question_id: question.id) 
         company_choise_answers_for_chart = { questions_choises[0].description.to_s => 1, questions_choises[2].description.to_s => 1 }
         expect(question.company_choise_answers_for_chart(company)).to eq(company_choise_answers_for_chart)
       end

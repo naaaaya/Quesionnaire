@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe Survey do
     it { expect(build(:survey)).to be_valid }
-
   it 'is invalid without title' do
     survey = build(:survey, title: nil)
     survey.valid?
